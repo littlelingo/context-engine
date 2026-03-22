@@ -1,0 +1,20 @@
+{
+  "name": "context-engine",
+  "version": "0.0.1",
+  "description": "Agentic orchestration framework for Claude Code. Agent Teams, subagents, progressive-disclosure skills, hooks, checkpoints, knowledge layer, and metrics.",
+  "author": {
+    "name": "Context Engine",
+    "url": "https://github.com/context-engine/context-engine"
+  },
+  "license": "MIT",
+  "keywords": [
+    "context-engineering",
+    "agent-teams",
+    "orchestration",
+    "skills",
+    "hooks",
+    "knowledge-management",
+    "checkpoints",
+    "metrics"
+  ]
+}

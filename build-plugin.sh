@@ -1,6 +1,7 @@
 #!/bin/bash
 # build-plugin.sh - Package Context Engine as a Claude Code plugin
-# Transforms project structure (.claude/) into plugin structure (root-level components)
+# Since the repo follows plugin layout (root-level components), this script
+# copies the repo into a clean distributable directory.
 #
 # Usage: ./build-plugin.sh [output-dir]
 # Default output: ./dist/context-engine-plugin/
@@ -17,155 +18,64 @@ echo ""
 
 # Clean and create output
 rm -rf "$OUTPUT"
-mkdir -p "$OUTPUT/.claude-plugin"
-mkdir -p "$OUTPUT/commands"
-mkdir -p "$OUTPUT/agents"
-mkdir -p "$OUTPUT/skills"
-mkdir -p "$OUTPUT/hooks/scripts"
-mkdir -p "$OUTPUT/context-templates"
-mkdir -p "$OUTPUT/docs"
+mkdir -p "$OUTPUT"
 
-# 1. Copy commands
+# 1. Copy plugin manifest
+echo "Copying manifest..."
+cp -r "$SCRIPT_DIR/.claude-plugin" "$OUTPUT/.claude-plugin"
+
+# 2. Copy commands
 echo "Copying commands..."
-COMMAND_COUNT=0
-for cmd in "$SCRIPT_DIR/.claude/commands/"*.md; do
-    name=$(basename "$cmd")
-    cp "$cmd" "$OUTPUT/commands/$name"
-    COMMAND_COUNT=$((COMMAND_COUNT + 1))
-done
+cp -r "$SCRIPT_DIR/commands" "$OUTPUT/commands"
+COMMAND_COUNT=$(ls "$OUTPUT/commands/"*.md 2>/dev/null | wc -l | tr -d ' ')
 echo "  $COMMAND_COUNT commands"
 
-# 2. Copy agents
+# 3. Copy agents
 echo "Copying agents..."
-AGENT_COUNT=0
-for agent in "$SCRIPT_DIR/.claude/agents/"*.md; do
-    cp "$agent" "$OUTPUT/agents/"
-    AGENT_COUNT=$((AGENT_COUNT + 1))
-done
+cp -r "$SCRIPT_DIR/agents" "$OUTPUT/agents"
+AGENT_COUNT=$(ls "$OUTPUT/agents/"*.md 2>/dev/null | wc -l | tr -d ' ')
 echo "  $AGENT_COUNT agents"
 
 # 4. Copy skills
 echo "Copying skills..."
-SKILL_COUNT=0
-for skill_dir in "$SCRIPT_DIR/.claude/skills/"*/; do
-    skill_name=$(basename "$skill_dir")
-    mkdir -p "$OUTPUT/skills/$skill_name"
-    cp -r "$skill_dir"* "$OUTPUT/skills/$skill_name/" 2>/dev/null || true
-    SKILL_COUNT=$((SKILL_COUNT + 1))
-done
+cp -r "$SCRIPT_DIR/skills" "$OUTPUT/skills"
+SKILL_COUNT=$(find "$OUTPUT/skills" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
 echo "  $SKILL_COUNT skills"
 
-# 5. Generate plugin manifest (minimal - rely on auto-discovery for components)
-echo "Building manifest..."
-python3 -c "
-import json
-
-manifest = {
-    'name': 'context-engine',
-    'version': '$VERSION',
-    'description': 'Agentic orchestration framework for Claude Code. Agent Teams, subagents, progressive-disclosure skills, hooks, checkpoints, knowledge layer, and metrics.',
-    'author': {
-        'name': 'Context Engine',
-        'url': 'https://github.com/context-engine/context-engine'
-    },
-    'license': 'MIT',
-    'keywords': [
-        'context-engineering', 'agent-teams', 'orchestration', 'skills',
-        'hooks', 'knowledge-management', 'checkpoints', 'metrics'
-    ]
-}
-
-json.dump(manifest, open('$OUTPUT/.claude-plugin/plugin.json', 'w'), indent=2)
-print('  plugin.json generated (auto-discovery for components)')
-"
-
-# 6. Build hooks/hooks.json from settings.json hooks config
-echo "Building hooks..."
-python3 -c "
-import json, os
-
-settings = json.load(open('$SCRIPT_DIR/.claude/settings.json'))
-hooks = settings.get('hooks', {})
-
-# Rewrite script paths to use \${CLAUDE_PLUGIN_ROOT}
-for event, matchers in hooks.items():
-    for matcher in matchers:
-        for hook in matcher.get('hooks', []):
-            if hook.get('type') == 'command':
-                cmd = hook['command']
-                cmd = cmd.replace('.claude/hooks/', '\${CLAUDE_PLUGIN_ROOT}/hooks/scripts/')
-                hook['command'] = cmd
-
-json.dump({'hooks': hooks}, open('$OUTPUT/hooks/hooks.json', 'w'), indent=2)
-print('  hooks.json generated')
-"
-
-# Copy hook scripts
-for script in "$SCRIPT_DIR/.claude/hooks/"*.sh; do
-    cp "$script" "$OUTPUT/hooks/scripts/"
-done
+# 5. Copy hooks (scripts + hooks.json)
+echo "Copying hooks..."
+cp -r "$SCRIPT_DIR/hooks" "$OUTPUT/hooks"
 chmod +x "$OUTPUT/hooks/scripts/"*.sh 2>/dev/null || true
-HOOK_COUNT=$(ls "$OUTPUT/hooks/scripts/"*.sh 2>/dev/null | wc -l)
-echo "  $HOOK_COUNT hook scripts"
+HOOK_COUNT=$(ls "$OUTPUT/hooks/scripts/"*.sh 2>/dev/null | wc -l | tr -d ' ')
+echo "  $HOOK_COUNT hook scripts + hooks.json"
 
-# 6. MCP server config (extracted from settings.json)
-echo "Building MCP config..."
-python3 -c "
-import json
-settings = json.load(open('$SCRIPT_DIR/.claude/settings.json'))
-mcp = settings.get('mcpServers', {})
-json.dump({'mcpServers': mcp}, open('$OUTPUT/.mcp.json', 'w'), indent=2)
-print('  .mcp.json generated')
-"
+# 6. Copy MCP config
+echo "Copying MCP config..."
+cp "$SCRIPT_DIR/.mcp.json" "$OUTPUT/.mcp.json"
 
 # 7. Context templates (for ce-init to bootstrap into user projects)
 echo "Copying context templates..."
+mkdir -p "$OUTPUT/context-templates"
 cp -r "$SCRIPT_DIR/.context/"* "$OUTPUT/context-templates/" 2>/dev/null || true
-TEMPLATE_COUNT=$(find "$OUTPUT/context-templates" -type f | wc -l)
+TEMPLATE_COUNT=$(find "$OUTPUT/context-templates" -type f 2>/dev/null | wc -l | tr -d ' ')
 echo "  $TEMPLATE_COUNT template files"
 
-# 8. Docs
-cp "$SCRIPT_DIR/README.md" "$OUTPUT/" 2>/dev/null || true
-cp "$SCRIPT_DIR/CONTEXT-ENGINE.md" "$OUTPUT/" 2>/dev/null || true
-cp "$SCRIPT_DIR/docs/"* "$OUTPUT/docs/" 2>/dev/null || true
-
-# 9. CLAUDE.md as a skill (so it loads in context when plugin is active)
+# 8. Add CLAUDE.md as a catch-all skill
 mkdir -p "$OUTPUT/skills/context-engine-rules"
 cat > "$OUTPUT/skills/context-engine-rules/SKILL.md" << 'EOF'
 ---
+name: context-engine-rules
 description: Context Engine core rules. Always active when the plugin is installed.
-globs:
-  - "**/*"
 ---
 EOF
 cat "$SCRIPT_DIR/CLAUDE.md" >> "$OUTPUT/skills/context-engine-rules/SKILL.md"
 
-# 10. Settings template (permissions, env vars for agent teams)
-cat > "$OUTPUT/settings.json" << 'SETTINGS'
-{
-  "permissions": {
-    "allow": [
-      "Read(**)",
-      "Glob(**)",
-      "Grep(**)",
-      "Bash(find:*)",
-      "Bash(wc:*)",
-      "Bash(head:*)",
-      "Bash(tail:*)",
-      "Bash(cat:*)",
-      "Bash(git:diff*)",
-      "Bash(git:log*)",
-      "Bash(git:status*)"
-    ]
-  },
-  "env": {
-    "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "0",
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  }
-}
-SETTINGS
+# 9. Docs
+mkdir -p "$OUTPUT/docs"
+cp "$SCRIPT_DIR/README.md" "$OUTPUT/" 2>/dev/null || true
+cp "$SCRIPT_DIR/docs/"* "$OUTPUT/docs/" 2>/dev/null || true
 
-# 11. License
+# 10. License
 cat > "$OUTPUT/LICENSE" << 'LICENSE'
 MIT License
 
@@ -191,7 +101,7 @@ SOFTWARE.
 LICENSE
 
 # Summary
-TOTAL=$(find "$OUTPUT" -type f | wc -l)
+TOTAL=$(find "$OUTPUT" -type f | wc -l | tr -d ' ')
 echo ""
 echo "=== Context Engine Plugin v$VERSION ==="
 echo "Commands:  $COMMAND_COUNT"
@@ -203,6 +113,3 @@ echo "Total:     $TOTAL files"
 echo ""
 echo "Install locally:  claude plugin add --path $OUTPUT"
 echo "Validate:         claude plugin validate $OUTPUT"
-echo ""
-echo "To publish to a marketplace, create a marketplace.json"
-echo "and push to a git repository. See docs/PLUGIN.md."

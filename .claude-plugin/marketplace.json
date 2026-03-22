@@ -8,8 +8,8 @@
     {
       "name": "context-engine",
       "version": "0.0.1",
-      "description": "Agentic orchestration framework - Agent Teams, subagents, 19 progressive-disclosure skills, 7 hooks, checkpoints, deep knowledge layer, and metrics.",
-      "source": "./dist/context-engine-plugin",
+      "description": "Agentic orchestration framework - Agent Teams, subagents, progressive-disclosure skills, hooks, checkpoints, deep knowledge layer, and metrics.",
+      "source": ".",
       "category": "development",
       "tags": [
         "orchestration",

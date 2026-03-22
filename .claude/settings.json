@@ -23,12 +23,6 @@
     "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "0",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
-  "mcpServers": {
-    "chrome-devtools": {
-      "command": "npx",
-      "args": ["-y", "chrome-devtools-mcp@latest"]
-    }
-  },
   "extraKnownMarketplaces": {
     "anthropic-agent-skills": {
       "source": {
@@ -45,7 +39,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/guard-protected-files.sh"
+            "command": "hooks/scripts/guard-protected-files.sh"
           }
         ]
       },
@@ -54,7 +48,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/block-destructive.sh"
+            "command": "hooks/scripts/block-destructive.sh"
           }
         ]
       }
@@ -65,7 +59,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/auto-format.sh"
+            "command": "hooks/scripts/auto-format.sh"
           }
         ]
       }
@@ -75,7 +69,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/preserve-context.sh"
+            "command": "hooks/scripts/preserve-context.sh"
           }
         ]
       }
@@ -85,7 +79,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/capture-learnings.sh"
+            "command": "hooks/scripts/capture-learnings.sh"
           }
         ]
       }
@@ -95,7 +89,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/verify-agent-output.sh"
+            "command": "hooks/scripts/verify-agent-output.sh"
           }
         ]
       }
@@ -105,7 +99,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/session-track.sh"
+            "command": "hooks/scripts/session-track.sh"
           }
         ]
       }

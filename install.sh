@@ -26,7 +26,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
     echo ""
     echo "  target-directory  Path to your project (default: current directory)"
     echo ""
-    echo "Installs .claude/ (agents, commands, skills, hooks), .context/, CLAUDE.md, .claudeignore, and docs."
+    echo "Installs commands, agents, skills, hooks into .claude/ and sets up .context/ templates."
     echo "Existing files are never overwritten - review manually if needed."
     exit 0
 fi
@@ -71,23 +71,128 @@ echo -e "${BOLD}Context Engine${NC} - Installing to: $TARGET"
 echo ""
 
 # --- Core framework ---
+# Source is root-level (plugin layout), target gets .claude/ structure
 
 echo "Agents (.claude/agents/)..."
-safe_copy_dir "$SCRIPT_DIR/.claude/agents" "$TARGET/.claude/agents"
+safe_copy_dir "$SCRIPT_DIR/agents" "$TARGET/.claude/agents"
 
 echo "Commands (.claude/commands/)..."
-safe_copy_dir "$SCRIPT_DIR/.claude/commands" "$TARGET/.claude/commands"
+safe_copy_dir "$SCRIPT_DIR/commands" "$TARGET/.claude/commands"
 
 echo "Skills (.claude/skills/)..."
-safe_copy_dir "$SCRIPT_DIR/.claude/skills" "$TARGET/.claude/skills"
+safe_copy_dir "$SCRIPT_DIR/skills" "$TARGET/.claude/skills"
 
 echo "Hooks (.claude/hooks/)..."
-safe_copy_dir "$SCRIPT_DIR/.claude/hooks" "$TARGET/.claude/hooks"
+safe_copy_dir "$SCRIPT_DIR/hooks/scripts" "$TARGET/.claude/hooks"
 # Ensure hooks are executable
 chmod +x "$TARGET/.claude/hooks/"*.sh 2>/dev/null || true
 
 echo "Settings (.claude/settings.json)..."
-safe_copy "$SCRIPT_DIR/.claude/settings.json" "$TARGET/.claude/settings.json"
+# Generate clean settings for target (no dev-specific statusLine/mcpServers)
+if [ ! -f "$TARGET/.claude/settings.json" ]; then
+    mkdir -p "$TARGET/.claude"
+    cat > "$TARGET/.claude/settings.json" << 'SETTINGS_EOF'
+{
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Glob(**)",
+      "Grep(**)",
+      "Bash(find:*)",
+      "Bash(wc:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(cat:*)",
+      "Bash(git:diff*)",
+      "Bash(git:log*)",
+      "Bash(git:status*)"
+    ]
+  },
+  "env": {
+    "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "0",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/guard-protected-files.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/block-destructive.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/auto-format.sh"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/preserve-context.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/capture-learnings.sh"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/verify-agent-output.sh"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/session-track.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+SETTINGS_EOF
+    echo -e "  ${GREEN}CREATED${NC}: $TARGET/.claude/settings.json"
+    inc_installed
+else
+    echo -e "  ${YELLOW}EXISTS${NC}: $TARGET/.claude/settings.json (skipped)"
+    inc_skipped
+fi
 
 # --- Context templates ---
 
@@ -98,16 +203,22 @@ safe_copy_dir "$SCRIPT_DIR/.context" "$TARGET/.context"
 
 echo "Root config files..."
 safe_copy "$SCRIPT_DIR/CLAUDE.md" "$TARGET/CLAUDE.md"
-safe_copy "$SCRIPT_DIR/CLAUDE.local.md" "$TARGET/CLAUDE.local.md"
-safe_copy "$SCRIPT_DIR/.claudeignore" "$TARGET/.claudeignore"
-safe_copy "$SCRIPT_DIR/README.md" "$TARGET/CONTEXT-ENGINE.md"
+if [ -f "$SCRIPT_DIR/.claudeignore" ]; then
+    safe_copy "$SCRIPT_DIR/.claudeignore" "$TARGET/.claudeignore"
+fi
+if [ -f "$SCRIPT_DIR/README.md" ]; then
+    safe_copy "$SCRIPT_DIR/README.md" "$TARGET/CONTEXT-ENGINE.md"
+fi
 
 # --- Documentation ---
 
 echo "Documentation (docs/)..."
-safe_copy "$SCRIPT_DIR/docs/WALKTHROUGH.md" "$TARGET/docs/WALKTHROUGH.md"
-safe_copy "$SCRIPT_DIR/docs/CHEATSHEET.md" "$TARGET/docs/CHEATSHEET.md"
-
+if [ -f "$SCRIPT_DIR/docs/WALKTHROUGH.md" ]; then
+    safe_copy "$SCRIPT_DIR/docs/WALKTHROUGH.md" "$TARGET/docs/WALKTHROUGH.md"
+fi
+if [ -f "$SCRIPT_DIR/docs/CHEATSHEET.md" ]; then
+    safe_copy "$SCRIPT_DIR/docs/CHEATSHEET.md" "$TARGET/docs/CHEATSHEET.md"
+fi
 
 # --- .gitignore ---
 
@@ -121,7 +232,7 @@ if [ -f "$TARGET/.gitignore" ]; then
         fi
     done
 else
-    cp "$SCRIPT_DIR/.gitignore" "$TARGET/.gitignore"
+    printf '%s\n' "${GITIGNORE_ENTRIES[@]}" > "$TARGET/.gitignore"
     echo -e "  ${GREEN}CREATED${NC}: .gitignore"
     inc_installed
 fi
