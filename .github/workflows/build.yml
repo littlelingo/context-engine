@@ -20,6 +20,12 @@ jobs:
           python-version: '3.12'
       - name: Build plugin
         run: ./build-plugin.sh
+      - name: Get version
+        id: version
+        run: |
+          VERSION=$(python3 -c "import json; print(json.load(open('.claude-plugin/marketplace.json'))['plugins'][0]['version'])")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
       - name: Commit dist/
         run: |
           git config user.name "github-actions"
@@ -27,3 +33,17 @@ jobs:
           git add dist/
           git diff --staged --quiet || git commit -m "chore: rebuild plugin dist"
           git push
+      - name: Create tag and release
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists, skipping release"
+          else
+            git tag "$TAG"
+            git push origin "$TAG"
+            gh release create "$TAG" \
+              --title "Context Engine $TAG" \
+              --generate-notes
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
