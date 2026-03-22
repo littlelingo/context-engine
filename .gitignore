@@ -1,0 +1,5 @@
+CLAUDE.local.md
+.claude/settings.local.json
+.DS_Store
+Thumbs.db
+# Edit .gitignore, remove the "dist/" line
