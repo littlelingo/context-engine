@@ -35,7 +35,7 @@ description: Context Engine framework reference. Auto-loaded when working with .
 ## Skills (19 total - progressive disclosure)
 | Skill | Loads When | Purpose |
 |-------|-----------|---------|
-| `context-system` | .context/, ce-* files | This reference |
+| `context-system` | .context/, commands/, agents/ | This reference |
 | `testing-conventions` | test/spec files | Test patterns, frameworks |
 | `api-conventions` | route/controller files | API patterns, validation |
 | `git-workflow` | .github/, git files | Branching, commits, PRs |

@@ -13,7 +13,7 @@ Auto-updated after every `/validate`. Manual deep analysis via `/health`.
 
 ## Error Tracking
 
-<!-- Auto-updated by ce-validate and ce-debug -->
+<!-- Auto-updated by validate and debug -->
 
 | Metric | Value |
 |--------|-------|

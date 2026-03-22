@@ -1,8 +1,8 @@
-# /ce-plan - Phase 2: Create Implementation Plan
+# /plan - Phase 2: Create Implementation Plan
 
 No code in this phase. Create a PRP that guides implementation.
 
-If no research exists, recommend `/ce-research` first.
+If no research exists, recommend `/research` first.
 
 ## Process
 
@@ -20,7 +20,7 @@ If no research exists, recommend `/ce-research` first.
    Record choice in the PRP's `## Testing Strategy:` field.
 5. **Get approval**: Present PRP to user, iterate on feedback.
 6. **Save**: Write to `.context/features/[NNN]-[feature-name]/PRP.md`
-7. **Checkpoint**: Create checkpoint `CP-NNN: post-plan [feature-name]` (trigger: phase-boundary). See `/ce-checkpoint create` for the process - snapshot .context/ state and create git tag.
+7. **Checkpoint**: Create checkpoint `CP-NNN: post-plan [feature-name]` (trigger: phase-boundary). See `/checkpoint create` for the process - snapshot .context/ state and create git tag.
 8. **Update feature index**: Add a row to `.context/features/FEATURES.md`:
    `| [NNN] | [feature-name] | PLANNING | [strategy] | .context/features/[NNN]-[name]/PRP.md |`
 9. **Reflect**: Capture any new decisions (ADR), risks, or patterns discovered during planning.
@@ -28,13 +28,13 @@ If no research exists, recommend `/ce-research` first.
    ```
    PRP saved to: [path]
    Testing strategy: [choice]
-   Next: /clear then /ce-implement [path]
+   Next: /clear then /implement [path]
    ```
 
 ## Rules
 - No code. Planning only.
 - Always ask user to choose testing strategy before finalizing.
-- Always hand off with the exact `/ce-implement` command.
+- Always hand off with the exact `/implement` command.
 - If complexity is HIGH, break into multiple PRPs.
 - If context > 50%, save PRP and recommend `/clear`.
 

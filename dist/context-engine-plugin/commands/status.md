@@ -1,4 +1,4 @@
-# /ce-status - Project Briefing
+# /status - Project Briefing
 
 Synthesize the current state of the project from `.context/`. Useful for onboarding, catching up after a break, or getting the big picture.
 
@@ -42,9 +42,9 @@ This command is read-only. It doesn't modify anything.
 
    ### Quick Start
    [If there's an IN_PROGRESS feature]:
-     Resume: /ce-implement [PRP path]
+     Resume: /implement [PRP path]
    [If not]:
-     Start: /ce-research [next topic]
+     Start: /research [next topic]
    ```
 
 3. **If `$ARGUMENTS` contains "onboard" or "new"**: Also include:
@@ -57,7 +57,7 @@ This command is read-only. It doesn't modify anything.
 - Read-only. Don't modify any files.
 - Keep it concise. This is a briefing, not a book.
 - Prioritize actionable info: what's in progress, what was recently learned, what to do next.
-- If `.context/` is mostly empty, say so and recommend running `/ce-init`.
+- If `.context/` is mostly empty, say so and recommend running `/init`.
 
 ## User Input
 $ARGUMENTS

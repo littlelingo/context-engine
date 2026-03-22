@@ -31,10 +31,10 @@ if [ -n "$ACTIVE_PRP" ]; then
     CONTEXT="$CONTEXT\n- Active PRP: $ACTIVE_PRP ($DONE/$TOTAL steps complete)"
     CONTEXT="$CONTEXT\n- Feature: $ACTIVE_FEATURE"
     CONTEXT="$CONTEXT\n- Testing strategy: $STRATEGY"
-    CONTEXT="$CONTEXT\n- To resume: /ce-implement $ACTIVE_PRP"
+    CONTEXT="$CONTEXT\n- To resume: /implement $ACTIVE_PRP"
 else
     CONTEXT="$CONTEXT\n- No active PRP found"
-    CONTEXT="$CONTEXT\n- To check status: /ce-status"
+    CONTEXT="$CONTEXT\n- To check status: /status"
 fi
 
 CONTEXT="$CONTEXT\n- Project knowledge: .context/ (architecture, patterns, errors, learnings)"

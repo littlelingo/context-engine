@@ -8,7 +8,7 @@ Context Engine is both a runnable dev project and a distributable Claude Code pl
 
 Root layout:
 - agents/       (5 agents: researcher, planner, implementer, reviewer, debugger)
-- commands/     (15 commands: ce-init, ce-research, ce-plan, ce-plan-quick, ce-implement, ce-validate, ce-debug, ce-refactor, ce-status, ce-resume, ce-learn, ce-knowledge, ce-checkpoint, ce-health, ce-update-arch)
+- commands/     (15 commands: init, research, plan, plan-quick, implement, validate, debug, refactor, status, resume, learn, knowledge, checkpoint, health, update-arch)
 - skills/       (19 skills - all have SKILL.md frontmatter)
 - hooks/scripts/ (7 scripts: guard-protected-files.sh, block-destructive.sh, auto-format.sh, preserve-context.sh, capture-learnings.sh, session-track.sh, verify-agent-output.sh)
 - hooks/hooks.json  (plugin-time hook config using ${CLAUDE_PLUGIN_ROOT}/ paths)

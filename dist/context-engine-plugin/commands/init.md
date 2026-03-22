@@ -1,4 +1,4 @@
-# /ce-init - Initialize Context Engine
+# /init - Initialize Context Engine
 
 Bootstrap the context engineering system. Run this first on any new or existing project. Analyzes the codebase and populates `.context/`.
 
@@ -38,7 +38,7 @@ Bootstrap the context engineering system. Run this first on any new or existing 
    Detected: [tech stack], Test: [cmd], Lint: [cmd]
    Testing strategy: [choice]
    Skills populated: [testing-conventions, api-conventions, or "none - will grow via auto-learning"]
-   Run /ce-research [topic] to begin.
+   Run /research [topic] to begin.
    ```
 
 ## User Input

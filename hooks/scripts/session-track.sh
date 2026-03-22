@@ -5,7 +5,7 @@
 # Matcher: (none - fires on all prompts)
 
 # Create session marker on first prompt (if doesn't exist or is old)
-MARKER="/tmp/.ce-session-start"
+MARKER="/tmp/.session-start"
 if [ ! -f "$MARKER" ] || [ $(find "$MARKER" -mmin +120 2>/dev/null | wc -l) -gt 0 ]; then
     touch "$MARKER"
 fi

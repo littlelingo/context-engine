@@ -1,4 +1,4 @@
-# /ce-refactor - Refactor Existing Code
+# /refactor - Refactor Existing Code
 
 Restructure code without adding features. Uses Agent Team for multi-module refactors or single subagent for focused changes.
 
@@ -66,7 +66,7 @@ Restructure code without adding features. Uses Agent Team for multi-module refac
 10. **When complete**: Clean up team, then hand off:
    ```
    Refactor complete. All tests passing.
-   Next: /ce-validate [PRP path]
+   Next: /validate [PRP path]
    ```
 
 ## Rules

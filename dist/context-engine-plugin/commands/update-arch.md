@@ -1,4 +1,4 @@
-# /ce-update-arch - Refresh Architecture Docs
+# /update-arch - Refresh Architecture Docs
 
 Update `.context/architecture/` after significant codebase changes.
 

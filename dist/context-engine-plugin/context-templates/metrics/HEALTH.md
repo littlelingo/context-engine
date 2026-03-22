@@ -1,7 +1,7 @@
 # Framework Health Metrics
 
 Persistent metrics tracking Context Engine effectiveness over time.
-Auto-updated after every `/ce-validate`. Manual deep analysis via `/ce-health`.
+Auto-updated after every `/validate`. Manual deep analysis via `/health`.
 
 ## Feature Velocity
 
@@ -13,7 +13,7 @@ Auto-updated after every `/ce-validate`. Manual deep analysis via `/ce-health`.
 
 ## Error Tracking
 
-<!-- Auto-updated by ce-validate and ce-debug -->
+<!-- Auto-updated by validate and debug -->
 
 | Metric | Value |
 |--------|-------|

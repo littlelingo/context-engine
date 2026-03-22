@@ -1,4 +1,4 @@
-# /ce-plan-quick - Quick Plan for Small Tasks
+# /plan-quick - Quick Plan for Small Tasks
 
 Streamlined for bug fixes, single-file changes, minor improvements. Stays in one context.
 
@@ -21,7 +21,7 @@ Streamlined for bug fixes, single-file changes, minor improvements. Stays in one
 6. **Reflect**: Capture errors, patterns, or insights to `.context/` after completion.
 
 ## Rules
-- LOW complexity only. If bigger than expected, switch to full `/ce-plan`.
+- LOW complexity only. If bigger than expected, switch to full `/plan`.
 - MUST delegate to `researcher` for file exploration.
 - Always reflect after implementation completes.
 

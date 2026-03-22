@@ -7,8 +7,8 @@ description: Sequential thinking for structured problem decomposition. Use for c
 Structured step-by-step reasoning with revision and branching support. Use this when a problem is too complex to solve in one pass - it breaks thinking into trackable steps where you can revise earlier conclusions as understanding deepens.
 
 ## When to Use
-- **Complex feature planning** (`/ce-plan`): Decompose requirements into implementation steps
-- **Debugging** (`/ce-debug`): Systematic hypothesis testing, revise when evidence contradicts
+- **Complex feature planning** (`/plan`): Decompose requirements into implementation steps
+- **Debugging** (`/debug`): Systematic hypothesis testing, revise when evidence contradicts
 - **Architecture decisions** (ADRs): Evaluate tradeoffs step-by-step with branching alternatives
 - **Refactoring scope analysis**: Map dependencies before restructuring
 
@@ -41,8 +41,8 @@ mcp__sequential-thinking__sequentialthinking({
 ```
 
 ## Integration with Context Engine
-- During `/ce-plan`: Use sequential thinking to decompose the feature, then write the PRP
-- During `/ce-debug`: Use sequential thinking for hypothesis-evidence-revision cycles
+- During `/plan`: Use sequential thinking to decompose the feature, then write the PRP
+- During `/debug`: Use sequential thinking for hypothesis-evidence-revision cycles
 - During ADR creation: Use branching to explore alternative architectures side-by-side
 - Capture final synthesis in `.context/` (the thinking chain is ephemeral)
 

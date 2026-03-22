@@ -1,5 +1,5 @@
 # Code Patterns
-<!-- Approved conventions. Referenced by agents during implementation and review. Use /ce-learn to add. -->
+<!-- Approved conventions. Referenced by agents during implementation and review. Use /learn to add. -->
 
 ## Naming Conventions
 ## File Organization

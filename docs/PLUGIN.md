@@ -47,7 +47,7 @@ claude plugin validate ./dist/context-engine-plugin
 ```
 
 **Pros**: Auto-updates via marketplace, no files in your repo, available in all projects.
-**Cons**: Requires marketplace setup, commands are namespaced (`/context-engine:ce-plan`), `.context/` still needs to be in your project.
+**Cons**: Requires marketplace setup, commands are namespaced (`/context-engine:plan`), `.context/` still needs to be in your project.
 
 ## Plugin Architecture
 
@@ -62,8 +62,8 @@ Project Structure (.claude/)          Plugin Structure (root-level)
     planner.md                       ├── agents/
     ...                              │   ├── researcher.md
   commands/                          │   └── ...
-    ce-init.md            ──────>    ├── commands/
-    ce-plan.md                       │   ├── ce-init.md
+    init.md            ──────>    ├── commands/
+    plan.md                       │   ├── init.md
     ...                              │   └── ...
   skills/                            ├── skills/
     context-system/       ──────>    │   ├── context-system/
@@ -75,7 +75,7 @@ Project Structure (.claude/)          Plugin Structure (root-level)
   settings.json           ──────>    │   └── scripts/
                                      │       ├── auto-format.sh
 .context/                            │       └── ...
-  architecture/           ──────>    ├── context-templates/  (for ce-init)
+  architecture/           ──────>    ├── context-templates/  (for init)
   patterns/                          │   ├── architecture/
   errors/                            │   ├── patterns/
   ...                                │   └── ...
@@ -89,8 +89,8 @@ Key differences:
 - **Hooks**: `settings.json` hooks section becomes `hooks/hooks.json`. Script paths use `${CLAUDE_PLUGIN_ROOT}`.
 - **CLAUDE.md**: Becomes a skill (`context-engine-rules/SKILL.md`) with `globs: ["**/*"]` so it always loads.
 - **MCP servers**: Extracted from `settings.json` into `.mcp.json` at plugin root.
-- **.context/ templates**: Moved to `context-templates/` - the `ce-init` command copies them into the user's project.
-- **Commands**: Namespaced as `/context-engine:ce-plan`, `/context-engine:ce-implement`, etc.
+- **.context/ templates**: Moved to `context-templates/` - the `init` command copies them into the user's project.
+- **Commands**: Namespaced as `/context-engine:plan`, `/context-engine:implement`, etc.
 
 ## Publishing to a Marketplace
 
@@ -110,10 +110,10 @@ Key differences:
 
 ## Bootstrapping .context/ in Plugin Mode
 
-When installed as a plugin, the `.context/` directory doesn't come with the plugin (it's project-specific). Run `/context-engine:ce-init` in any project to bootstrap:
+When installed as a plugin, the `.context/` directory doesn't come with the plugin (it's project-specific). Run `/context-engine:init` in any project to bootstrap:
 
 ```
-/context-engine:ce-init
+/context-engine:init
 ```
 
 This copies the context templates from the plugin's `context-templates/` into the project's `.context/` directory, detects the stack, and populates architecture docs.

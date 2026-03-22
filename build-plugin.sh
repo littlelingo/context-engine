@@ -53,7 +53,7 @@ echo "  $HOOK_COUNT hook scripts + hooks.json"
 echo "Copying MCP config..."
 cp "$SCRIPT_DIR/.mcp.json" "$OUTPUT/.mcp.json"
 
-# 7. Context templates (for ce-init to bootstrap into user projects)
+# 7. Context templates (for init to bootstrap into user projects)
 echo "Copying context templates..."
 mkdir -p "$OUTPUT/context-templates"
 cp -r "$SCRIPT_DIR/.context/"* "$OUTPUT/context-templates/" 2>/dev/null || true

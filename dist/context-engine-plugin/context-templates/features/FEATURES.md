@@ -1,6 +1,6 @@
 # Features
 
-<!-- Maintained automatically by /ce-plan (adds entries) and /ce-validate (marks complete). -->
+<!-- Maintained automatically by /plan (adds entries) and /validate (marks complete). -->
 
 | # | Feature | Status | Strategy | PRP Path |
 |---|---------|--------|----------|----------|

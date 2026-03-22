@@ -4,7 +4,7 @@ description: API conventions for this project. Auto-loaded when working with rou
 
 # API Conventions
 
-<!-- Populated by /ce-init. Grows via /ce-learn and phase reflection. -->
+<!-- Populated by /init. Grows via /learn and phase reflection. -->
 
 ## Request/Response Format
 <!-- e.g., JSON envelope { data, error, meta }, status code usage -->
@@ -25,4 +25,4 @@ description: API conventions for this project. Auto-loaded when working with rou
 <!-- e.g., RESTful conventions, URL patterns, versioning -->
 
 ## Common Pitfalls
-<!-- Known issues with API code in this project. Auto-captured from /ce-debug and /ce-learn. -->
+<!-- Known issues with API code in this project. Auto-captured from /debug and /learn. -->

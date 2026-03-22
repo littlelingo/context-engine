@@ -25,7 +25,7 @@ claude
 
 First, run:
 ```
-/ce-init
+/init
 ```
 
 Claude asks:
@@ -41,7 +41,7 @@ How do you want to set up the development environment?
 
 Then run:
 ```
-/ce-init
+/init
 ```
 
 Claude will:
@@ -65,19 +65,19 @@ Pick your default. You can override it per-feature later.
 Context Engine initialized.
 Detected: Node.js, Express, Jest | Test: npm test | Lint: npm run lint
 Testing strategy: implement-then-test
-Run /ce-research [topic] to begin.
+Run /research [topic] to begin.
 ```
 
 **Check context**: `/context` - should be around 30-35% after init. If higher, `/clear` and start fresh.
 
 ---
 
-## Step 1: Research (`/ce-research`)
+## Step 1: Research (`/research`)
 
 Start a new feature. Don't jump into coding.
 
 ```
-/ce-research user authentication with JWT tokens
+/research user authentication with JWT tokens
 ```
 
 Claude will:
@@ -123,17 +123,17 @@ You'll see the researcher agent explore your codebase, then Claude presents:
 
 ```
 Research saved to: .context/features/auth/NOTES.md
-Next: /ce-plan .context/features/auth/NOTES.md
+Next: /plan .context/features/auth/NOTES.md
 ```
 
 **Decision point**: Check `/context`. If > 50%, run `/clear` first. If under, continue in the same session.
 
 ---
 
-## Step 2: Plan (`/ce-plan`)
+## Step 2: Plan (`/plan`)
 
 ```
-/ce-plan .context/features/auth/NOTES.md
+/plan .context/features/auth/NOTES.md
 ```
 
 Claude will:
@@ -208,17 +208,17 @@ Claude saves the PRP, updates FEATURES.md, reflects on any new patterns/decision
 PRP saved to: .context/features/001-user-auth/PRP.md
 Testing strategy: implement-then-test
 
-Next: /clear then /ce-implement .context/features/001-user-auth/PRP.md
+Next: /clear then /implement .context/features/001-user-auth/PRP.md
 ```
 
 **Run `/clear` now.** Implementation needs maximum context.
 
 ---
 
-## Step 3: Implement (`/ce-implement`)
+## Step 3: Implement (`/implement`)
 
 ```
-/ce-implement .context/features/001-user-auth/PRP.md
+/implement .context/features/001-user-auth/PRP.md
 ```
 
 Claude will:
@@ -248,7 +248,7 @@ This repeats for each step. After every 2-3 steps, Claude checks context:
 
 ```
 Context at 58%. Progress saved (steps 1-3 complete).
-Next: /clear then /ce-implement .context/features/001-user-auth/PRP.md
+Next: /clear then /implement .context/features/001-user-auth/PRP.md
 ```
 
 **Run `/clear`, then the same command.** Claude reads the PRP, sees steps 1-3 are `[x]`, picks up at step 4.
@@ -259,15 +259,15 @@ When all steps complete:
 
 ```
 All implementation steps complete.
-Next: /clear then /ce-validate .context/features/001-user-auth/PRP.md
+Next: /clear then /validate .context/features/001-user-auth/PRP.md
 ```
 
 ---
 
-## Step 4: Validate (`/ce-validate`)
+## Step 4: Validate (`/validate`)
 
 ```
-/ce-validate .context/features/001-user-auth/PRP.md
+/validate .context/features/001-user-auth/PRP.md
 ```
 
 Claude will run through 11 steps:
@@ -341,7 +341,7 @@ The next feature starts smarter than the last one.
 For bug fixes or minor changes, skip the full cycle:
 
 ```
-/ce-plan-quick fix the 500 error on /api/users when email is missing
+/plan-quick fix the 500 error on /api/users when email is missing
 ```
 
 Claude scans relevant files, checks error index, proposes a quick plan with testing strategy confirmation, implements, reflects, done. One context window, no `/clear` needed.
@@ -358,11 +358,11 @@ git worktree add ../project-search feature/search
 
 # Terminal 1
 cd ../project-notifications && claude
-/ce-research push notifications
+/research push notifications
 
 # Terminal 2
 cd ../project-search && claude
-/ce-research full-text search
+/research full-text search
 ```
 
 Each session has isolated context. Both share `.context/` via git.
@@ -375,7 +375,7 @@ Come back to a project after lunch, next day, whatever:
 
 ```bash
 claude
-/ce-resume
+/resume
 ```
 
 Claude reads FEATURES.md, finds IN_PROGRESS features, shows where you left off:
@@ -385,7 +385,7 @@ Resuming: User Authentication with JWT
 PRP: .context/features/001-user-auth/PRP.md
 Completed: Steps 1-3 of 5
 Next: Step 4 - Create auth routes
-Ready: /ce-implement .context/features/001-user-auth/PRP.md
+Ready: /implement .context/features/001-user-auth/PRP.md
 ```
 
 ---
@@ -395,14 +395,14 @@ Ready: /ce-implement .context/features/001-user-auth/PRP.md
 Outside the normal workflow, capture something useful:
 
 ```
-/ce-learn we decided to use Redis for session storage because the app
+/learn we decided to use Redis for session storage because the app
 will run on multiple servers and in-memory sessions won't work
 ```
 
 Claude determines this is a technical decision and creates an ADR in `.context/decisions/`.
 
 ```
-/ce-learn the Stripe webhook endpoint must use raw body parsing,
+/learn the Stripe webhook endpoint must use raw body parsing,
 not JSON - Express's json() middleware breaks signature verification
 ```
 

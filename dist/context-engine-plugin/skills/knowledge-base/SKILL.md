@@ -30,11 +30,11 @@ The implementer and debugger agents write to knowledge automatically when they:
 - Hit any "aha moment" that took > 5 minutes to figure out (-> `LEARNINGS.md`)
 
 ### Manual Capture (research + plan phases)
-Use `/ce-learn` to manually route knowledge:
-- `/ce-learn library quirk: React Query v5 onSuccess removed, use onSettled`
-- `/ce-learn stack recipe: Next.js + Prisma + tRPC setup`
-- `/ce-learn dependency pin: Tailwind pinned to 3.x, 4.x breaks PostCSS`
-- `/ce-learn insight: Our API rate limiting needs per-user, not per-IP`
+Use `/learn` to manually route knowledge:
+- `/learn library quirk: React Query v5 onSuccess removed, use onSettled`
+- `/learn stack recipe: Next.js + Prisma + tRPC setup`
+- `/learn dependency pin: Tailwind pinned to 3.x, 4.x breaks PostCSS`
+- `/learn insight: Our API rate limiting needs per-user, not per-IP`
 
 ## How to Read Knowledge
 

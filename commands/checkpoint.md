@@ -19,16 +19,16 @@ Parse `$ARGUMENTS` to determine the action:
      - `.context/features/FEATURES.md`
    - Write `snapshot-meta.json` with: timestamp, branch, PRP path, PRP progress (N/M steps), trigger reason, git SHA at time of snapshot
 3. **Create git tag**:
-   - If working tree is clean: `git tag ce-checkpoint-NNN -m "[label]"`
+   - If working tree is clean: `git tag checkpoint-NNN -m "[label]"`
    - If working tree is dirty: `git stash` first, tag, then `git stash pop`. Note in manifest that tree was dirty.
    - If git stash fails (nothing to stash): tag the current HEAD anyway.
 4. **Append to MANIFEST.md** with all metadata.
-5. **Report**: "Checkpoint CP-NNN created. Tag: ce-checkpoint-NNN. [N files snapshotted]."
+5. **Report**: "Checkpoint CP-NNN created. Tag: checkpoint-NNN. [N files snapshotted]."
 
 ### `list`: List All Checkpoints
 
 1. Read `.context/checkpoints/MANIFEST.md`
-2. Also verify git tags still exist: `git tag -l "ce-checkpoint-*"`
+2. Also verify git tags still exist: `git tag -l "checkpoint-*"`
 3. Display table with: number, label, timestamp, trigger, branch, PRP progress
 4. Flag any orphaned checkpoints (manifest entry but missing git tag, or vice versa)
 
@@ -36,20 +36,20 @@ Parse `$ARGUMENTS` to determine the action:
 
 1. **Verify checkpoint exists**: Check both manifest entry and git tag.
 2. **Show what will change**:
-   - `git diff --stat ce-checkpoint-NNN` (files that changed since checkpoint)
+   - `git diff --stat checkpoint-NNN` (files that changed since checkpoint)
    - Compare current PRP progress vs snapshot PRP progress
    - List knowledge/error entries added since checkpoint
 3. **Offer choice**:
 
    **Option A: Full rollback** (code + context)
-   - `git reset --hard ce-checkpoint-NNN` (resets code to checkpoint state)
+   - `git reset --hard checkpoint-NNN` (resets code to checkpoint state)
    - Restore all `.context/` files from snapshot
    - Warning: This discards all code changes since the checkpoint. Uncommitted work will be lost.
 
    **Option B: Soft rollback** (context only)
    - Restore `.context/` files from snapshot (PRP progress, learnings, errors, features)
    - Do NOT touch code files
-   - Show `git diff ce-checkpoint-NNN` so user can manually revert specific files
+   - Show `git diff checkpoint-NNN` so user can manually revert specific files
    - Useful when: the code is partially good but the PRP state got corrupted
 
    **Option C: Cancel**
@@ -64,7 +64,7 @@ Parse `$ARGUMENTS` to determine the action:
 2. `--keep N`: keep last N checkpoints.
 3. For each removed checkpoint:
    - Delete `.context/checkpoints/CP-NNN/` directory
-   - Delete git tag: `git tag -d ce-checkpoint-NNN`
+   - Delete git tag: `git tag -d checkpoint-NNN`
    - Remove entry from MANIFEST.md
 4. Report: "Removed N checkpoints. Kept last M."
 
