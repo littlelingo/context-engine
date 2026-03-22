@@ -4,7 +4,7 @@ description: Testing conventions for this project. Auto-loaded when working with
 
 # Testing Conventions
 
-<!-- Populated by /ce-init. Grows via /ce-learn and phase reflection. -->
+<!-- Populated by /init. Grows via /learn and phase reflection. -->
 
 ## Test File Naming
 <!-- e.g., [module].test.ts alongside source, or tests/[module].test.ts -->
@@ -22,4 +22,4 @@ description: Testing conventions for this project. Auto-loaded when working with
 <!-- e.g., factories, fixtures, inline data, faker -->
 
 ## Common Pitfalls
-<!-- Known issues when writing tests in this project. Auto-captured from /ce-debug and /ce-learn. -->
+<!-- Known issues when writing tests in this project. Auto-captured from /debug and /learn. -->

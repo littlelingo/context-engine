@@ -1,4 +1,4 @@
-# /ce-learn - Capture Knowledge
+# /learn - Capture Knowledge
 
 Capture a learning from the current session. Routes to the correct file based on type.
 
@@ -38,13 +38,13 @@ Capture a learning from the current session. Routes to the correct file based on
 ## Routing Hints
 
 Prefix-based routing (optional - helps with explicit categorization):
-- `/ce-learn library quirk: ...` -> libraries/
-- `/ce-learn stack recipe: ...` -> stack/
-- `/ce-learn dependency pin: ...` -> dependencies/PINS.md
-- `/ce-learn error: ...` -> errors/
-- `/ce-learn pattern: ...` -> patterns/
-- `/ce-learn decision: ...` -> decisions/
-- `/ce-learn insight: ...` -> LEARNINGS.md
+- `/learn library quirk: ...` -> libraries/
+- `/learn stack recipe: ...` -> stack/
+- `/learn dependency pin: ...` -> dependencies/PINS.md
+- `/learn error: ...` -> errors/
+- `/learn pattern: ...` -> patterns/
+- `/learn decision: ...` -> decisions/
+- `/learn insight: ...` -> LEARNINGS.md
 
 Without prefix: infer from content (library name mentioned -> libraries/, version mentioned -> dependencies/, config/setup -> stack/, error/fix -> errors/).
 

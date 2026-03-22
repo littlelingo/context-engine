@@ -1,4 +1,4 @@
-# /ce-knowledge - Browse & Manage Knowledge Base
+# /knowledge - Browse & Manage Knowledge Base
 
 Search, browse, and maintain the deep knowledge layer.
 

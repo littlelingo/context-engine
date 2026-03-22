@@ -1,4 +1,4 @@
-# /ce-debug - Diagnose and Fix a Bug
+# /debug - Diagnose and Fix a Bug
 
 Something is broken. Uses parallel hypothesis testing via Agent Team for complex bugs, or single `debugger` subagent for simple ones.
 
@@ -66,7 +66,7 @@ Something is broken. Uses parallel hypothesis testing via Agent Team for complex
 - Use Agent Team only for complex, multi-cause bugs. Simple bugs don't need the overhead.
 - Investigators must actively challenge each other's theories - not just work in isolation.
 - Clean up team before committing.
-- If bug reveals a deeper architectural issue, recommend `/ce-refactor`.
+- If bug reveals a deeper architectural issue, recommend `/refactor`.
 - Always capture the resolution to `.context/errors/`.
 
 ## User Input

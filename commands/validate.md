@@ -1,4 +1,4 @@
-# /ce-validate - Phase 4: Validate & Capture Learnings
+# /validate - Phase 4: Validate & Capture Learnings
 
 Mandatory regardless of testing strategy. Uses an Agent Team for parallel review when changes are substantial.
 
@@ -101,7 +101,7 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
 - Clean up team before capture/commit steps.
 - Always capture learnings. This is the ROI of the system.
 - Always ask before committing or creating a PR.
-- If fixes are complex, save state and start a new `/ce-implement` cycle.
+- If fixes are complex, save state and start a new `/implement` cycle.
 
 ## User Input
 $ARGUMENTS

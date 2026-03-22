@@ -1,4 +1,4 @@
-# /ce-health - Framework Effectiveness Metrics
+# /health - Framework Effectiveness Metrics
 
 Display framework health dashboard and run deep analysis. Reads from `.context/metrics/HEALTH.md`, git history, and `.context/` state.
 

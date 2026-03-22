@@ -1,4 +1,4 @@
-# /ce-research - Phase 1: Research
+# /research - Phase 1: Research
 
 No code in this phase. Understand what exists before planning.
 
@@ -13,7 +13,7 @@ No code in this phase. Understand what exists before planning.
 7. **Hand off**:
    ```
    Research saved to: .context/features/[topic]/NOTES.md
-   Next: /ce-plan .context/features/[topic]/NOTES.md
+   Next: /plan .context/features/[topic]/NOTES.md
    ```
 
 ## Research Summary Format

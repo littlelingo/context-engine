@@ -5,7 +5,7 @@
 
 ## Project Knowledge
 
-<!-- Auto-maintained by /ce-init and /ce-update-arch -->
+<!-- Auto-maintained by /init and /update-arch -->
 
 | Doc | Location |
 |-----|----------|
@@ -26,25 +26,25 @@
 
 ## Workflow
 
-`/ce-init` (once) -> `/ce-research` -> `/ce-plan` -> `/clear` -> `/ce-implement` -> `/clear` -> `/ce-validate` -> commit/PR
+`/init` (once) -> `/research` -> `/plan` -> `/clear` -> `/implement` -> `/clear` -> `/validate` -> commit/PR
 
 | Phase | Command | Delegation |
 |-------|---------|-----------|
-| Research | `/ce-research` | Subagent (researcher) |
-| Plan | `/ce-plan` | Subagent (planner) |
-| Implement | `/ce-implement` | Agent Team or subagent |
-| Validate | `/ce-validate` | Agent Team or subagent |
+| Research | `/research` | Subagent (researcher) |
+| Plan | `/plan` | Subagent (planner) |
+| Implement | `/implement` | Agent Team or subagent |
+| Validate | `/validate` | Agent Team or subagent |
 
-Quick: `/ce-plan-quick` | Bugs: `/ce-debug` | Refactor: `/ce-refactor` | Status: `/ce-status` | Resume: `/ce-resume` | Knowledge: `/ce-knowledge` | Health: `/ce-health`
+Quick: `/plan-quick` | Bugs: `/debug` | Refactor: `/refactor` | Status: `/status` | Resume: `/resume` | Knowledge: `/knowledge` | Health: `/health`
 
 Each command ends with the exact next command. Handoffs are explicit.
-Checkpoints are created automatically at phase boundaries and before Agent Team spawns. Rollback: `/ce-checkpoint rollback CP-NNN`.
+Checkpoints are created automatically at phase boundaries and before Agent Team spawns. Rollback: `/checkpoint rollback CP-NNN`.
 
 ## Context Management
 - **< 50%**: Keep working
 - **50-60%**: Save state, prepare to clear
-- **> 60%**: Stop. `/clear`. `/ce-resume`.
-- Prefer `/clear` + `/ce-resume` over `/compact`. PreCompact hook preserves PRP state if compaction occurs.
+- **> 60%**: Stop. `/clear`. `/resume`.
+- Prefer `/clear` + `/resume` over `/compact`. PreCompact hook preserves PRP state if compaction occurs.
 
 ## Orchestration
 
@@ -79,7 +79,7 @@ Config: `hooks/hooks.json` (plugin) / `.claude/settings.json` (local dev)
 1. **Phase reflection** - Commands write to `.context/` before handing off
 2. **Agent memory** - Persists across sessions per role
 3. **Hooks** - Stop hook enforces learning capture
-Manual: `/ce-learn` | Architecture refresh: `/ce-update-arch`
+Manual: `/learn` | Architecture refresh: `/update-arch`
 
 ## Skills (Progressive Disclosure)
 Domain expertise loads on-demand when you touch relevant files. Not front-loaded.

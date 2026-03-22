@@ -63,7 +63,7 @@ Read your memory first for past planning insights, estimation accuracy, and recu
 | [from .context/errors/] | [approach] |
 
 ## 7. Metrics
-<!-- Auto-populated by /ce-validate after completion -->
+<!-- Auto-populated by /validate after completion -->
 ```
 
 ## Rules

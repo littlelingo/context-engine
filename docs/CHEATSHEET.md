@@ -3,19 +3,19 @@
 ## Full Workflow
 
 ```
-/ce-init              Detect project, populate .context/ (once)
+/init              Detect project, populate .context/ (once)
       |
-/ce-research [topic]  Explore codebase, save notes     -> researcher agent
+/research [topic]  Explore codebase, save notes     -> researcher agent
       |
-/ce-plan [notes]      Create PRP, pick test strategy   -> planner agent
-      |
-    /clear
-      |
-/ce-implement [PRP]   Execute steps one at a time      -> implementer agent
+/plan [notes]      Create PRP, pick test strategy   -> planner agent
       |
     /clear
       |
-/ce-validate [PRP]    Review + simplify + learn         -> reviewer agent
+/implement [PRP]   Execute steps one at a time      -> implementer agent
+      |
+    /clear
+      |
+/validate [PRP]    Review + simplify + learn         -> reviewer agent
       |
     commit or PR (prompted)
 ```
@@ -24,18 +24,18 @@
 
 | Command | What It Does |
 |---------|-------------|
-| `/ce-init` | Bootstrap `.context/`, detect tech stack, set testing strategy |
-| `/ce-research [topic]` | Explore codebase, produce NOTES.md |
-| `/ce-plan [notes path]` | Create PRP, prompt for testing strategy |
-| `/ce-plan-quick [task]` | Quick plan + implement for small tasks |
-| `/ce-implement [PRP path]` | Safety checks, branch, execute PRP steps |
-| `/ce-validate [PRP path]` | Run tests, review, simplify, capture learnings |
-| `/ce-debug [error]` | Diagnose bug, fix, capture to error index |
-| `/ce-refactor [goal]` | Restructure code with test safety checks |
-| `/ce-status` | Project briefing - what's built, in progress, recently learned |
-| `/ce-resume` | Reload state after `/clear` or new session |
-| `/ce-learn [insight]` | Manually capture error, pattern, decision, or insight |
-| `/ce-update-arch` | Refresh architecture docs after big changes |
+| `/init` | Bootstrap `.context/`, detect tech stack, set testing strategy |
+| `/research [topic]` | Explore codebase, produce NOTES.md |
+| `/plan [notes path]` | Create PRP, prompt for testing strategy |
+| `/plan-quick [task]` | Quick plan + implement for small tasks |
+| `/implement [PRP path]` | Safety checks, branch, execute PRP steps |
+| `/validate [PRP path]` | Run tests, review, simplify, capture learnings |
+| `/debug [error]` | Diagnose bug, fix, capture to error index |
+| `/refactor [goal]` | Restructure code with test safety checks |
+| `/status` | Project briefing - what's built, in progress, recently learned |
+| `/resume` | Reload state after `/clear` or new session |
+| `/learn [insight]` | Manually capture error, pattern, decision, or insight |
+| `/update-arch` | Refresh architecture docs after big changes |
 
 ## Agents
 
@@ -75,7 +75,7 @@ All have `memory: project` - they get smarter across sessions.
 | `implement-then-test` | Implement -> write test -> verify |
 | `tests-optional` | Implement only. Tests deferred. |
 
-Prompted during `/ce-plan`. Validation always runs regardless.
+Prompted during `/plan`. Validation always runs regardless.
 
 ## Context Budget
 
@@ -83,9 +83,9 @@ Prompted during `/ce-plan`. Validation always runs regardless.
 |-------|--------|
 | < 50% | Keep working |
 | 50-60% | Save state, prepare to clear |
-| > 60% | Stop. Save. `/clear`. `/ce-resume`. |
+| > 60% | Stop. Save. `/clear`. `/resume`. |
 
-**Prefer `/clear` + `/ce-resume` over `/compact`.**
+**Prefer `/clear` + `/resume` over `/compact`.**
 Disable auto-compact: `/config` -> Auto-compact: false
 
 ## Project Knowledge (`.context/`)
@@ -112,8 +112,8 @@ Happens by default. No manual action needed.
 - **Agent memory**: Each agent persists knowledge across sessions
 - **Hooks**: Enforced gates at lifecycle events (`hooks/`)
 - **Deep knowledge**: Implementer + debugger auto-capture library quirks, version pins, stack recipes
-- `/ce-learn` routes to deep knowledge files (prefix hints: `library quirk:`, `stack recipe:`, `dependency pin:`)
-- `/ce-knowledge` browses, searches, promotes knowledge base
+- `/learn` routes to deep knowledge files (prefix hints: `library quirk:`, `stack recipe:`, `dependency pin:`)
+- `/knowledge` browses, searches, promotes knowledge base
 
 ## Hooks (`hooks/`)
 
@@ -140,14 +140,14 @@ Auto-created at:
 
 | Action | Command |
 |--------|---------|
-| Create manually | `/ce-checkpoint create [label]` |
-| List all | `/ce-checkpoint list` |
-| Rollback | `/ce-checkpoint rollback CP-NNN` (offers full or soft) |
-| Clean old | `/ce-checkpoint clean --keep 5` |
+| Create manually | `/checkpoint create [label]` |
+| List all | `/checkpoint list` |
+| Rollback | `/checkpoint rollback CP-NNN` (offers full or soft) |
+| Clean old | `/checkpoint clean --keep 5` |
 
-## Metrics (`/ce-health`)
+## Metrics (`/health`)
 
-Auto-captured after every `/ce-validate`. Manual deep analysis anytime.
+Auto-captured after every `/validate`. Manual deep analysis anytime.
 
 ```
 5 categories:
@@ -160,12 +160,12 @@ Auto-captured after every `/ce-validate`. Manual deep analysis anytime.
 
 | Action | Command |
 |--------|---------|
-| Dashboard | `/ce-health` |
-| Velocity deep dive | `/ce-health velocity` |
-| Error analysis | `/ce-health errors` |
-| Knowledge audit | `/ce-health knowledge` |
-| Agent performance | `/ce-health agents` |
-| Manual record | `/ce-health record [feature-NNN]` |
+| Dashboard | `/health` |
+| Velocity deep dive | `/health velocity` |
+| Error analysis | `/health errors` |
+| Knowledge audit | `/health knowledge` |
+| Agent performance | `/health agents` |
+| Manual record | `/health record [feature-NNN]` |
 
 Per-feature metrics also embedded in each completed PRP (section 7).
 
@@ -201,20 +201,20 @@ cd ../project-feature-a && claude
 /context
 
 # Resume after break
-/ce-resume
+/resume
 
 # Quick fix (skip full cycle)
-/ce-plan-quick fix the null pointer in getUserById
+/plan-quick fix the null pointer in getUserById
 
 # Debug a bug
-/ce-debug TypeError: Cannot read property 'id' of undefined in /api/users
+/debug TypeError: Cannot read property 'id' of undefined in /api/users
 
 # Refactor existing code
-/ce-refactor extract auth logic from route handlers into middleware
+/refactor extract auth logic from route handlers into middleware
 
 # Project briefing
-/ce-status
-/ce-status onboard    # extended version for new team members
+/status
+/status onboard    # extended version for new team members
 
 # Plugin packaging
 ./build-plugin.sh                                    # build plugin from project

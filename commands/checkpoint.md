@@ -1,4 +1,4 @@
-# /ce-checkpoint - Checkpoint Management
+# /checkpoint - Checkpoint Management
 
 Create, list, rollback, and clean hybrid checkpoints (git tag + .context/ snapshot).
 

@@ -1,4 +1,4 @@
-# /ce-resume - Resume After Context Clear
+# /resume - Resume After Context Clear
 
 Reload relevant context efficiently after `/clear` or new chat.
 
@@ -12,7 +12,7 @@ Reload relevant context efficiently after `/clear` or new chat.
    PRP: [path]
    Completed: Steps 1-N of M
    Next: Step N+1 - [description]
-   Ready: /ce-implement [path]
+   Ready: /implement [path]
    ```
 4. **If no active PRP**: Show recent research notes and offer options.
 

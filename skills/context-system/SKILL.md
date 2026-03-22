@@ -7,21 +7,21 @@ description: Context Engine framework reference. Auto-loaded when working with .
 ## Commands
 | Command | Delegation | Purpose |
 |---------|-----------|---------|
-| `/ce-init` | Direct | Bootstrap `.context/`, detect stack, set testing strategy |
-| `/ce-research` | Subagent (researcher) | Explore codebase, gather context |
-| `/ce-plan` | Subagent (planner) | Create PRP from requirements |
-| `/ce-plan-quick` | Subagent (researcher) | Quick plan for small tasks |
-| `/ce-implement` | Agent Team (3+ steps) or subagent | Execute PRP steps per strategy |
-| `/ce-validate` | Agent Team (3+ files) or subagent | Review, simplify, capture learnings |
-| `/ce-debug` | Agent Team (complex) or subagent | Diagnose and fix bugs |
-| `/ce-refactor` | Agent Team (3+ tracks) or subagent | Restructure code safely |
-| `/ce-status` | Direct | Project briefing (read-only) |
-| `/ce-resume` | Direct | Reload after `/clear` |
-| `/ce-learn` | Direct | Manual capture to .context/ (routes to deep knowledge) |
-| `/ce-knowledge` | Direct | Browse, search, promote knowledge base |
-| `/ce-checkpoint` | Direct | Create, list, rollback, clean checkpoints |
-| `/ce-health` | Direct | Metrics dashboard and deep analysis |
-| `/ce-update-arch` | Subagent (researcher) | Refresh architecture docs |
+| `/init` | Direct | Bootstrap `.context/`, detect stack, set testing strategy |
+| `/research` | Subagent (researcher) | Explore codebase, gather context |
+| `/plan` | Subagent (planner) | Create PRP from requirements |
+| `/plan-quick` | Subagent (researcher) | Quick plan for small tasks |
+| `/implement` | Agent Team (3+ steps) or subagent | Execute PRP steps per strategy |
+| `/validate` | Agent Team (3+ files) or subagent | Review, simplify, capture learnings |
+| `/debug` | Agent Team (complex) or subagent | Diagnose and fix bugs |
+| `/refactor` | Agent Team (3+ tracks) or subagent | Restructure code safely |
+| `/status` | Direct | Project briefing (read-only) |
+| `/resume` | Direct | Reload after `/clear` |
+| `/learn` | Direct | Manual capture to .context/ (routes to deep knowledge) |
+| `/knowledge` | Direct | Browse, search, promote knowledge base |
+| `/checkpoint` | Direct | Create, list, rollback, clean checkpoints |
+| `/health` | Direct | Metrics dashboard and deep analysis |
+| `/update-arch` | Subagent (researcher) | Refresh architecture docs |
 
 ## Roles (`agents/`)
 | Role | Mode | Memory |

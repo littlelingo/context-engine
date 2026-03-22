@@ -1,4 +1,4 @@
-# /ce-implement - Phase 3: Execute Implementation
+# /implement - Phase 3: Execute Implementation
 
 Execute the PRP using an Agent Team for parallel step execution.
 
@@ -73,7 +73,7 @@ Execute the PRP using an Agent Team for parallel step execution.
    - Capture learnings: errors to `.context/errors/`, patterns to `.context/patterns/`, insights to `.context/knowledge/LEARNINGS.md`
    ```
    All steps complete.
-   Next: /clear then /ce-validate [PRP path]
+   Next: /clear then /validate [PRP path]
    ```
 
 ## Resuming
@@ -88,8 +88,8 @@ When steps are already marked `[x]`: read PRP, summarize progress, pick up remai
 - Use delegate mode (Shift+Tab) so the lead coordinates instead of implementing.
 - Capture errors immediately when resolved.
 - No scope creep. Note extras in PRP NOTES.md.
-- Clean up team (shut down all teammates) before handing off to `/ce-validate`.
-- Hand off to `/ce-validate` when done.
+- Clean up team (shut down all teammates) before handing off to `/validate`.
+- Hand off to `/validate` when done.
 
 ## User Input
 $ARGUMENTS

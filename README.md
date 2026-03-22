@@ -9,8 +9,8 @@ A reusable contextual engineering framework for Claude Code. Structured workflow
 ./install.sh /path/to/your/project
 cd /path/to/your/project
 claude
-/ce-init                   # auto-detect project, populate .context/
-/ce-research [feature]     # begin first feature
+/init                   # auto-detect project, populate .context/
+/research [feature]     # begin first feature
 ```
 
 ### Option B: Plugin Install (recommended for personal use)
@@ -22,7 +22,7 @@ claude
 /plugin install context-engine@context-engine
 
 # In any project:
-/context-engine:ce-init
+/context-engine:init
 ```
 
 See `docs/PLUGIN.md` for full plugin distribution guide.
@@ -46,9 +46,9 @@ Commands choose Agent Teams or subagents based on task complexity. Each command 
 ```
 .claude/
   agents/          researcher, planner, implementer, reviewer, debugger
-  commands/        ce-init, ce-research, ce-plan, ce-plan-quick,
-                   ce-implement, ce-validate, ce-debug, ce-refactor,
-                   ce-status, ce-resume, ce-learn, ce-update-arch
+  commands/        init, research, plan, plan-quick,
+                   implement, validate, debug, refactor,
+                   status, resume, learn, update-arch
   skills/          18 progressive-disclosure skills (context-system,
                    testing, api, git, database, auth, deployment,
                    react, python, postgres, redis, ruby, context7,
@@ -79,21 +79,21 @@ docs/PLUGIN.md         Plugin distribution guide
 
 | Command | Phase | Purpose |
 |---------|-------|---------|
-| `/ce-init` | Setup | Bootstrap `.context/` |
-| `/ce-research` | 1 | Explore codebase |
-| `/ce-plan` | 2 | Create PRP with testing strategy prompt |
-| `/ce-plan-quick` | 2 (lite) | Quick plan for small tasks |
-| `/ce-implement` | 3 | Agent Team for parallel steps, or subagent for sequential |
-| `/ce-validate` | 4 | Agent Team for parallel review, or subagent for small changes |
-| `/ce-debug` | Any | Agent Team for parallel hypothesis testing, or subagent |
-| `/ce-refactor` | Any | Agent Team for multi-track refactors, or subagent |
-| `/ce-status` | Any | Project briefing and onboarding (read-only) |
-| `/ce-resume` | Any | Reload after `/clear` |
-| `/ce-learn` | Any | Route knowledge to deep reference (libraries, stack, dependencies, insights) |
-| `/ce-knowledge` | Any | Browse, search, promote knowledge base |
-| `/ce-checkpoint` | Any | Create, list, rollback hybrid checkpoints (git tag + .context/ snapshot) |
-| `/ce-health` | Any | Metrics dashboard: velocity, errors, knowledge, agents, context efficiency |
-| `/ce-update-arch` | Any | Refresh architecture docs |
+| `/init` | Setup | Bootstrap `.context/` |
+| `/research` | 1 | Explore codebase |
+| `/plan` | 2 | Create PRP with testing strategy prompt |
+| `/plan-quick` | 2 (lite) | Quick plan for small tasks |
+| `/implement` | 3 | Agent Team for parallel steps, or subagent for sequential |
+| `/validate` | 4 | Agent Team for parallel review, or subagent for small changes |
+| `/debug` | Any | Agent Team for parallel hypothesis testing, or subagent |
+| `/refactor` | Any | Agent Team for multi-track refactors, or subagent |
+| `/status` | Any | Project briefing and onboarding (read-only) |
+| `/resume` | Any | Reload after `/clear` |
+| `/learn` | Any | Route knowledge to deep reference (libraries, stack, dependencies, insights) |
+| `/knowledge` | Any | Browse, search, promote knowledge base |
+| `/checkpoint` | Any | Create, list, rollback hybrid checkpoints (git tag + .context/ snapshot) |
+| `/health` | Any | Metrics dashboard: velocity, errors, knowledge, agents, context efficiency |
+| `/update-arch` | Any | Refresh architecture docs |
 
 ## Orchestration
 
@@ -125,7 +125,7 @@ Configurable per-project (CLAUDE.md default) and per-plan (PRP header override).
 | `implement-then-test` | General development (default). |
 | `tests-optional` | Spikes, prototypes, exploration. |
 
-During `/ce-plan`, you're prompted to choose. The implementer and reviewer both respect the choice. Validation is always mandatory regardless of strategy.
+During `/plan`, you're prompted to choose. The implementer and reviewer both respect the choice. Validation is always mandatory regardless of strategy.
 
 ## Auto-Learning
 
@@ -135,7 +135,7 @@ Learning is automatic by default:
 
 **Agent memory** - All five roles persist knowledge across sessions. The researcher maps the codebase, the implementer remembers what works, the reviewer tracks recurring issues.
 
-**Deep knowledge layer** - Hybrid capture model. The implementer and debugger auto-capture library quirks, version pins, and stack recipes during work. Use `/ce-learn` for manual capture during research and planning. Knowledge is stored in `.context/knowledge/` with three tiers: quick insights (LEARNINGS.md), per-library reference (libraries/), stack config recipes (stack/), and dependency pins (dependencies/). Browse with `/ce-knowledge`.
+**Deep knowledge layer** - Hybrid capture model. The implementer and debugger auto-capture library quirks, version pins, and stack recipes during work. Use `/learn` for manual capture during research and planning. Knowledge is stored in `.context/knowledge/` with three tiers: quick insights (LEARNINGS.md), per-library reference (libraries/), stack config recipes (stack/), and dependency pins (dependencies/). Browse with `/knowledge`.
 
 ## Hooks (Enforced Gates)
 
@@ -155,11 +155,11 @@ Hooks are configured in `hooks/hooks.json` (plugin) or `.claude/settings.json` (
 
 ## Context Budget
 
-| Usage | Action |
-|-------|--------|
-| < 50% | Keep working |
-| 50-60% | Save state, prepare to clear |
-| > 60% | Stop, save, `/clear`, `/ce-resume` |
+| Usage  | Action                              |
+|--------|-------------------------------------|
+| < 50%  | Keep working                        |
+| 50-60% | Save state, prepare to clear        |
+| > 60%  | Stop, save, `/clear`, `/resume`     |
 
 ## Parallel Work
 
