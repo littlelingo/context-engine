@@ -1,15 +1,14 @@
 {
   "name": "context-engine",
   "owner": {
-    "name": "Context Engine",
-    "url": "https://github.com/context-engine"
+    "name": "Context Engine"
   },
   "plugins": [
     {
       "name": "context-engine",
       "version": "0.0.1",
       "description": "Agentic orchestration framework - Agent Teams, subagents, progressive-disclosure skills, hooks, checkpoints, deep knowledge layer, and metrics.",
-      "source": ".",
+      "source": "./",
       "category": "development",
       "tags": [
         "orchestration",
