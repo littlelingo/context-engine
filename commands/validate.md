@@ -5,20 +5,18 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
 ## Process
 
 1. **Load PRP** from `$ARGUMENTS` (or find most recent IN_PROGRESS PRP).
-2. **Check testing strategy**: PRP field -> CLAUDE.md default -> `implement-then-test`.
+2. **Check testing strategy**: Follow testing strategy from PRP field or CLAUDE.md default.
 3. **Checkpoint** (trigger: phase-boundary): Create checkpoint `CP-NNN: pre-validate [feature-name]`. Snapshot .context/ state, tag current git state.
 4. **Run validation checklist** from the PRP (tests, lint, type-check, manual steps).
 
 5. **Create review Agent Team** (for substantial changes - 3+ files or critical features):
 
-   **Checkpoint** (trigger: pre-agent-team): Create checkpoint `CP-NNN: pre-review-team [feature-name]` before spawning review teammates.
-
    Create an agent team to review the changes from the PRP at [PRP path].
 
    Spawn these teammates:
-   - **Code reviewer**: Review all changes for correctness, pattern compliance, edge cases. Read `.context/patterns/CODE_PATTERNS.md` and `ANTI_PATTERNS.md`. Check against 300-line file limit. Report findings as critical/warning/suggestion with exact file:line references.
-   - **Security reviewer**: Run the 6-point security checklist on all changes - input validation, auth, data exposure, injection, dependencies, error handling. Report any findings with severity.
-   - **Simplification reviewer**: Look at changes holistically for dead code, duplication, over-abstraction (interfaces with one consumer), unnecessary complexity, and consolidation opportunities. Suggest specific simplifications.
+   - **Code reviewer**: Review all changes for correctness, pattern compliance, edge cases per CODE_PATTERNS.md and ANTI_PATTERNS.md. Report as critical/warning/suggestion with file:line references.
+   - **Security reviewer**: Run security review per reviewer agent protocol. Report findings with severity.
+   - **Simplification reviewer**: Identify dead code, duplication, over-abstraction, and consolidation opportunities. Suggest specific simplifications.
 
    Each reviewer reports findings independently. The lead synthesizes into a unified review.
 
@@ -40,25 +38,8 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
 10. **Update PRP status** to COMPLETE. Update FEATURES.md.
 
 11. **Capture feature metrics** (auto - append to `.context/metrics/HEALTH.md`):
-    - **Velocity**: Read PRP creation date (from git log or file metadata), today's date = validate date. Count total steps, count `/clear` commands in this feature's history (estimate from checkpoint count). Append row to Feature Velocity table.
-    - **Error tracking**: Count errors added to INDEX.md during this feature. Check if any were hits (known fix applied from index) vs novel. Update error counters.
-    - **Knowledge growth**: Count entries added to knowledge/ during this feature (diff LEARNINGS.md, libraries/, stack/, PINS.md). Append row to Knowledge Growth table.
-    - **Context efficiency**: Count checkpoints created during this feature (from MANIFEST.md). Count clears (estimate from checkpoint gaps). Append row to Context Efficiency table.
-    - **Agent effectiveness**: Increment team/subagent counters based on what was used during implement and validate.
-    - **Write per-PRP metrics block** at the bottom of the PRP file:
-      ```
-      ## Metrics
-      - Plan date: [YYYY-MM-DD]
-      - Validate date: [YYYY-MM-DD]
-      - Elapsed: [N days]
-      - Steps: [completed/total]
-      - Testing strategy: [strategy]
-      - Errors encountered: [N] (N novel, N hits)
-      - Knowledge captured: [N entries]
-      - Checkpoints created: [N]
-      - Clears: [estimated N]
-      - Execution mode: [Agent Team / Subagent]
-      ```
+    Append per-PRP metrics to HEALTH.md across all 5 categories: velocity (plan date, validate date, elapsed, steps), error tracking (novel vs hits), knowledge growth (entries added), context efficiency (checkpoints, clears), agent effectiveness (team vs subagent).
+    Write a `## Metrics` block at the PRP bottom with: plan date, validate date, elapsed, steps, strategy, errors, knowledge entries, checkpoints, clears, execution mode.
 
 12. **Checkpoint** (trigger: phase-boundary): Create checkpoint `CP-NNN: post-validate [feature-name]`. This captures the fully validated state before commit.
 
@@ -86,22 +67,15 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
 
       PRP: .context/features/[NNN]-[name]/PRP.md
 
-    Options:
-    1. Commit only
-    2. Commit + create PR
-    3. Edit the message
-    4. Skip (I'll handle it manually)
+    Commit + PR? (y / commit-only / skip)
     ```
 
-    Option 2: Generate PR description from PRP, diff, and review report. Use `gh pr create` or `glab mr create`.
+    If PR: Generate PR description from PRP, diff, and review report. Use `gh pr create` or `glab mr create`.
 
 ## Rules
-- Use Agent Team for review when 3+ files changed or feature is critical. Use `reviewer` subagent for smaller changes.
-- Each review teammate focuses on ONE concern (code quality, security, simplification) - no overlap.
-- Clean up team before capture/commit steps.
-- Always capture learnings. This is the ROI of the system.
+- Always capture learnings - this is the ROI of the system.
 - Always ask before committing or creating a PR.
-- If fixes are complex, save state and start a new `/implement` cycle.
+- If fixes are complex, start a new `/implement` cycle.
 
 ## User Input
 $ARGUMENTS

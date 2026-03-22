@@ -26,7 +26,8 @@
 
 ## Workflow
 
-`/init` (once) -> `/research` -> `/plan` -> `/clear` -> `/implement` -> `/clear` -> `/validate` -> commit/PR
+`/init` (once) -> `/research` -> `/plan` -> `/implement` -> `/validate` -> commit/PR
+Insert `/clear` + `/resume` between any phases when context > 50%.
 
 | Phase | Command | Delegation |
 |-------|---------|-----------|

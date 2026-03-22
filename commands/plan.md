@@ -9,34 +9,27 @@ If no research exists, recommend `/research` first.
 1. **Load context**: Read `$ARGUMENTS` (research notes), plus `.context/architecture/OVERVIEW.md`, `.context/patterns/CODE_PATTERNS.md`, `.context/errors/INDEX.md`
 2. **MUST delegate**: Use the `planner` agent to create the PRP. The planner owns the PRP template.
 3. **Review**: Verify file paths are specific, steps are ordered by dependency, validation criteria are runnable.
-4. **Ask testing strategy**:
-   ```
-   Which testing strategy for this feature?
-   1. test-first - TDD, tests before code
-   2. implement-then-test - Code first, then tests
-   3. tests-optional - Defer tests (spikes/prototypes)
-   4. Use project default ([read from CLAUDE.md])
-   ```
-   Record choice in the PRP's `## Testing Strategy:` field.
+4. **Ask testing strategy**: "Testing strategy: [project default from CLAUDE.md]. Override? (y/N)". Only show full options if user says yes. Record choice in PRP's `## Testing Strategy:` field.
 5. **Get approval**: Present PRP to user, iterate on feedback.
-6. **Save**: Write to `.context/features/[NNN]-[feature-name]/PRP.md`
-7. **Checkpoint**: Create checkpoint `CP-NNN: post-plan [feature-name]` (trigger: phase-boundary). See `/checkpoint create` for the process - snapshot .context/ state and create git tag.
-8. **Update feature index**: Add a row to `.context/features/FEATURES.md`:
-   `| [NNN] | [feature-name] | PLANNING | [strategy] | .context/features/[NNN]-[name]/PRP.md |`
-9. **Reflect**: Capture any new decisions (ADR), risks, or patterns discovered during planning.
-10. **Hand off**:
+6. **Save**: Write PRP to the same feature directory as the research notes (e.g., `.context/features/[NNN]-[topic]/PRP.md`). Rename the directory if the feature name evolved during planning.
+7. **Update PRP status** to `APPROVED`. Update `## Status:` field in the PRP.
+8. **Checkpoint**: Create checkpoint `CP-NNN: post-plan [feature-name]` (trigger: phase-boundary). See `/checkpoint create` for the process - snapshot .context/ state and create git tag.
+9. **Update feature index**: Add a row to `.context/features/FEATURES.md`:
+   `| [NNN] | [feature-name] | APPROVED | [strategy] | .context/features/[NNN]-[name]/PRP.md |`
+10. **Reflect**: Capture any new decisions (ADR), risks, or patterns discovered during planning.
+11. **Hand off**:
    ```
    PRP saved to: [path]
    Testing strategy: [choice]
-   Next: /clear then /implement [path]
+   Next: /implement [path] (run /clear first if context > 50%)
    ```
 
 ## Rules
 - No code. Planning only.
-- Always ask user to choose testing strategy before finalizing.
+- Always confirm testing strategy before finalizing.
 - Always hand off with the exact `/implement` command.
 - If complexity is HIGH, break into multiple PRPs.
-- If context > 50%, save PRP and recommend `/clear`.
+- Monitor context budget per CLAUDE.md thresholds.
 
 ## User Input
 $ARGUMENTS
