@@ -3,3 +3,4 @@ CLAUDE.local.md
 .DS_Store
 Thumbs.db
 # Edit .gitignore, remove the "dist/" line
+PUBLISH-PLAN.md
