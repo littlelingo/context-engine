@@ -25,36 +25,7 @@ mkdir -p "$OUTPUT/hooks/scripts"
 mkdir -p "$OUTPUT/context-templates"
 mkdir -p "$OUTPUT/docs"
 
-# 1. Plugin manifest
-cat > "$OUTPUT/.claude-plugin/plugin.json" << 'MANIFEST'
-{
-  "name": "context-engine",
-  "version": "0.0.1",
-  "description": "Agentic orchestration framework for Claude Code. Agent Teams, subagents, progressive-disclosure skills, hooks, checkpoints, knowledge layer, and metrics.",
-  "author": {
-    "name": "Context Engine",
-    "url": "https://github.com/context-engine/context-engine"
-  },
-  "license": "MIT",
-  "keywords": [
-    "context-engineering",
-    "agent-teams",
-    "orchestration",
-    "skills",
-    "hooks",
-    "knowledge-management",
-    "checkpoints",
-    "metrics"
-  ],
-  "skills": "./skills/",
-  "commands": "./commands/",
-  "agents": "./agents/",
-  "mcpServers": "./.mcp.json"
-}
-MANIFEST
-
-# 2. Copy commands (strip ce- prefix for plugin namespacing)
-# Plugin commands become /context-engine:init, /context-engine:plan, etc.
+# 1. Copy commands
 echo "Copying commands..."
 COMMAND_COUNT=0
 for cmd in "$SCRIPT_DIR/.claude/commands/"*.md; do
@@ -64,7 +35,7 @@ for cmd in "$SCRIPT_DIR/.claude/commands/"*.md; do
 done
 echo "  $COMMAND_COUNT commands"
 
-# 3. Copy agents
+# 2. Copy agents
 echo "Copying agents..."
 AGENT_COUNT=0
 for agent in "$SCRIPT_DIR/.claude/agents/"*.md; do
@@ -84,7 +55,39 @@ for skill_dir in "$SCRIPT_DIR/.claude/skills/"*/; do
 done
 echo "  $SKILL_COUNT skills"
 
-# 5. Build hooks/hooks.json from settings.json hooks config
+# 5. Generate plugin manifest (must be after copies - agents/commands need array of file paths)
+echo "Building manifest..."
+python3 -c "
+import json, os
+os.chdir('$OUTPUT')
+
+agents = sorted(['./agents/' + f for f in os.listdir('agents') if f.endswith('.md')])
+commands = sorted(['./commands/' + f for f in os.listdir('commands') if f.endswith('.md')])
+
+manifest = {
+    'name': 'context-engine',
+    'version': '$VERSION',
+    'description': 'Agentic orchestration framework for Claude Code. Agent Teams, subagents, progressive-disclosure skills, hooks, checkpoints, knowledge layer, and metrics.',
+    'author': {
+        'name': 'Context Engine',
+        'url': 'https://github.com/context-engine/context-engine'
+    },
+    'license': 'MIT',
+    'keywords': [
+        'context-engineering', 'agent-teams', 'orchestration', 'skills',
+        'hooks', 'knowledge-management', 'checkpoints', 'metrics'
+    ],
+    'skills': './skills/',
+    'commands': commands,
+    'agents': agents,
+    'mcpServers': './.mcp.json'
+}
+
+json.dump(manifest, open('.claude-plugin/plugin.json', 'w'), indent=2)
+print('  plugin.json:', len(agents), 'agents,', len(commands), 'commands, skills dir')
+"
+
+# 6. Build hooks/hooks.json from settings.json hooks config
 echo "Building hooks..."
 python3 -c "
 import json, os
