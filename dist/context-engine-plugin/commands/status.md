@@ -14,44 +14,9 @@ This command is read-only. It doesn't modify anything.
    - `.context/errors/INDEX.md` - number of known error patterns
    - `.context/patterns/CODE_PATTERNS.md` - number of documented patterns
 
-2. **Present a briefing**:
-   ```
-   ## Project Status
+2. **Present a briefing** covering: project summary, tech stack, features (completed/in-progress/planned with current step), last 3-5 learnings, knowledge base counts (patterns, errors, ADRs), and next action (resume command or research suggestion).
 
-   **What this is**: [1-2 sentence summary from OVERVIEW.md]
-   **Tech stack**: [key technologies from TECH_STACK.md]
-
-   ### Features
-   **Completed**: [N features]
-   [list completed features from FEATURES.md]
-
-   **In Progress**: [N features]
-   [list in-progress features with current step]
-
-   **Planned**: [N features]
-   [list planned/approved features not yet started]
-
-   ### Recent Activity
-   [Last 3-5 learnings from LEARNINGS.md, most recent first]
-
-   ### Knowledge Base
-   - [N] code patterns documented
-   - [N] anti-patterns documented
-   - [N] known error patterns captured
-   - [N] architecture decision records
-
-   ### Quick Start
-   [If there's an IN_PROGRESS feature]:
-     Resume: /implement [PRP path]
-   [If not]:
-     Start: /research [next topic]
-   ```
-
-3. **If `$ARGUMENTS` contains "onboard" or "new"**: Also include:
-   - Key dev commands from TECH_STACK.md (test, lint, build)
-   - Top 3 most important code patterns
-   - Top 3 most common error patterns
-   - Architecture component map
+3. **If `$ARGUMENTS` contains "onboard" or "new"**: Also include key dev commands, top 3 code patterns, top 3 error patterns, and architecture component map.
 
 ## Rules
 - Read-only. Don't modify any files.

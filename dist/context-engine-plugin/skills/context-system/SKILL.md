@@ -1,30 +1,13 @@
 ---
-description: Context Engine framework reference. Auto-loaded when working with .context/, agents, commands, or hooks. The full system reference.
+description: Context Engine framework reference. Auto-loaded when working with .context/, agents, commands, or hooks. Supplements CLAUDE.md with role and skill details.
 ---
 
-# Context Engine - Full Reference
+# Context Engine - Supplemental Reference
 
-## Commands
-| Command | Delegation | Purpose |
-|---------|-----------|---------|
-| `/init` | Direct | Bootstrap `.context/`, detect stack, set testing strategy |
-| `/research` | Subagent (researcher) | Explore codebase, gather context |
-| `/plan` | Subagent (planner) | Create PRP from requirements |
-| `/plan-quick` | Subagent (researcher) | Quick plan for small tasks |
-| `/implement` | Agent Team (3+ steps) or subagent | Execute PRP steps per strategy |
-| `/validate` | Agent Team (3+ files) or subagent | Review, simplify, capture learnings |
-| `/debug` | Agent Team (complex) or subagent | Diagnose and fix bugs |
-| `/refactor` | Agent Team (3+ tracks) or subagent | Restructure code safely |
-| `/status` | Direct | Project briefing (read-only) |
-| `/resume` | Direct | Reload after `/clear` |
-| `/learn` | Direct | Manual capture to .context/ (routes to deep knowledge) |
-| `/knowledge` | Direct | Browse, search, promote knowledge base |
-| `/checkpoint` | Direct | Create, list, rollback, clean checkpoints |
-| `/health` | Direct | Metrics dashboard and deep analysis |
-| `/update-arch` | Subagent (researcher) | Refresh architecture docs |
+> Commands, workflow, hooks, testing strategy, and context budget are in CLAUDE.md (always loaded). This skill adds role and skill details only.
 
 ## Roles (`agents/`)
-| Role | Mode | Memory |
+| Role | Mode | Memory Focus |
 |------|------|--------|
 | `researcher` | Subagent | Codebase structure |
 | `planner` | Subagent | Estimation, approaches |
@@ -54,24 +37,3 @@ description: Context Engine framework reference. Auto-loaded when working with .
 | `postgres-mcp` | .sql, migrations/, db/ | Live database queries via MCP |
 | `google-workspace` | spreadsheet, gdoc, gsheet | Google Docs/Sheets/Drive via MCP |
 | `knowledge-base` | .context/knowledge/, package.json | Deep knowledge layer management |
-
-## Hooks (`hooks/`)
-| Hook | Event | Enforcement |
-|------|-------|------------|
-| `guard-protected-files` | PreToolUse | Blocks .env, lockfiles, .git/ |
-| `block-destructive` | PreToolUse | Blocks rm -rf, DROP TABLE |
-| `auto-format` | PostToolUse | Runs formatter after edits |
-| `preserve-context` | PreCompact | Saves PRP/branch/progress |
-| `capture-learnings` | Stop | Reminds if .context/ not updated |
-| `verify-agent-output` | SubagentStop | Flags empty implementer runs |
-| `session-track` | UserPromptSubmit | Session marker for other hooks |
-
-## Handoffs
-init -> research -> plan [notes] -> /clear -> implement [PRP] -> /clear -> validate [PRP] -> commit/PR
-
-## Testing Strategy
-PRP field -> CLAUDE.md default -> `implement-then-test`
-Options: `test-first` | `implement-then-test` | `tests-optional`
-
-## Context Budget
-< 50% keep working | 50-60% save + clear | > 60% stop + clear + resume

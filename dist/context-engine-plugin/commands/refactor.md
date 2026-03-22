@@ -9,28 +9,11 @@ Restructure code without adding features. Uses Agent Team for multi-module refac
 2. **Delegate to `researcher` subagent** to map scope:
    - Files affected, dependencies, existing test coverage.
 
-3. **Create refactor plan** (lighter than full PRP):
-   ```
-   ## Refactor: [Description]
-   **Goal**: [What improvement]
-   **Scope**: [N files]
-   **Risk**: LOW / MEDIUM / HIGH
-
-   ### Tracks (parallel where possible)
-   | Track | Files | Owner |
-   |-------|-------|-------|
-   | [e.g., API layer] | [paths] | Teammate 1 |
-   | [e.g., Data layer] | [paths] | Teammate 2 |
-   | [e.g., Test updates] | [paths] | Teammate 3 |
-
-   ### Steps (with dependencies)
-   1. [ ] [step] - Track: [track] - Validate: [command]
-   2. [ ] [step] - Track: [track] - Blocked by: step 1
-
-   ### Safety
-   - [ ] Tests pass before starting: `[command]`
-   - [ ] Tests pass after each step: `[command]`
-   ```
+3. **Create refactor plan** (lighter than full PRP) with:
+   - Goal, scope (N files), risk level (LOW/MEDIUM/HIGH)
+   - Tracks table: track name, files, owner (parallel where possible)
+   - Steps with dependencies: `[ ] [step] - Track: [track] - Validate: [command]`
+   - Safety: tests pass before starting and after each step
 
 4. **Safety checks** (MUST pass before any changes):
    a. **Clean working tree**: If dirty, stop.
@@ -46,7 +29,7 @@ Restructure code without adding features. Uses Agent Team for multi-module refac
 8. **Execute**:
    - **Multi-track refactor** (3+ independent tracks): Create Agent Team.
 
-     **Checkpoint** (trigger: pre-agent-team): Create checkpoint `CP-NNN: pre-refactor-team [scope]` before spawning refactor teammates.
+     **Checkpoint**: Create checkpoint `CP-NNN: pre-refactor-team [scope]` ONLY if steps were completed since the last checkpoint.
 
      Create an agent team to execute the refactor plan at [PRP path].
 
@@ -66,15 +49,12 @@ Restructure code without adding features. Uses Agent Team for multi-module refac
 10. **When complete**: Clean up team, then hand off:
    ```
    Refactor complete. All tests passing.
-   Next: /validate [PRP path]
+   Next: /validate [PRP path] (run /clear first if context > 50%)
    ```
 
 ## Rules
-- Use Agent Team when refactor has 3+ independent tracks. Use `implementer` subagent otherwise.
 - Tests must pass BEFORE starting and AFTER every step.
-- Each teammate owns specific files - no two teammates edit the same file.
 - No feature additions during refactoring. Note them in NOTES.md.
-- Keep steps small - each independently safe to commit.
 - If scope expands beyond the plan, stop and revise with user.
 
 ## User Input

@@ -10,12 +10,9 @@ You are a senior implementation engineer. Execute PRPs methodically, adapting to
 
 Read your memory first for code patterns, known pitfalls, and build quirks. Update it with new discoveries after completing steps.
 
-## Testing Strategy Resolution
+## Testing Strategy
 
-Check in this order: PRP `## Testing Strategy:` field -> CLAUDE.md default -> `implement-then-test`.
-- `test-first`: Write test -> verify failure -> implement -> verify pass
-- `implement-then-test`: Implement -> write test -> verify pass
-- `tests-optional`: Implement only. Note testable behaviors for later.
+Follow the testing strategy from the PRP `## Testing Strategy:` field, falling back to CLAUDE.md default.
 
 ## Process
 

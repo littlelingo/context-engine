@@ -4,11 +4,11 @@
 # so the agent retains project awareness after context is compressed.
 # Matcher: (none - fires on all compaction events)
 
-# Find active PRP (IN_PROGRESS status)
+# Find active PRP (APPROVED or IN_PROGRESS status)
 ACTIVE_PRP=""
 ACTIVE_FEATURE=""
 if [ -d ".context/features" ]; then
-    ACTIVE_PRP=$(grep -rl "Status: IN_PROGRESS" .context/features/*/PRP.md 2>/dev/null | head -1)
+    ACTIVE_PRP=$(grep -rl "Status: IN_PROGRESS\|Status: APPROVED" .context/features/*/PRP.md 2>/dev/null | head -1)
     if [ -n "$ACTIVE_PRP" ]; then
         ACTIVE_FEATURE=$(basename "$(dirname "$ACTIVE_PRP")")
     fi
@@ -31,7 +31,7 @@ if [ -n "$ACTIVE_PRP" ]; then
     CONTEXT="$CONTEXT\n- Active PRP: $ACTIVE_PRP ($DONE/$TOTAL steps complete)"
     CONTEXT="$CONTEXT\n- Feature: $ACTIVE_FEATURE"
     CONTEXT="$CONTEXT\n- Testing strategy: $STRATEGY"
-    CONTEXT="$CONTEXT\n- To resume: /implement $ACTIVE_PRP"
+    CONTEXT="$CONTEXT\n- To resume: /resume"
 else
     CONTEXT="$CONTEXT\n- No active PRP found"
     CONTEXT="$CONTEXT\n- To check status: /status"

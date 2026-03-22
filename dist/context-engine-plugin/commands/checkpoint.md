@@ -68,20 +68,6 @@ Parse `$ARGUMENTS` to determine the action:
    - Remove entry from MANIFEST.md
 4. Report: "Removed N checkpoints. Kept last M."
 
-## Snapshot Contents
-
-Each `.context/checkpoints/CP-NNN/` contains:
-```
-snapshot-meta.json       Timestamp, branch, SHA, PRP path, progress, trigger
-PRP.md                   Copy of active PRP (if any)
-LEARNINGS.md             Copy of knowledge/LEARNINGS.md
-PINS.md                  Copy of knowledge/dependencies/PINS.md
-INDEX.md                 Copy of errors/INDEX.md
-FEATURES.md              Copy of features/FEATURES.md
-```
-
-Only files that exist are copied. Missing files are noted in snapshot-meta.json.
-
 ## Safety Rules
 - Full rollback requires explicit confirmation ("yes, discard all changes")
 - Never rollback if there are uncommitted changes AND the user chose full rollback - warn and require stash or commit first

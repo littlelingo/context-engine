@@ -45,16 +45,6 @@ Parse `$ARGUMENTS` to determine the action:
 3. Check for empty or stale knowledge files
 4. Report recommendations
 
-## Output Format
-```
-## Knowledge Base Status
-**Libraries**: N files ([names])
-**Stack Recipes**: N files ([names])
-**Dependency Pins**: N entries
-**Quick Insights**: N entries in LEARNINGS.md
-**Promotion candidates**: [libraries mentioned 3+ times in LEARNINGS.md]
-```
-
 ## Rules
 - Read-only by default - only `promote` and `cleanup` modify files
 - Search is case-insensitive and searches file contents, not just names
