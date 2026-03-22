@@ -55,14 +55,10 @@ for skill_dir in "$SCRIPT_DIR/.claude/skills/"*/; do
 done
 echo "  $SKILL_COUNT skills"
 
-# 5. Generate plugin manifest (must be after copies - agents/commands need array of file paths)
+# 5. Generate plugin manifest (minimal - rely on auto-discovery for components)
 echo "Building manifest..."
 python3 -c "
-import json, os
-os.chdir('$OUTPUT')
-
-agents = sorted(['./agents/' + f for f in os.listdir('agents') if f.endswith('.md')])
-commands = sorted(['./commands/' + f for f in os.listdir('commands') if f.endswith('.md')])
+import json
 
 manifest = {
     'name': 'context-engine',
@@ -76,15 +72,11 @@ manifest = {
     'keywords': [
         'context-engineering', 'agent-teams', 'orchestration', 'skills',
         'hooks', 'knowledge-management', 'checkpoints', 'metrics'
-    ],
-    'skills': './skills/',
-    'commands': commands,
-    'agents': agents,
-    'mcpServers': './.mcp.json'
+    ]
 }
 
-json.dump(manifest, open('.claude-plugin/plugin.json', 'w'), indent=2)
-print('  plugin.json:', len(agents), 'agents,', len(commands), 'commands, skills dir')
+json.dump(manifest, open('$OUTPUT/.claude-plugin/plugin.json', 'w'), indent=2)
+print('  plugin.json generated (auto-discovery for components)')
 "
 
 # 6. Build hooks/hooks.json from settings.json hooks config

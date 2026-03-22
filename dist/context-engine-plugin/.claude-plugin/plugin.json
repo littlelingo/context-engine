@@ -16,31 +16,5 @@
     "knowledge-management",
     "checkpoints",
     "metrics"
-  ],
-  "skills": "./skills/",
-  "commands": [
-    "./commands/ce-checkpoint.md",
-    "./commands/ce-debug.md",
-    "./commands/ce-health.md",
-    "./commands/ce-implement.md",
-    "./commands/ce-init.md",
-    "./commands/ce-knowledge.md",
-    "./commands/ce-learn.md",
-    "./commands/ce-plan-quick.md",
-    "./commands/ce-plan.md",
-    "./commands/ce-refactor.md",
-    "./commands/ce-research.md",
-    "./commands/ce-resume.md",
-    "./commands/ce-status.md",
-    "./commands/ce-update-arch.md",
-    "./commands/ce-validate.md"
-  ],
-  "agents": [
-    "./agents/debugger.md",
-    "./agents/implementer.md",
-    "./agents/planner.md",
-    "./agents/researcher.md",
-    "./agents/reviewer.md"
-  ],
-  "mcpServers": "./.mcp.json"
+  ]
 }
