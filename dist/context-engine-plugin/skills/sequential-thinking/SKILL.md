@@ -1,9 +1,5 @@
 ---
 description: Sequential thinking for structured problem decomposition. Use for complex planning, debugging, and architectural decisions where step-by-step reasoning with revision and branching helps.
-globs:
-  - ".context/features/*/PRP.md"
-  - ".context/decisions/ADR-*.md"
-  - ".context/errors/**"
 ---
 
 # Sequential Thinking MCP

@@ -103,7 +103,7 @@ Two modes. Commands pick automatically based on complexity.
 
 **Subagents** - Used by research, plan, and as fallback for small tasks. Single specialist works in isolated context, returns summary. Cheaper, simpler, best for focused sequential work.
 
-Five role definitions (`.claude/agents/`) serve as both subagent configs and teammate spawn templates:
+Five role definitions (`agents/`) serve as both subagent configs and teammate spawn templates:
 
 | Role | Agent Team | Subagent | Remembers |
 |------|-----------|----------|-----------|
@@ -151,7 +151,7 @@ Hooks are deterministic scripts that run at Claude Code lifecycle events. Unlike
 | `verify-agent-output` | SubagentStop | Flags if implementer completed without file changes |
 | `session-track` | UserPromptSubmit | Creates session marker for other hooks |
 
-Hooks are configured in `.claude/settings.json` and scripts live in `.claude/hooks/`. View active hooks with `/hooks`.
+Hooks are configured in `hooks/hooks.json` (plugin) or `.claude/settings.json` (local dev). Scripts live in `hooks/scripts/`. View active hooks with `/hooks`.
 
 ## Context Budget
 

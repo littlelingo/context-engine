@@ -1,14 +1,5 @@
 ---
 description: PostgreSQL patterns - queries, indexing, performance, maintenance. Auto-loaded when working with SQL files, database configs, or Postgres-specific code.
-globs:
-  - "**/*.sql"
-  - "**/db/**"
-  - "**/database/**"
-  - "**/postgres/**"
-  - "**/pg/**"
-  - "**/sql/**"
-  - "**/*repository*"
-  - "**/*dao*"
 ---
 
 # PostgreSQL

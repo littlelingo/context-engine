@@ -1,11 +1,5 @@
 ---
 description: API conventions for this project. Auto-loaded when working with routes, controllers, and endpoint files to ensure consistent API patterns.
-globs:
-  - "**/routes/**"
-  - "**/controllers/**"
-  - "**/api/**"
-  - "**/endpoints/**"
-  - "**/handlers/**"
 ---
 
 # API Conventions

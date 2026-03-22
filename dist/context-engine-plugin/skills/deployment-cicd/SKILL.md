@@ -1,20 +1,5 @@
 ---
 description: Deployment and CI/CD patterns - Docker, GitHub Actions, pipelines, infrastructure. Auto-loaded when working with deployment configs, workflows, or container files.
-globs:
-  - "Dockerfile*"
-  - "docker-compose*.yml"
-  - "docker-compose*.yaml"
-  - ".github/workflows/**"
-  - ".gitlab-ci.yml"
-  - "Jenkinsfile"
-  - "**/deploy/**"
-  - "**/infra/**"
-  - "**/terraform/**"
-  - "*.tf"
-  - "Procfile"
-  - "fly.toml"
-  - "vercel.json"
-  - "netlify.toml"
 ---
 
 # Deployment & CI/CD

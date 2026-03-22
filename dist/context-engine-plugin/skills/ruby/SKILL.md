@@ -1,17 +1,5 @@
 ---
 description: Ruby and Rails patterns - models, controllers, services, testing. Auto-loaded when working with Ruby files, Gemfiles, or Rails directories.
-globs:
-  - "**/*.rb"
-  - "**/*.erb"
-  - "**/*.haml"
-  - "Gemfile"
-  - "Gemfile.lock"
-  - "Rakefile"
-  - "config.ru"
-  - "**/config/**/*.rb"
-  - "**/app/**/*.rb"
-  - "**/spec/**/*_spec.rb"
-  - "**/test/**/*_test.rb"
 ---
 
 # Ruby & Rails

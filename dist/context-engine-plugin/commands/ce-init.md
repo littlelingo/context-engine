@@ -19,8 +19,8 @@ Bootstrap the context engineering system. Run this first on any new or existing 
    - `ANTI_PATTERNS.md`, `INDEX.md`, `LEARNINGS.md` - empty templates
    - `FEATURES.md` - empty feature index
 5. **Populate skills** based on what the researcher found:
-   - If test files detected: populate `.claude/skills/testing-conventions/SKILL.md` with detected test framework, file naming, structure patterns
-   - If API/route files detected: populate `.claude/skills/api-conventions/SKILL.md` with detected patterns for routes, middleware, error handling
+   - If test files detected: populate `skills/testing-conventions/SKILL.md` with detected test framework, file naming, structure patterns
+   - If API/route files detected: populate `skills/api-conventions/SKILL.md` with detected patterns for routes, middleware, error handling
    - If neither detected, leave skills as skeletons - they'll grow through auto-learning
 6. **Configure testing strategy**: Ask the user:
    ```

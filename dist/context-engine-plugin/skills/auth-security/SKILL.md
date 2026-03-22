@@ -1,15 +1,5 @@
 ---
 description: Authentication and security patterns - JWT, OAuth, sessions, RBAC, input validation. Auto-loaded when working with auth, middleware, or security files.
-globs:
-  - "**/auth/**"
-  - "**/authentication/**"
-  - "**/middleware/**"
-  - "**/security/**"
-  - "**/permissions/**"
-  - "**/rbac/**"
-  - "**/oauth/**"
-  - "**/jwt/**"
-  - "**/session/**"
 ---
 
 # Authentication & Security

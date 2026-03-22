@@ -1,14 +1,5 @@
 ---
 description: Redis patterns - caching, sessions, queues, pub/sub, rate limiting. Auto-loaded when working with cache, Redis, or queue-related files.
-globs:
-  - "**/cache/**"
-  - "**/redis/**"
-  - "**/queue/**"
-  - "**/celery/**"
-  - "**/worker/**"
-  - "**/jobs/**"
-  - "**/pubsub/**"
-  - "**/rate_limit*"
 ---
 
 # Redis

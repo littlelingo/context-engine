@@ -1,13 +1,5 @@
 ---
 description: Google Workspace operations via MCP - Docs, Sheets, Drive. Create, read, edit spreadsheets and documents directly from Claude Code.
-globs:
-  - "**/*spreadsheet*"
-  - "**/*google*sheet*"
-  - "**/*gdoc*"
-  - "**/*gsheet*"
-  - "**/*google*drive*"
-  - "**/*csv-export*"
-  - "**/*import*csv*"
 ---
 
 # Google Workspace MCP - Docs, Sheets & Drive

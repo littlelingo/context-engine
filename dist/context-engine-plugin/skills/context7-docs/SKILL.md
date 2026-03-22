@@ -1,12 +1,5 @@
 ---
 description: Library documentation lookup via Context7 MCP. Use when you need current docs for any library, framework, or API. Prevents hallucinated APIs by fetching real documentation.
-globs:
-  - "package.json"
-  - "requirements*.txt"
-  - "pyproject.toml"
-  - "Gemfile"
-  - "go.mod"
-  - "Cargo.toml"
 ---
 
 # Context7 Documentation Lookup

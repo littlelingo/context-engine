@@ -1,11 +1,5 @@
 ---
 description: Git workflow conventions - branching, commits, PRs, rebasing. Auto-loaded when working with git operations, merge conflicts, or PR-related files.
-globs:
-  - ".github/**"
-  - "**/.gitignore"
-  - "**/.gitattributes"
-  - "CHANGELOG.md"
-  - "CONTRIBUTING.md"
 ---
 
 # Git Workflow

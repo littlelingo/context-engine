@@ -1,17 +1,5 @@
 ---
 description: Database migration patterns and ORM conventions. Auto-loaded when working with schema changes, migrations, models, or SQL files.
-globs:
-  - "**/migrations/**"
-  - "**/migrate/**"
-  - "**/models/**"
-  - "**/schema/**"
-  - "**/*.sql"
-  - "**/alembic/**"
-  - "**/prisma/**"
-  - "**/drizzle/**"
-  - "**/knex/**"
-  - "**/sequelize/**"
-  - "**/typeorm/**"
 ---
 
 # Database Migrations

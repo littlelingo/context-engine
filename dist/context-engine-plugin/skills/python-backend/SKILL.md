@@ -1,19 +1,5 @@
 ---
 description: Python backend patterns - FastAPI, Django, Flask, project structure, async. Auto-loaded when working with Python backend files.
-globs:
-  - "**/views/**/*.py"
-  - "**/routers/**/*.py"
-  - "**/endpoints/**/*.py"
-  - "**/services/**/*.py"
-  - "**/schemas/**/*.py"
-  - "**/serializers/**/*.py"
-  - "manage.py"
-  - "app.py"
-  - "main.py"
-  - "wsgi.py"
-  - "asgi.py"
-  - "pyproject.toml"
-  - "requirements*.txt"
 ---
 
 # Python Backend

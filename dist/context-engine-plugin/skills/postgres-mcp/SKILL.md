@@ -1,13 +1,5 @@
 ---
 description: PostgreSQL database operations via MCP - schema inspection, live queries, EXPLAIN analysis. Use when you need to inspect the actual database state, verify migrations, or analyze query performance.
-globs:
-  - "**/*.sql"
-  - "**/migrations/**"
-  - "**/db/**"
-  - "**/database/**"
-  - "**/schema/**"
-  - "**/*repository*"
-  - "**/*dao*"
 ---
 
 # PostgreSQL MCP - Live Database Access

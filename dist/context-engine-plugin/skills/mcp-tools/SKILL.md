@@ -1,14 +1,10 @@
 ---
 description: MCP server integration catalog and configuration reference. Auto-loaded when working with MCP configs. Lists all available and recommended MCP servers with install commands.
-globs:
-  - ".mcp.json"
-  - "**/.mcp.json"
-  - "**/mcp/**"
 ---
 
 # MCP Server Catalog
 
-Check `.mcp.json` and `.claude/settings.json` for currently configured servers.
+Check `.mcp.json` for currently configured MCP servers.
 Skills with dedicated SKILL.md: `context7-docs`, `sequential-thinking`, `puppeteer`, `postgres-mcp`, `google-workspace`
 
 ## Recommended MCP Servers

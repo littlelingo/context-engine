@@ -61,9 +61,9 @@ Restructure code without adding features. Uses Agent Team for multi-module refac
 
    - **Single-track refactor**: Delegate to `implementer` subagent, one step at a time.
 
-8. **After each step/track**: Full test suite must pass. If anything breaks, stop and fix.
+9. **After each step/track**: Full test suite must pass. If anything breaks, stop and fix.
 
-9. **When complete**: Clean up team, then hand off:
+10. **When complete**: Clean up team, then hand off:
    ```
    Refactor complete. All tests passing.
    Next: /ce-validate [PRP path]

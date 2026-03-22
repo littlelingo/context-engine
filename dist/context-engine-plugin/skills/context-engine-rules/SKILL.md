@@ -1,12 +1,11 @@
 ---
+name: context-engine-rules
 description: Context Engine core rules. Always active when the plugin is installed.
-globs:
-  - "**/*"
 ---
 # CLAUDE.md - Context Engine
 
 > Context is the bottleneck, not intelligence. Skills load domain expertise on-demand.
-> This file stays lean - details live in `.claude/skills/` and `.claude/commands/`.
+> This file stays lean - details live in `skills/` and `commands/`.
 
 ## Project Knowledge
 
@@ -57,7 +56,7 @@ Checkpoints are created automatically at phase boundaries and before Agent Team 
 
 **Subagents**: Used by research, plan, and as fallback for small tasks. Single specialist, isolated context, returns summary.
 
-Roles (`.claude/agents/`): `researcher`, `planner`, `implementer`, `reviewer`, `debugger` - all with `memory: project`.
+Roles (`agents/`): `researcher`, `planner`, `implementer`, `reviewer`, `debugger` - all with `memory: project`.
 
 ## Testing Strategy
 **Default**: `implement-then-test` | Override per-plan in PRP header
@@ -69,16 +68,16 @@ Validation always runs regardless of strategy.
 - Public functions need docstrings/JSDoc
 - Conventional commits: `feat:`, `fix:`, `refactor:`, `docs:`, `test:`
 - Never implement on `main`/`master` - create feature branch first
-- Hooks auto-format files after every edit (`.claude/hooks/auto-format.sh`)
+- Hooks auto-format files after every edit (`hooks/scripts/auto-format.sh`)
 
 ## Hooks (Enforced Gates)
-Safety and quality rules enforced deterministically via `.claude/hooks/`:
+Safety and quality rules enforced deterministically via `hooks/`:
 - **PreToolUse**: Protected file guard, destructive command blocker
 - **PostToolUse**: Auto-formatter
 - **PreCompact**: PRP/branch/progress preservation
 - **Stop**: Learning capture reminder
 - **SubagentStop**: Agent output verification
-View: `/hooks` | Config: `.claude/settings.json`
+Config: `hooks/hooks.json` (plugin) / `.claude/settings.json` (local dev)
 
 ## Auto-Learning
 1. **Phase reflection** - Commands write to `.context/` before handing off
@@ -88,4 +87,4 @@ Manual: `/ce-learn` | Architecture refresh: `/ce-update-arch`
 
 ## Skills (Progressive Disclosure)
 Domain expertise loads on-demand when you touch relevant files. Not front-loaded.
-19 skills in `.claude/skills/` - check context-system skill for the full reference.
+19 skills in `skills/` - check context-system skill for the full reference.

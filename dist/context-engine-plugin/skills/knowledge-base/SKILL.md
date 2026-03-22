@@ -1,13 +1,5 @@
 ---
 description: Deep knowledge layer - project-specific library quirks, stack recipes, dependency notes. Auto-loaded when working with knowledge files or when implement/debug discovers something worth preserving.
-globs:
-  - ".context/knowledge/**"
-  - "package.json"
-  - "requirements*.txt"
-  - "pyproject.toml"
-  - "Gemfile"
-  - "go.mod"
-  - "Cargo.toml"
 ---
 
 # Deep Knowledge Layer

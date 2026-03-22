@@ -1,17 +1,5 @@
 ---
 description: React and frontend patterns - components, hooks, state management, performance. Auto-loaded when working with React/JSX/TSX files or frontend directories.
-globs:
-  - "**/*.tsx"
-  - "**/*.jsx"
-  - "**/components/**"
-  - "**/hooks/**"
-  - "**/pages/**"
-  - "**/app/**/*.tsx"
-  - "**/app/**/*.jsx"
-  - "**/styles/**"
-  - "tailwind.config.*"
-  - "next.config.*"
-  - "vite.config.*"
 ---
 
 # React & Frontend

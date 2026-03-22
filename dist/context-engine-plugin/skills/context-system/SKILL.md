@@ -1,11 +1,5 @@
 ---
 description: Context Engine framework reference. Auto-loaded when working with .context/, agents, commands, or hooks. The full system reference.
-globs:
-  - ".context/**/*"
-  - ".claude/agents/*"
-  - ".claude/commands/ce-*"
-  - ".claude/hooks/*"
-  - ".claude/skills/*/SKILL.md"
 ---
 
 # Context Engine - Full Reference
@@ -29,7 +23,7 @@ globs:
 | `/ce-health` | Direct | Metrics dashboard and deep analysis |
 | `/ce-update-arch` | Subagent (researcher) | Refresh architecture docs |
 
-## Roles (`.claude/agents/`)
+## Roles (`agents/`)
 | Role | Mode | Memory |
 |------|------|--------|
 | `researcher` | Subagent | Codebase structure |
@@ -61,7 +55,7 @@ globs:
 | `google-workspace` | spreadsheet, gdoc, gsheet | Google Docs/Sheets/Drive via MCP |
 | `knowledge-base` | .context/knowledge/, package.json | Deep knowledge layer management |
 
-## Hooks (`.claude/hooks/`)
+## Hooks (`hooks/`)
 | Hook | Event | Enforcement |
 |------|-------|------------|
 | `guard-protected-files` | PreToolUse | Blocks .env, lockfiles, .git/ |

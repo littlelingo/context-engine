@@ -110,12 +110,12 @@ Disable auto-compact: `/config` -> Auto-compact: false
 Happens by default. No manual action needed.
 - **Phase reflection**: Every command captures discoveries to `.context/`
 - **Agent memory**: Each agent persists knowledge across sessions
-- **Hooks**: Enforced gates at lifecycle events (`.claude/hooks/`)
+- **Hooks**: Enforced gates at lifecycle events (`hooks/`)
 - **Deep knowledge**: Implementer + debugger auto-capture library quirks, version pins, stack recipes
 - `/ce-learn` routes to deep knowledge files (prefix hints: `library quirk:`, `stack recipe:`, `dependency pin:`)
 - `/ce-knowledge` browses, searches, promotes knowledge base
 
-## Hooks (`.claude/hooks/`)
+## Hooks (`hooks/`)
 
 ```
 PreToolUse:   guard-protected-files   Blocks .env, lockfiles, .git/
