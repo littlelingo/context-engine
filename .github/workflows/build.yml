@@ -32,17 +32,23 @@ jobs:
           git add dist/
           git diff --staged --quiet || git commit -m "chore: rebuild plugin dist"
           git push
-      - name: Create tag and release
+      - name: Check if tag exists
+        id: tag_check
         run: |
           TAG="${{ steps.version.outputs.tag }}"
           if git rev-parse "$TAG" >/dev/null 2>&1; then
-            echo "Tag $TAG already exists, skipping release"
+            echo "exists=true" >> "$GITHUB_OUTPUT"
           else
-            git tag "$TAG"
-            git push origin "$TAG"
-            gh release create "$TAG" \
-              --title "Context Engine $TAG" \
-              --generate-notes
+            echo "exists=false" >> "$GITHUB_OUTPUT"
           fi
+      - name: Create tag and release
+        if: steps.tag_check.outputs.exists == 'false'
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          git tag "$TAG"
+          git push origin "$TAG"
+          gh release create "$TAG" \
+            --title "Context Engine $TAG" \
+            --generate-notes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
