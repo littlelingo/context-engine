@@ -70,6 +70,7 @@ Validation always runs regardless of strategy.
 - Conventional commits: `feat:`, `fix:`, `refactor:`, `docs:`, `test:`
 - Never implement on `main`/`master` - create feature branch first
 - Hooks auto-format files after every edit (`hooks/scripts/auto-format.sh`)
+- Agent memory lives at `.claude/agent-memory/` at the project root — never create `.claude` directories inside subdirectories
 
 ## Hooks (Enforced Gates)
 Safety and quality rules enforced deterministically via `hooks/`:

@@ -33,4 +33,15 @@ for pattern in "${PROTECTED[@]}"; do
     fi
 done
 
+# Block writes to nested .claude directories (memory must live at root .claude/)
+# Only check paths within the project tree (skip external paths like ~/.claude/)
+NORMALIZED="${FILE_PATH#$PWD/}"
+NORMALIZED="${NORMALIZED#./}"
+if [[ "$NORMALIZED" != /* ]]; then
+    if [[ "$NORMALIZED" == *"/.claude/"* ]] || [[ "$NORMALIZED" == *"/.claude" ]]; then
+        echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"Nested .claude directory detected: $FILE_PATH — agent memory must be written to .claude/agent-memory/ at the project root, not inside subdirectories.\"}}"
+        exit 0
+    fi
+fi
+
 exit 0
