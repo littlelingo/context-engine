@@ -72,6 +72,31 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
 
     If PR: Generate PR description from PRP, diff, and review report. Use `gh pr create` or `glab mr create`.
 
+15. **Branch & worktree cleanup** (only after commit in step 14):
+
+    Detect environment via `git worktree list` and `git branch --show-current`.
+
+    - **On `main`/`master`**: No cleanup needed.
+
+    - **In a worktree** (current directory is a linked worktree, not the first entry in `git worktree list`):
+
+      Worktrees are temporary workspaces — clean up automatically:
+      - If a PR was created: remove the worktree (`git worktree remove [path]`). Note the branch will merge via the PR.
+      - If no PR (commit-only): rebase onto main, fast-forward merge, delete branch, then remove the worktree. Inform the user what was done.
+      - In both cases, instruct the user to `cd` back to the main worktree directory.
+
+    - **On a feature branch** (not a worktree):
+
+      Ask the user:
+      ```
+      Branch: [branch-name]
+
+      Merge to main? (merge / skip)
+        merge — rebase onto main, fast-forward merge, delete branch
+        skip  — stay on branch, merge later
+      ```
+      If a PR was created in step 14, recommend merging via the PR instead and only offer local branch deletion after the PR merges.
+
 ## Rules
 - Always capture learnings - this is the ROI of the system.
 - Always ask before committing or creating a PR.
