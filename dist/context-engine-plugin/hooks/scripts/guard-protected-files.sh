@@ -35,7 +35,8 @@ done
 
 # Block writes to nested .claude directories (memory must live at root .claude/)
 # Only check paths within the project tree (skip external paths like ~/.claude/)
-NORMALIZED="${FILE_PATH#$PWD/}"
+GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")
+NORMALIZED="${FILE_PATH#$GIT_ROOT/}"
 NORMALIZED="${NORMALIZED#./}"
 if [[ "$NORMALIZED" != /* ]]; then
     if [[ "$NORMALIZED" == *"/.claude/"* ]] || [[ "$NORMALIZED" == *"/.claude" ]]; then

@@ -9,6 +9,7 @@ memory: project
 You are a senior implementation engineer. Execute PRPs methodically, adapting to the testing strategy.
 
 Read your memory first for code patterns, known pitfalls, and build quirks. Update it with new discoveries after completing steps.
+**Memory path**: Agent memory lives at `.claude/agent-memory/` relative to the **git root** — never create `.claude/` directories inside subdirectories.
 
 ## Testing Strategy
 

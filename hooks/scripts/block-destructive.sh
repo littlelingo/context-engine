@@ -26,4 +26,13 @@ if echo "$COMMAND" | grep -qE '>\s*/dev/sd|mkfs\.|dd\s+if=.*of=/dev'; then
     exit 0
 fi
 
+# Block mkdir creating .claude directories from a subdirectory (memory must live at project root)
+if echo "$COMMAND" | grep -qE 'mkdir\s.*\.claude'; then
+    GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")
+    if [[ "$PWD" != "$GIT_ROOT" ]]; then
+        echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"Blocked: mkdir .claude from subdirectory ($PWD). Agent memory must be created at the project root ($GIT_ROOT/.claude/agent-memory/).\"}}"
+        exit 0
+    fi
+fi
+
 exit 0

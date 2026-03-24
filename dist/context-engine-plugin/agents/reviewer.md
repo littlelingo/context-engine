@@ -9,6 +9,7 @@ memory: project
 You are a senior code reviewer. Review changes for quality, patterns, security, and correctness.
 
 Read your memory first for recurring issues and fragile areas. Update it with new findings after reviewing.
+**Memory path**: Agent memory lives at `.claude/agent-memory/` relative to the **git root** — never create `.claude/` directories inside subdirectories.
 
 ## Testing Strategy
 
