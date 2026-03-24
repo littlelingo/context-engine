@@ -1,162 +1,201 @@
-# /adapt - Adapt Plugin to Project
+# /adapt - Adapt Project to Plugin Standards
 
-Deep-analyze the target project's actual source code and populate the plugin's context layer with project-specific conventions, patterns, and knowledge. Run after `/init` to fast-track `.context/` from empty templates to actionable content.
+Audit the project against the plugin's prescribed standards and refactor the project to conform. Run after `/init` to identify gaps, then apply fixes per dimension.
+
+Default mode is **audit** (read-only gap analysis). Use `/adapt apply [dimension]` to execute fixes.
 
 ## Prerequisites
 - `.context/` must exist (run `/init` first)
 - `.context/architecture/TECH_STACK.md` should be populated (by `/init`)
 
 ## Scope
-Parse `$ARGUMENTS` for targeted runs:
-- `/adapt` — full adaptation (all phases below)
-- `/adapt skills` — phase 4 only
-- `/adapt patterns` — phase 5 only
-- `/adapt knowledge` — phase 6 only
-- `/adapt claude` — phase 7 only
-- `/adapt [skill-name]` — populate one specific skill
 
-## File Integrity Zones
+Parse `$ARGUMENTS`:
+- `/adapt` — full audit across all dimensions (read-only)
+- `/adapt [dimension]` — audit one dimension only
+- `/adapt apply [dimension]` — execute fixes for a dimension
+- `/adapt apply all` — execute fixes for all dimensions (confirm each)
 
-These zones govern every write operation in this command:
+Dimensions: `structure`, `docs`, `quality`, `testing`, `security`, `devops`
 
-- **Zone A — IMMUTABLE**: SKILL.md frontmatter `description` fields, all section headers in `.context/` files, HTML comment format blocks (`<!-- Format: ... -->`), CLAUDE.md framework sections, file paths in Project Knowledge table. **Never modify.**
-- **Zone B — POPULATE**: Empty content sections under existing headers, skills with only placeholder comments, empty knowledge templates. **Safe to fill.**
-- **Zone C — PRESERVE**: All user-authored content in populated skills, all entries in CODE_PATTERNS.md and ANTI_PATTERNS.md, all learnings entries, all library/stack/dependency files, all architecture descriptions, all feature PRPs, CLAUDE.local.md. **Never overwrite.**
-- **Zone D — MERGE**: Skills with existing content (add `## Project-Specific Conventions` section), CLAUDE.md (add project conventions), pattern files with existing entries (append, never rewrite). **Additive only.**
+## Audit Dimensions
+
+### Dimension 1: Structure
+**Standards**: CLAUDE.md (300-line limit), python-backend/SKILL.md (directory layout), react-frontend/SKILL.md (colocation), CODE_PATTERNS.md (file organization)
+
+Check:
+- Files exceeding 300 lines — propose specific split points based on logical groupings
+- Directory structure matches tech-stack conventions (e.g., Python: api/, models/, services/, schemas/, utils/)
+- Colocation of tests, styles, types where prescribed
+- Import/export patterns match conventions
+
+### Dimension 2: Documentation
+**Standards**: CLAUDE.md (public functions need docstrings/JSDoc), api-conventions/SKILL.md
+
+Check:
+- Public functions/methods missing docstrings (Python) or JSDoc (TypeScript)
+- Exported utility functions without documentation
+- Missing module-level docstrings
+- Route handlers without docstrings describing the endpoint
+
+### Dimension 3: Code Quality
+**Standards**: ANTI_PATTERNS.md, python-backend/SKILL.md, react-frontend/SKILL.md, CODE_PATTERNS.md
+
+Check:
+- Naming convention violations per language (snake_case for Python, camelCase for JS/TS)
+- Missing type hints on function signatures (Python) or loose TypeScript config
+- Anti-patterns: N+1 queries, bare except, circular imports, useEffect as event handler, mutating state directly
+- Error handling gaps: swallowed errors, missing error boundaries, inconsistent HTTP status usage
+
+### Dimension 4: Testing
+**Standards**: testing-conventions/SKILL.md, CLAUDE.md (testing strategy)
+
+Check:
+- Testing strategy declared in CLAUDE.md
+- Source modules with no corresponding test file
+- Test structure matches convention (describe/it, arrange-act-assert)
+- Mocking approach consistency (real DB vs mocks)
+
+### Dimension 5: Security
+**Standards**: auth-security/SKILL.md (OWASP, input validation, token handling)
+
+Check:
+- Input validation at API boundaries
+- Parameterized queries (no string interpolation in SQL)
+- Auth patterns (httpOnly cookies, token validation)
+- Secrets management (.env in .gitignore, no hardcoded secrets)
+- Error messages that leak internals
+- File upload validation (MIME type, size limits)
+
+### Dimension 6: DevOps
+**Standards**: deployment-cicd/SKILL.md, git-workflow/SKILL.md
+
+Check:
+- Docker: multi-stage builds, pinned base images, non-root user, .dockerignore
+- CI pipeline: correct stage ordering (lint -> type-check -> test -> build -> deploy)
+- Conventional commits in recent history
+- Branch naming convention compliance
+- Dev-only flags in production configs (e.g., --reload)
 
 ## Process
 
-### Phase 1: Inventory
-Read `.context/` files to understand what's already populated vs template. Categorize each file as:
-- **empty-template** — only headers and HTML comments (Zone B — safe to populate)
-- **partially-populated** — some sections filled, others empty (Zone D — merge carefully)
-- **fully-populated** — substantial content exists (Zone C — preserve, append only)
+### Phase 1: Load Standards
+1. Read CLAUDE.md for framework-level standards
+2. Read `.context/architecture/TECH_STACK.md` to determine which skills apply
+3. Read relevant skills based on detected stack:
+   - Python detected → python-backend/SKILL.md, database-migrations/SKILL.md
+   - React/TS detected → react-frontend/SKILL.md
+   - Always: auth-security, deployment-cicd, git-workflow, testing-conventions, api-conventions
+   - If Postgres detected → postgres/SKILL.md
+4. Read CODE_PATTERNS.md and ANTI_PATTERNS.md for project-specific standards already captured
+5. Compile concrete checklist of rules to verify
 
-This determines what `/adapt` will write vs skip.
+### Phase 2: Audit
+Delegate to `researcher` agent with the compiled standards checklist.
 
-### Phase 2: Deep Analysis
-Delegate to `researcher` agent with a structured analysis prompt. The researcher must sample **actual source files** (10-15 minimum across directories), not just config files.
+The researcher must:
+- Sample **actual source files** (15-20 minimum across directories), not just configs
+- For each dimension in scope, systematically check each standard
+- Report violations with **exact file paths and line numbers**
+- For file-size violations: read the file and propose concrete split points based on logical groupings (e.g., "split at line 180 — methods above handle CRUD, methods below handle queries")
+- For missing docs: identify specific public functions by name and location
+- For anti-patterns: show the violating code location and the prescribed alternative
+- For missing tests: list which source modules lack test files
+- For security: trace data flow from input to use for injection risks
 
-Analysis dimensions:
+Researcher output format — one section per dimension, each finding:
+```
+**[SEVERITY]** [file:line] — [violation description]
+Standard: [which skill/doc prescribes this]
+Fix: [specific, actionable remediation]
+```
 
-1. **Architecture & layering** — service layers, route handlers, models, dependency direction, separation of concerns. Trace actual import chains.
-2. **Naming conventions** — variable/function/file/class casing, prefixes, suffixes. Note any inconsistencies between areas of the codebase.
-3. **Code organization** — import ordering, export patterns, barrel files vs direct imports, colocation vs separation, file size norms.
-4. **Error handling** — try/catch patterns, custom error classes, HTTP status conventions, validation approach, error response shapes.
-5. **Data flow** — state management (frontend), ORM patterns (backend), query patterns, caching, how data moves between layers.
-6. **API patterns** — route structure, middleware chains, request/response shapes, auth patterns, pagination, filtering.
-7. **Testing patterns** — framework, fixtures, mocking strategy (real DB vs mocks), assertion style, file structure, coverage approach.
-8. **Component/module patterns** — framework-specific idioms (React hooks, FastAPI dependencies, Rails concerns, service objects, etc.)
-9. **Key library usage** — for each major dependency, HOW it's used with 2-3 concrete examples (file paths + brief description). Not just "uses React Query" but "uses React Query with object syntax, query key factories, invalidation on mutation".
-10. **Gotchas & inconsistencies** — patterns that conflict, footguns discovered, things that would trip up a new contributor.
+Severity levels:
+- **CRITICAL**: Security vulnerabilities, data loss risks
+- **HIGH**: Anti-patterns, files >500 lines, missing input validation
+- **MEDIUM**: Files 300-500 lines, missing docstrings on important functions, naming violations
+- **LOW**: Style inconsistencies, missing docs on internal helpers, minor convention drift
 
-Researcher output: structured report with file paths and brief code descriptions (not raw dumps). One section per dimension.
+### Phase 3: Report
 
-### Phase 3: Validate Findings
-Review researcher output against the Phase 1 inventory:
-- Remove findings that duplicate what's already documented in `.context/`
-- Flag findings that **contradict** existing documented patterns — ask user to resolve before writing
-- Prioritize findings by impact: patterns used project-wide > patterns in one file
-
-### Phase 4: Populate Skills
-For each of these code-convention skills, check relevance based on researcher findings:
-- `testing-conventions`, `api-conventions`, `react-frontend`, `python-backend`, `ruby`
-- `auth-security`, `database-migrations`, `deployment-cicd`, `git-workflow`
-- `postgres`, `redis`
-
-For each relevant skill:
-1. Read current SKILL.md
-2. **PRESERVE** the frontmatter `description` field (Zone A — never modify)
-3. **PRESERVE** all existing non-template content (Zone C)
-4. If skill is empty template: populate sections with discovered patterns
-5. If skill has content: add `## Project-Specific Conventions` section with `<!-- Last adapted: YYYY-MM-DD -->` marker
-6. On re-run: find and **update** the marked section, don't duplicate
-
-**Skip** MCP-only skills: `postgres-mcp`, `google-workspace`, `puppeteer`, `context7-docs`, `sequential-thinking`, `mcp-tools`.
-**Skip** meta skills: `context-system` (framework reference), `knowledge-base` (managed by `/learn`).
-
-### Phase 5: Populate Patterns
-
-**CODE_PATTERNS.md**:
-1. PRESERVE all section headers (Zone A)
-2. PRESERVE all existing pattern entries (Zone C)
-3. For each empty section, populate with discovered patterns
-4. Each pattern entry: name, file path example, brief description
-5. Organize by layer (Backend, Frontend, Shared) if full-stack project
-6. Add `<!-- Populated by /adapt: YYYY-MM-DD -->` after the header comment
-
-**ANTI_PATTERNS.md**:
-1. PRESERVE header and format comment (Zone A)
-2. PRESERVE all existing entries (Zone C)
-3. Add discovered gotchas using the established format:
-   ```
-   ### [Name]
-   Don't: [bad pattern]
-   Do: [good pattern]
-   Why: [reason]
-   ```
-4. Only add genuine gotchas (inconsistencies, footguns) — not style preferences
-
-### Phase 6: Seed Knowledge
-
-1. **Library files**: For each major dependency used substantially:
-   - Check if `.context/knowledge/libraries/[name].md` exists
-   - If not, create from TEMPLATE.md with version, usage patterns, any quirks found
-   - If exists, PRESERVE entirely (Zone C)
-2. **Stack recipes**: For key integrations (e.g., "FastAPI + SQLAlchemy async"):
-   - Create `.context/knowledge/stack/[recipe].md` from TEMPLATE.md
-   - Populate "What This Solves" and "Configuration" sections
-   - If exists, PRESERVE entirely (Zone C)
-3. **Dependency pins**: Update `.context/knowledge/dependencies/PINS.md`:
-   - PRESERVE all existing entries (Zone C)
-   - Append entries for major deps with detected versions
-   - Only add pin reasons if evidence found (lockfile constraints, etc.)
-
-### Phase 7: Enrich CLAUDE.md
-
-1. Read current CLAUDE.md
-2. PRESERVE all framework sections (Zone A)
-3. If project-specific conventions were discovered that aren't covered by existing sections or skills, add a `## Project Conventions` section with `<!-- Last adapted: YYYY-MM-DD -->` marker
-4. Keep additions minimal — prefer putting detail in skills and `.context/` rather than bloating CLAUDE.md
-5. On re-run: update the marked section, don't duplicate
-
-### Phase 8: Report
+Present the gap report:
 
 ```
-Adaptation complete.
+## Adaptation Audit: [project name]
+**Tech Stack**: [from TECH_STACK.md]
+**Files Sampled**: ~[N] across [N] directories
+**Standards Checked**: [N] rules from [N] skills
 
-## Inventory (before)
-- Empty templates: [N] files
-- Partially populated: [N] files
-- Fully populated: [N] files
+### Summary
+| Dimension    | Critical | High | Medium | Low | Status |
+|--------------|----------|------|--------|-----|--------|
+| Structure    |          |      |        |     | PASS/GAPS |
+| Documentation|          |      |        |     | PASS/GAPS |
+| Code Quality |          |      |        |     | PASS/GAPS |
+| Testing      |          |      |        |     | PASS/GAPS |
+| Security     |          |      |        |     | PASS/GAPS |
+| DevOps       |          |      |        |     | PASS/GAPS |
 
-## Changes Made
-- Skills populated: [list with brief description of what was added]
-- CODE_PATTERNS.md: [N] patterns added
-- ANTI_PATTERNS.md: [N] anti-patterns added
-- Knowledge: [N] library files, [N] stack recipes created
-- CLAUDE.md: [what was added, or "no changes needed"]
+### [Dimension] Findings
+[Per-dimension findings grouped by severity, each with file:line, violation, standard, and fix]
 
-## Files Analyzed
-~[N] source files sampled across [N] directories
+### Recommended Order
+1. [dimension] — [reason, e.g., "2 critical security findings"]
+2. [dimension] — [reason]
+...
 
-## Skipped (already populated)
-[list of files that were preserved as-is]
-
-Next: Review the changes in .context/, then /research [topic] to begin work.
+Next: `/adapt apply [dimension]` to fix a category.
 ```
+
+### Phase 4: Apply
+
+Only runs when `/adapt apply [dimension]` is invoked.
+
+1. **Safety checks** (same as `/refactor`):
+   a. Clean working tree — if dirty, stop
+   b. Tests pass — if failing, stop
+   c. Correct branch — if on main/master, create `refactor/adapt-[dimension]` branch
+
+2. **Generate lightweight PRP**:
+   - Extract findings for the selected dimension from the audit
+   - Group into logical steps (e.g., "split oversized files" is one step per file, "add docstrings to services/" is one step)
+   - Write PRP to `.context/features/[NNN]-adapt-[dimension]/PRP.md`
+   - Update FEATURES.md with the adaptation entry
+   - Testing strategy: `implement-then-test`
+
+3. **Delegate execution**:
+   - Structure changes (file splits, directory reorganization) → delegate to `/refactor`
+   - Documentation additions (docstrings, JSDoc) → delegate to `implementer` agent
+   - Code quality fixes (type hints, naming, anti-patterns) → delegate to `/refactor`
+   - Testing gaps (new test files) → delegate to `implementer` agent
+   - Security fixes → delegate to `/refactor` with caution
+   - DevOps changes (Dockerfile, CI config) → delegate to `implementer` agent
+
+4. **Post-apply**:
+   - Run full test suite
+   - Report what was changed
+   - Suggest `/validate [PRP path]`
+
+## Integrity Zones
+
+- **Zone A — IMMUTABLE**: `.context/` framework structure, SKILL.md frontmatter descriptions. Never modify.
+- **Zone B — SAFE TO MODIFY**: Project source code that violates plugin standards. This is the whole point of `/adapt apply`.
+- **Zone C — PRESERVE**: Business logic substance — adapt the form (naming, types, structure, docs) without changing what the code does.
+- **Zone D — NEVER TOUCH**: .env files, secrets, vendor/third-party code, generated code, lock files, CLAUDE.local.md.
 
 ## Rules
-- NEVER modify SKILL.md frontmatter `description` fields
-- NEVER overwrite existing user-authored content in `.context/`
-- NEVER touch CLAUDE.local.md
-- NEVER populate MCP-only or meta skills
-- Always use section markers (`<!-- Last adapted: YYYY-MM-DD -->`) for auto-generated content
-- On re-run, update marked sections — never duplicate
-- If a finding contradicts existing documented patterns, ask user to resolve
-- Respect 300-line file limit — split into multiple entries if needed
-- If context > 50% during full run, pause and suggest targeted runs
-- Researcher must sample actual source files, not just config/package files
+- Audit mode is ALWAYS read-only — never modify project files during audit
+- Apply mode requires explicit invocation (`/adapt apply [dimension]`)
+- Every finding must include file path, line number, the specific standard violated, and a concrete fix
+- Apply mode creates a branch — never modify code on main/master
+- Tests must pass before and after every apply operation
+- If apply breaks tests, stop and suggest `/debug` or `/checkpoint rollback`
+- For `/adapt apply all`: confirm each dimension with the user before proceeding
+- Delegate structural refactoring to `/refactor` — reuse existing infrastructure
+- CRITICAL security findings should be resolved first — warn the user
+- Safe to run `/adapt` (audit) multiple times — regenerates report from scratch
+- If context > 50% during full audit, suggest targeted dimension audits
+- Preserve business logic substance — adapt form, not function
 
 ## User Input
 $ARGUMENTS
