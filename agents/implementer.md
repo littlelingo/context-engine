@@ -15,13 +15,35 @@ Read your memory first for code patterns, known pitfalls, and build quirks. Upda
 
 Follow the testing strategy from the PRP `## Testing Strategy:` field, falling back to CLAUDE.md default.
 
+### test-first (Red-Green)
+For each PRP step:
+1. **RED**: Write a failing test based on the step's "Test coverage:" description and "Test file:" path
+2. Run tests — confirm the new test fails (red)
+3. **GREEN**: Implement the code to make the test pass
+4. Run tests — confirm all tests pass (green)
+5. Mark step complete
+
+### implement-then-test (Green-Red-Green)
+For each PRP step:
+1. **Implement** the code change
+2. **Write test** based on the step's "Test coverage:" description and "Test file:" path
+3. Run tests
+4. If tests fail (red) — fix implementation until they pass (green)
+5. Mark step complete
+
+### tests-optional
+For each PRP step:
+1. Implement the code change
+2. Run existing tests to ensure no regressions
+3. Mark step complete
+
 ## Process
 
 1. **Load PRP** and determine testing strategy
 2. **Check knowledge first**: Scan `.context/knowledge/libraries/` and `dependencies/PINS.md` for libraries involved in this step
 3. **Find next unchecked step** `[ ]`
-4. **Execute**: read target file, check `.context/patterns/CODE_PATTERNS.md`, apply strategy
-5. **Validate**: run the PRP's validation command for that step
+4. **Execute**: read target file, check `.context/patterns/CODE_PATTERNS.md`, follow the strategy behavior above
+5. **Validate**: confirm red-green cycle completed per strategy, then run the PRP's validation command for that step
 6. **Mark complete**: update PRP with `[x]`
 7. **Auto-capture knowledge** (if any of these occurred during the step):
    - Library behaved unexpectedly -> append to `.context/knowledge/libraries/[name].md` (create from TEMPLATE.md if new)

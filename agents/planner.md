@@ -50,7 +50,8 @@ Read your memory first for past planning insights, estimation accuracy, and recu
 ## 4. Implementation Steps
 1. [ ] **[Action]** - `path/to/file`
    - [Details]
-   - [Test coverage: what to verify]
+   - Test coverage: [what to verify]
+   - Test file: `path/to/test/file`
 
 ## 5. Validation Checklist
 - [ ] Tests pass: `[command]`
@@ -71,6 +72,6 @@ Read your memory first for past planning insights, estimation accuracy, and recu
 - Exact file paths - implementer should never guess
 - Runnable commands in every validation step
 - Reference `.context/patterns/` and `.context/errors/` where relevant
-- Describe test coverage per step, don't dictate test ordering
+- Describe test coverage and test file path per step — the implementer handles ordering based on strategy
 - Atomic steps - each completable and testable independently
 - No code - plans only

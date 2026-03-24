@@ -71,8 +71,8 @@ All have `memory: project` - they get smarter across sessions.
 
 | Strategy | Meaning |
 |----------|---------|
-| `test-first` | Write test -> fail -> implement -> pass |
-| `implement-then-test` | Implement -> write test -> verify |
+| `test-first` | RED: write failing test -> GREEN: implement to pass |
+| `implement-then-test` | Implement -> write test -> RED if fails -> GREEN: fix until pass |
 | `tests-optional` | Implement only. Tests deferred. |
 
 Prompted during `/plan`. Validation always runs regardless.
