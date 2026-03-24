@@ -26,17 +26,18 @@
 
 ## Workflow
 
-`/init` (once) -> `/research` -> `/plan` -> `/implement` -> `/validate` -> commit/PR
+`/init` (once) -> `/adapt` (recommended) -> `/research` -> `/plan` -> `/implement` -> `/validate` -> commit/PR
 Insert `/clear` + `/resume` between any phases when context > 50%.
 
 | Phase | Command | Delegation |
 |-------|---------|-----------|
+| Adapt | `/adapt` | Subagent (researcher) + lead agent |
 | Research | `/research` | Subagent (researcher) |
 | Plan | `/plan` | Subagent (planner) |
 | Implement | `/implement` | Agent Team or subagent |
 | Validate | `/validate` | Agent Team or subagent |
 
-Quick: `/plan-quick` | Bugs: `/debug` | Refactor: `/refactor` | Simplify: `/simplify` | Security: `/security-review`
+Quick: `/plan-quick` | Bugs: `/debug` | Refactor: `/refactor` | Simplify: `/simplify` | Adapt: `/adapt` | Security: `/security-review`
 Status: `/status` | Resume: `/resume` | Knowledge: `/knowledge` | Health: `/health`
 
 Each command ends with the exact next command. Handoffs are explicit.
