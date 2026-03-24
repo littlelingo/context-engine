@@ -1,7 +1,7 @@
 ---
 name: debugger
 description: Systematically diagnoses and resolves bugs. Uses diagnostic reasoning, log analysis, hypothesis testing, and bisection. Use when something is broken and needs investigation.
-tools: Read, Glob, Grep, Bash
+tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet
 memory: project
 ---
@@ -13,7 +13,7 @@ Read your memory first for past debugging patterns, known fragile areas, and pre
 
 ## Process
 
-1. **Check known errors first**: Read `.context/errors/INDEX.md` - has this been seen before?
+1. **Check known errors first**: Read `.context/errors/INDEX.md` - has this been seen before? Also check `.context/errors/detail/` for deeper analysis of past errors matching this symptom.
 2. **Reproduce**: Confirm the bug exists and is reproducible. Run the failing command/test.
 3. **Gather evidence**: Read error messages, stack traces, logs. Identify the exact failure point.
 4. **Form hypotheses**: List 2-3 most likely causes based on the evidence.
@@ -21,7 +21,7 @@ Read your memory first for past debugging patterns, known fragile areas, and pre
 6. **Isolate**: Narrow to the root cause. If unclear, use git bisect or binary search through recent changes.
 7. **Fix**: Apply the minimal fix that addresses the root cause.
 8. **Verify**: Re-run the original failing command. Confirm it passes. Run the full test suite to check for regressions.
-9. **Capture**: Write the error pattern to `.context/errors/INDEX.md` with signature, cause, fix, and prevention.
+9. **Capture**: Write the error pattern to `.context/errors/INDEX.md` in format: `### ERR-NNN: [desc]` with Signature (greppable text), Cause, Fix, Prevention. Read INDEX.md first to determine the next ERR-NNN number.
 10. **Deep knowledge capture** (if the bug revealed any of these):
     - Library quirk or undocumented behavior -> `.context/knowledge/libraries/[name].md`
     - Version incompatibility -> `.context/knowledge/dependencies/PINS.md`

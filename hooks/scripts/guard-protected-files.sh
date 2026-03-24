@@ -10,24 +10,24 @@ if [ -z "$FILE_PATH" ]; then
     exit 0
 fi
 
-# Protected patterns
+# Protected patterns - anchored to prevent false matches
+# Each pattern is a regex tested against the path relative to git root
 PROTECTED=(
-    ".env"
-    ".env.local"
-    ".env.production"
-    ".git/"
-    "package-lock.json"
-    "yarn.lock"
-    "pnpm-lock.yaml"
-    "Gemfile.lock"
-    "poetry.lock"
-    "go.sum"
-    ".claude/settings.json"
-    ".claude/settings.local.json"
+    '(^|/)\.env$'
+    '(^|/)\.env\.'
+    '(^|/)\.git/'
+    '(^|/)package-lock\.json$'
+    '(^|/)yarn\.lock$'
+    '(^|/)pnpm-lock\.yaml$'
+    '(^|/)Gemfile\.lock$'
+    '(^|/)poetry\.lock$'
+    '(^|/)go\.sum$'
+    '(^|/)\.claude/settings\.json$'
+    '(^|/)\.claude/settings\.local\.json$'
 )
 
 for pattern in "${PROTECTED[@]}"; do
-    if [[ "$FILE_PATH" == *"$pattern"* ]]; then
+    if [[ "$FILE_PATH" =~ $pattern ]]; then
         echo "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"Protected file: $FILE_PATH - edit manually if needed\"}}"
         exit 0
     fi

@@ -10,7 +10,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 OUTPUT="${1:-$SCRIPT_DIR/dist/context-engine-plugin}"
-VERSION="0.0.1"
+VERSION="0.0.5"
 
 echo "Building Context Engine Plugin v$VERSION"
 echo "Output: $OUTPUT"

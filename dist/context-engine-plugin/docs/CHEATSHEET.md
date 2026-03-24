@@ -35,6 +35,11 @@
 | `/status` | Project briefing - what's built, in progress, recently learned |
 | `/resume` | Reload state after `/clear` or new session |
 | `/learn [insight]` | Manually capture error, pattern, decision, or insight |
+| `/knowledge` | Browse, search, promote knowledge base |
+| `/checkpoint` | Create, list, rollback, resume hybrid checkpoints |
+| `/health` | Metrics dashboard: velocity, errors, knowledge, agents, context |
+| `/security-review` | Standalone security review on files or recent changes |
+| `/simplify` | Identify and apply code simplifications (dead code, duplication) |
 | `/update-arch` | Refresh architecture docs after big changes |
 
 ## Agents
@@ -143,6 +148,7 @@ Auto-created at:
 | Create manually | `/checkpoint create [label]` |
 | List all | `/checkpoint list` |
 | Rollback | `/checkpoint rollback CP-NNN` (offers full or soft) |
+| Resume from | `/checkpoint resume CP-NNN` |
 | Clean old | `/checkpoint clean --keep 5` |
 
 ## Metrics (`/health`)

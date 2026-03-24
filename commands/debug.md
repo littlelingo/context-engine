@@ -5,8 +5,8 @@ Something is broken. Uses parallel hypothesis testing via Agent Team for complex
 ## Process
 
 1. **Understand the problem**: Get the error message, failing test, or symptom from `$ARGUMENTS`.
-2. **Check known errors**: Read `.context/errors/INDEX.md` for matching signatures.
-   - If found: present the known fix. Ask if user wants to apply it. **Update metrics**: increment "Error index hits" in `.context/metrics/HEALTH.md`.
+2. **Check known errors**: Read `.context/errors/INDEX.md` for matching signatures. Also check `.context/errors/detail/` for deeper analysis of past errors. If INDEX.md is empty (no errors indexed yet), proceed directly to investigation — this is the first error.
+   - If found: present the known fix (include detail file content if available). Ask if user wants to apply it. **Update metrics**: increment "Error index hits" in `.context/metrics/HEALTH.md`.
    - If not found: proceed to investigation. This will be a "Novel error" for metrics.
 
 3. **Decide investigation mode**:
@@ -37,7 +37,12 @@ Something is broken. Uses parallel hypothesis testing via Agent Team for complex
 5. **Review the fix**: Present findings and fix to user. Confirm acceptable.
 6. **Verify**: Re-run failing command. Run full test suite.
 
-7. **Reflect**: Capture error to `.context/errors/INDEX.md` (signature, cause, fix, prevention). Note missing tests in LEARNINGS.md, fragile patterns in ANTI_PATTERNS.md. Update HEALTH.md metrics (error counters, hit rate, agent execution mode).
+7. **Reflect** (YOU write directly — captures are mandatory, not delegated):
+   - Append to `.context/errors/INDEX.md`: `### ERR-NNN: [desc]` with Signature, Cause, Fix, Prevention fields
+   - For complex bugs, also write `.context/errors/detail/ERR-NNN.md` with full investigation log (hypotheses tested, evidence, root cause analysis)
+   - Note missing tests in `.context/knowledge/LEARNINGS.md`
+   - Note fragile patterns in `.context/patterns/ANTI_PATTERNS.md`
+   - Update `.context/metrics/HEALTH.md` error counters: increment "Total errors indexed", "Novel errors" (or "Error index hits" if known), recompute "Hit rate"
 
 8. **Next steps**:
    ```

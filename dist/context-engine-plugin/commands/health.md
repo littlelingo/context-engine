@@ -8,7 +8,7 @@ Parse `$ARGUMENTS` to determine the action:
 
 ### No arguments: Dashboard
 
-Display a summary of all five metric categories by reading `.context/metrics/HEALTH.md` and computing live stats.
+Display a summary of all five metric categories by reading `.context/metrics/HEALTH.md` and computing live stats. If no features have been completed yet, show baseline zeros and note that trends appear after 3+ completed features.
 
 1. **Feature Velocity**
    - Count completed features from FEATURES.md (status COMPLETE)

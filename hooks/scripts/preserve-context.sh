@@ -42,4 +42,12 @@ CONTEXT="$CONTEXT\n- Recent learnings: .context/knowledge/LEARNINGS.md"
 CONTEXT="$CONTEXT\n- Known errors: .context/errors/INDEX.md"
 
 # Return as additionalContext so it survives compaction
-printf '{"additionalContext":"%s"}' "$(echo -e "$CONTEXT" | sed 's/"/\\"/g' | tr '\n' ' ')"
+# Use jq for safe JSON string escaping (handles quotes, backslashes, special chars)
+FLAT_CONTEXT=$(echo -e "$CONTEXT" | tr '\n' ' ')
+if command -v jq &>/dev/null; then
+    printf '%s' "{\"additionalContext\":$(printf '%s' "$FLAT_CONTEXT" | jq -sRr '.')}"
+else
+    # Fallback: escape quotes and backslashes manually
+    ESCAPED=$(printf '%s' "$FLAT_CONTEXT" | sed 's/\\/\\\\/g; s/"/\\"/g')
+    printf '{"additionalContext":"%s"}' "$ESCAPED"
+fi

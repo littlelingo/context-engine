@@ -44,7 +44,7 @@ Restructure code without adding features. Uses Agent Team for multi-module refac
 
    - **Single-track refactor**: Delegate to `implementer` subagent, one step at a time.
 
-9. **After each step/track**: Full test suite must pass. If anything breaks, stop and fix.
+9. **After each step/track**: Full test suite must pass. If anything breaks with a non-obvious cause, run `/debug [failing test or error]` before continuing. For simple regressions, fix inline.
 
 10. **When complete**: Clean up team, then hand off:
    ```
@@ -56,6 +56,7 @@ Restructure code without adding features. Uses Agent Team for multi-module refac
 - Tests must pass BEFORE starting and AFTER every step.
 - No feature additions during refactoring. Note them in NOTES.md.
 - If scope expands beyond the plan, stop and revise with user.
+- If the refactor breaks more than it fixes, use `/checkpoint rollback CP-NNN` to restore pre-refactor state. The pre-refactor checkpoint exists for exactly this reason.
 
 ## User Input
 $ARGUMENTS

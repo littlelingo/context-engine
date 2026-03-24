@@ -6,7 +6,7 @@ Execute the PRP using an Agent Team for parallel step execution.
 
 1. **Safety checks** (MUST pass before any code is written):
    a. **Clean working tree**: Run `git status`. If uncommitted changes, stop and ask user to commit or stash.
-   b. **Tests pass**: Run the project's test command from TECH_STACK.md. If tests fail, stop.
+   b. **Tests pass**: Run the project's test command from TECH_STACK.md. If tests fail, stop and suggest: `Tests are failing. Run /debug [failing test or error] to diagnose before implementing.`
    c. **Correct branch**: If on `main`/`master`, derive branch name from PRP (`feat/`, `fix/`, `refactor/`), ask user to confirm, create it.
    If resuming (steps already marked `[x]`), skip safety checks.
 
@@ -34,10 +34,11 @@ Execute the PRP using an Agent Team for parallel step execution.
    - **Team lead** (you): Coordinate work, manage shared task list, synthesize results, capture learnings
    - **Spawn teammates** per parallel track. Each teammate receives: their PRP steps, testing strategy, owned files, CODE_PATTERNS.md instruction, and inter-teammate communication instructions
    - Set up shared task list with `blockedBy` dependencies; teammates self-claim unblocked tasks
+   - **Important**: Teammates should not write to the same `.context/` file simultaneously. The lead agent consolidates all `.context/` captures after team execution completes.
 
 7. **Monitor and coordinate**:
    - Watch for teammates reporting completion or problems
-   - If a teammate hits an error, intervene or spawn a replacement
+   - If a teammate hits an error: attempt a quick fix first. If the error is non-obvious or persists, run `/debug [error]` to diagnose systematically before continuing.
    - Ensure API contract communication is flowing between teammates
    - Use delegate mode (Shift+Tab) to stay in coordination role
 
@@ -45,7 +46,14 @@ Execute the PRP using an Agent Team for parallel step execution.
    - Verify all PRP steps are marked `[x]`
    - Run full test suite one final time
    - Shut down teammates, clean up team
-   - Capture learnings: errors to `.context/errors/`, patterns to `.context/patterns/`, insights to `.context/knowledge/LEARNINGS.md`
+   - **Capture learnings** (verify what agents captured, fill gaps):
+     Teammates may have written to `.context/` during execution. Check and complete:
+     - Error signatures encountered -> `.context/errors/INDEX.md` (format: `### ERR-NNN: [desc]` with Signature, Cause, Fix, Prevention)
+     - New code patterns established -> `.context/patterns/CODE_PATTERNS.md` (format: `### [Name]` with context, example, rationale)
+     - Insights or "aha" moments -> `.context/knowledge/LEARNINGS.md` (format: `### [Date] - [Topic]` with 2-3 sentence insight)
+     - Library quirks discovered -> create/append `.context/knowledge/libraries/[name].md` from TEMPLATE.md
+     - Version pins needed -> `.context/knowledge/dependencies/PINS.md` (format: `### [package]` with version, reason, blocker)
+     If significant knowledge was captured, suggest `/learn` for complex entries that need routing.
    ```
    All steps complete.
    Next: /validate [PRP path] (run /clear first if context > 50%)
@@ -59,6 +67,7 @@ When steps are already marked `[x]`: read PRP, summarize progress, pick up remai
 - Each teammate MUST own specific files - no overlap.
 - No scope creep. Note extras in PRP NOTES.md.
 - Clean up team before handing off to `/validate`.
+- If implementation goes off the rails (multiple failing steps, cascading errors), consider `/checkpoint rollback CP-NNN` to restore the pre-team state and retry with a revised approach.
 
 ## User Input
 $ARGUMENTS

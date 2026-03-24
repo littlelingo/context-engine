@@ -6,7 +6,7 @@ If no research exists, recommend `/research` first.
 
 ## Process
 
-1. **Load context**: Read `$ARGUMENTS` (research notes), plus `.context/architecture/OVERVIEW.md`, `.context/patterns/CODE_PATTERNS.md`, `.context/errors/INDEX.md`
+1. **Load context**: Read `$ARGUMENTS` (research notes), plus `.context/architecture/OVERVIEW.md`, `.context/patterns/CODE_PATTERNS.md`, `.context/errors/INDEX.md`, and any relevant ADRs in `.context/decisions/` that relate to the feature area. If context files are mostly empty (normal after /init), proceed using research notes as primary context.
 2. **MUST delegate**: Use the `planner` agent to create the PRP. The planner owns the PRP template.
 3. **Review**: Verify file paths are specific, steps are ordered by dependency, validation criteria are runnable.
 4. **Ask testing strategy**: "Testing strategy: [project default from CLAUDE.md]. Override? (y/N)". Only show full options if user says yes. Record choice in PRP's `## Testing Strategy:` field.
@@ -16,7 +16,7 @@ If no research exists, recommend `/research` first.
 8. **Checkpoint**: Create checkpoint `CP-NNN: post-plan [feature-name]` (trigger: phase-boundary). See `/checkpoint create` for the process - snapshot .context/ state and create git tag.
 9. **Update feature index**: Add a row to `.context/features/FEATURES.md`:
    `| [NNN] | [feature-name] | APPROVED | [strategy] | .context/features/[NNN]-[name]/PRP.md |`
-10. **Reflect**: Capture any new decisions (ADR), risks, or patterns discovered during planning.
+10. **Reflect**: Capture any new decisions as `.context/decisions/ADR-NNN-[title].md` using the ADR-000-template.md format. Also capture new risks or patterns to `.context/patterns/`.
 11. **Hand off**:
    ```
    PRP saved to: [path]

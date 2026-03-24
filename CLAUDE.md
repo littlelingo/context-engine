@@ -36,15 +36,17 @@ Insert `/clear` + `/resume` between any phases when context > 50%.
 | Implement | `/implement` | Agent Team or subagent |
 | Validate | `/validate` | Agent Team or subagent |
 
-Quick: `/plan-quick` | Bugs: `/debug` | Refactor: `/refactor` | Status: `/status` | Resume: `/resume` | Knowledge: `/knowledge` | Health: `/health`
+Quick: `/plan-quick` | Bugs: `/debug` | Refactor: `/refactor` | Simplify: `/simplify` | Security: `/security-review`
+Status: `/status` | Resume: `/resume` | Knowledge: `/knowledge` | Health: `/health`
 
 Each command ends with the exact next command. Handoffs are explicit.
-Checkpoints are created automatically at phase boundaries and before Agent Team spawns. Rollback: `/checkpoint rollback CP-NNN`.
+Checkpoints are created at phase boundaries and before Agent Team spawns. Commands specify when to create them — the lead agent runs `/checkpoint create`. Rollback: `/checkpoint rollback CP-NNN`.
 
 ## Context Management
 - **< 50%**: Keep working
 - **50-60%**: Save state, prepare to clear
 - **> 60%**: Stop. `/clear`. `/resume`.
+- `/clear` is Claude's built-in context clearing (not a plugin command). `/resume` reloads project context afterward.
 - Prefer `/clear` + `/resume` over `/compact`. PreCompact hook preserves PRP state if compaction occurs.
 
 ## Orchestration
@@ -54,6 +56,10 @@ Checkpoints are created automatically at phase boundaries and before Agent Team 
 **Subagents**: Used by research, plan, and as fallback for small tasks. Single specialist, isolated context, returns summary.
 
 Roles (`agents/`): `researcher`, `planner`, `implementer`, `reviewer`, `debugger` - all with `memory: project`.
+
+## Feature Lifecycle
+PRP statuses: `PLANNING` -> `APPROVED` -> `IN_PROGRESS` -> `COMPLETE`
+To abandon a feature: update FEATURES.md status to `CANCELLED`. Optionally delete the feature branch and clean associated checkpoints.
 
 ## Testing Strategy
 **Default**: `implement-then-test` | Override per-plan in PRP header

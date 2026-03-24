@@ -24,22 +24,37 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
 
 6. **Synthesize review**: Combine teammate findings into one report.
 7. **Fix critical issues** immediately. Log non-critical as TODOs.
-8. **Apply simplifications** from the simplification reviewer. Re-run validation if changes are significant.
+8. **Apply simplifications** from the simplification reviewer. Re-run validation if changes are significant. If simplifications are too large to apply inline (multi-file restructuring, module extraction), note them and suggest `/refactor [scope]` as a follow-up.
 
-9. **Capture learnings** (MANDATORY - never skip):
-   - New patterns -> `.context/patterns/CODE_PATTERNS.md`
-   - Errors -> `.context/errors/INDEX.md`
-   - Recurring findings -> `.context/patterns/ANTI_PATTERNS.md`
-   - Architecture changes -> `.context/architecture/`
-   - Significant decisions -> `.context/decisions/` (ADR)
-   - Simplifications -> `.context/knowledge/LEARNINGS.md`
+9. **Capture learnings** (MANDATORY - never skip. Synthesize reviewer findings and write):
+   - New patterns -> `.context/patterns/CODE_PATTERNS.md` (format: `### [Name]` with context, example, rationale)
+   - Errors found -> `.context/errors/INDEX.md` (format: `### ERR-NNN: [desc]` with Signature, Cause, Fix, Prevention). For complex errors, also write `.context/errors/detail/ERR-NNN.md` with full analysis.
+   - Recurring findings -> `.context/patterns/ANTI_PATTERNS.md` (format: `### [Name]` with Don't/Do/Why)
+   - Architecture changes -> run `/update-arch` if structural changes were significant
+   - Significant decisions -> `.context/decisions/ADR-NNN-[title].md` using ADR-000-template.md format
+   - Insights -> `.context/knowledge/LEARNINGS.md` (format: `### [Date] - [Topic]` with 2-3 sentence insight)
    - If nothing learned, note clean completion in LEARNINGS.md.
+   For complex entries (library quirks, stack recipes, dependency pins), use `/learn [type]: [content]` to route correctly.
 
 10. **Update PRP status** to COMPLETE. Update FEATURES.md.
 
-11. **Capture feature metrics** (auto - append to `.context/metrics/HEALTH.md`):
-    Append per-PRP metrics to HEALTH.md across all 5 categories: velocity (plan date, validate date, elapsed, steps), error tracking (novel vs hits), knowledge growth (entries added), context efficiency (checkpoints, clears), agent effectiveness (team vs subagent).
-    Write a `## Metrics` block at the PRP bottom with: plan date, validate date, elapsed, steps, strategy, errors, knowledge entries, checkpoints, clears, execution mode.
+11. **Capture feature metrics** (YOU write directly to `.context/metrics/HEALTH.md`):
+
+    Gather these values from the PRP and this session:
+    - **Velocity**: plan date (from PRP header), validate date (today), elapsed days, step count (total `[x]` steps), session count (estimate from /resume calls or 1)
+    - **Error tracking**: count errors added to INDEX.md during this feature, count known-error hits (from /debug steps), compute hit rate
+    - **Knowledge growth**: count entries added to LEARNINGS.md, count new library files, stack recipes, dependency pins, patterns since plan date
+    - **Agent effectiveness**: execution mode (team or subagent), any rollbacks, any empty implementer runs
+    - **Context efficiency**: count /clear and /resume cycles during this feature, count knowledge files consulted
+
+    Then append one row to each HEALTH.md table:
+    - **Feature Velocity**: `| [NNN] | [name] | [plan date] | [validate date] | [elapsed] | [steps] | [sessions] | [clears] |`
+    - **Error Tracking**: Update the cumulative counters (total indexed, hits, novel, repeats, hit rate %)
+    - **Knowledge Growth**: `| [date] | [feature] | [learnings] | [libraries] | [stack] | [pins] | [patterns] |`
+    - **Agent Effectiveness**: Increment the appropriate counters
+    - **Context Efficiency**: `| [feature] | [clears] | [resumes] | [compactions] | [knowledge consulted] |`
+
+    Also write a `## Metrics` block at the PRP bottom with the raw values for future reference.
 
 12. **Checkpoint** (trigger: phase-boundary): Create checkpoint `CP-NNN: post-validate [feature-name]`. This captures the fully validated state before commit.
 
@@ -100,7 +115,9 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
 ## Rules
 - Always capture learnings - this is the ROI of the system.
 - Always ask before committing or creating a PR.
+- If validation tests fail with a non-obvious cause, run `/debug [failing test or error]` to diagnose before attempting manual fixes.
 - If fixes are complex, start a new `/implement` cycle.
+- If validation reveals the implementation is fundamentally broken, consider `/checkpoint rollback CP-NNN` to restore the last known-good state before retrying.
 
 ## User Input
 $ARGUMENTS

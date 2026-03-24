@@ -17,8 +17,13 @@ Parse `$ARGUMENTS` to determine the action:
      - `.context/knowledge/dependencies/PINS.md`
      - `.context/errors/INDEX.md`
      - `.context/features/FEATURES.md`
+     - `.context/patterns/CODE_PATTERNS.md`
+     - `.context/patterns/ANTI_PATTERNS.md`
+     - Any `.context/decisions/ADR-*.md` files (excluding the template)
+     - Any `.context/knowledge/libraries/*.md` and `stack/*.md` files (excluding TEMPLATEs)
    - Write `snapshot-meta.json` with: timestamp, branch, PRP path, PRP progress (N/M steps), trigger reason, git SHA at time of snapshot
 3. **Create git tag**:
+   - First verify tag doesn't already exist: `git tag -l checkpoint-NNN`. If collision found, increment NNN until an available number is found.
    - If working tree is clean: `git tag checkpoint-NNN -m "[label]"`
    - If working tree is dirty: `git stash` first, tag, then `git stash pop`. Note in manifest that tree was dirty.
    - If git stash fails (nothing to stash): tag the current HEAD anyway.
@@ -57,6 +62,30 @@ Parse `$ARGUMENTS` to determine the action:
 
 4. **After rollback**: Report what was restored and current state.
 5. **Update metrics**: Increment "Checkpoint rollbacks (full)" or "Checkpoint rollbacks (soft)" in `.context/metrics/HEALTH.md`.
+
+### `resume [CP-NNN]`: Resume from Checkpoint
+
+Pick up work from a checkpoint's saved state. Use after a rollback, or to re-orient after a `/clear`.
+
+1. **Load checkpoint metadata**: Read `snapshot-meta.json` from `.context/checkpoints/CP-NNN/` for branch, PRP path, PRP progress, trigger.
+2. **Restore context**:
+   - Read the snapshotted PRP to determine completed vs remaining steps
+   - Read snapshotted LEARNINGS.md and INDEX.md for context accumulated up to that point
+3. **Verify current state**:
+   - Is the git branch still the same? If not, warn and suggest switching: `git checkout [branch]`
+   - Does the PRP file still exist at the recorded path? If moved, search `.context/features/` for it.
+4. **Report**:
+   ```
+   Resuming from checkpoint CP-NNN: [label]
+   Created: [timestamp] | Trigger: [trigger]
+   Branch: [branch]
+   PRP: [path]
+   Progress: [N/M steps complete]
+   Next step: [N+1] - [description]
+
+   Ready. Run: /implement [PRP path]
+   ```
+5. **If no PRP was active at checkpoint time**: Report the checkpoint state and suggest `/status` or `/research`.
 
 ### `clean [--keep N]`: Remove Old Checkpoints
 

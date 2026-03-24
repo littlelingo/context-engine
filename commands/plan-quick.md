@@ -17,7 +17,11 @@ Streamlined for bug fixes, single-file changes, minor improvements. Stays in one
    Approve?
    ```
 4. **Implement** after approval, following project testing strategy.
-5. **Reflect**: Capture errors, patterns, or insights to `.context/` after completion.
+5. **Reflect**: Capture after completion using standard formats:
+   - Errors -> `.context/errors/INDEX.md` (format: `### ERR-NNN: [desc]` with Signature, Cause, Fix, Prevention)
+   - Patterns -> `.context/patterns/CODE_PATTERNS.md` (format: `### [Name]` with context, example, rationale)
+   - Insights -> `.context/knowledge/LEARNINGS.md` (format: `### [Date] - [Topic]` with 2-3 sentence insight)
+   For complex learnings, use `/learn [type]: [content]`.
 6. **Hand off**:
    ```
    Done. Suggest: fix/feat: [description]

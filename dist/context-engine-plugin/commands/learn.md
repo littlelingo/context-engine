@@ -23,7 +23,7 @@ Capture a learning from the current session. Routes to the correct file based on
 3. **Check for duplicates** in the target file.
 
 4. **Write the entry** with appropriate format:
-   - Errors: `### ERR-NNN: [desc]` with signature, cause, fix
+   - Errors: `### ERR-NNN: [desc]` with Signature (greppable text from logs), Cause, Fix, Prevention
    - Patterns: `### [Name]` with context, example, rationale
    - Decisions: ADR format (context, decision, consequences)
    - Library quirks: Under `## Quirks & Gotchas` or `## Workarounds`
@@ -54,7 +54,7 @@ Without prefix: infer from content (library name mentioned -> libraries/, versio
 - Library files: include the version where behavior was observed
 - Stack recipes: include the exact config that works (not just description)
 - Error signatures must be greppable - exact text from logs/terminal
-- Number errors (ERR-001) and decisions (ADR-001) sequentially
+- Number errors (ERR-NNN) and decisions (ADR-NNN) sequentially and globally — read INDEX.md or decisions/ to find the highest existing number and increment. Avoid collisions across sessions.
 - Use kebab-case for filenames: `react-query.md`, `nextjs-prisma-trpc.md`
 
 ## User Input

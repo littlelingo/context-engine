@@ -8,7 +8,11 @@ No code in this phase. Understand what exists before planning.
 2. **MUST delegate**: Use the `researcher` agent to explore the codebase.
 3. **Check `.context/`**: Read architecture, patterns, and errors for existing knowledge.
 4. **Synthesize**: Produce a summary with current state, gaps, dependencies, risks, open questions.
-5. **Save**: Write to `.context/features/[NNN]-[topic]/NOTES.md` (use next available feature number from FEATURES.md)
+5. **Save**: Write to `.context/features/[NNN]-[topic]/NOTES.md`:
+   - Read FEATURES.md to find the highest existing feature number [NNN]
+   - Increment by 1 (do not reuse gaps — e.g., if 001 and 003 exist, next is 004)
+   - Verify `.context/features/[NNN]-*` directory doesn't already exist
+   - Create the directory and write NOTES.md
 6. **Reflect**: Update `.context/` with any new architecture info, patterns, or errors discovered.
 7. **Hand off**:
    ```

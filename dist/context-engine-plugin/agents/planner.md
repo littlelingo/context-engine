@@ -1,7 +1,7 @@
 ---
 name: planner
 description: Creates structured PRPs (Product Requirements Prompts) from research notes. Produces actionable plans with file paths, test coverage needs, and validation criteria.
-tools: Read, Glob, Grep
+tools: Read, Write, Edit, Glob, Grep
 model: sonnet
 memory: project
 ---

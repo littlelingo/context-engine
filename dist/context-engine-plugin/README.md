@@ -48,8 +48,10 @@ Commands choose Agent Teams or subagents based on task complexity. Each command 
   agents/          researcher, planner, implementer, reviewer, debugger
   commands/        init, research, plan, plan-quick,
                    implement, validate, debug, refactor,
-                   status, resume, learn, update-arch
-  skills/          18 progressive-disclosure skills (context-system,
+                   security-review, simplify, checkpoint,
+                   resume, status, knowledge, health,
+                   learn, update-arch
+  skills/          19 progressive-disclosure skills (context-system,
                    testing, api, git, database, auth, deployment,
                    react, python, postgres, redis, ruby, context7,
                    mcp-tools, sequential-thinking, puppeteer,
@@ -93,6 +95,8 @@ docs/PLUGIN.md         Plugin distribution guide
 | `/knowledge` | Any | Browse, search, promote knowledge base |
 | `/checkpoint` | Any | Create, list, rollback hybrid checkpoints (git tag + .context/ snapshot) |
 | `/health` | Any | Metrics dashboard: velocity, errors, knowledge, agents, context efficiency |
+| `/security-review` | Any | Standalone security review on files or recent changes |
+| `/simplify` | Any | Identify and apply code simplifications |
 | `/update-arch` | Any | Refresh architecture docs |
 
 ## Orchestration
