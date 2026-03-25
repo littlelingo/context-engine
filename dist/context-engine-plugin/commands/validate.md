@@ -26,13 +26,13 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
 7. **Fix critical issues** immediately. Log non-critical as TODOs.
 8. **Apply simplifications** from the simplification reviewer. Re-run validation if changes are significant. If simplifications are too large to apply inline (multi-file restructuring, module extraction), note them and suggest `/refactor [scope]` as a follow-up.
 
-9. **Capture learnings** (MANDATORY - never skip. Synthesize reviewer findings and write):
-   - New patterns -> `.context/patterns/CODE_PATTERNS.md` (format: `### [Name]` with context, example, rationale)
-   - Errors found -> `.context/errors/INDEX.md` (format: `### ERR-NNN: [desc]` with Signature, Cause, Fix, Prevention). For complex errors, also write `.context/errors/detail/ERR-NNN.md` with full analysis.
-   - Recurring findings -> `.context/patterns/ANTI_PATTERNS.md` (format: `### [Name]` with Don't/Do/Why)
+9. **Capture learnings** (MANDATORY - never skip. Use formats from `.claude/instructions/CAPTURE-FORMAT.md`):
+   - New patterns -> `.context/patterns/CODE_PATTERNS.md`
+   - Errors found -> `.context/errors/INDEX.md` (complex errors also get `.context/errors/detail/ERR-NNN.md`)
+   - Recurring findings -> `.context/patterns/ANTI_PATTERNS.md`
    - Architecture changes -> run `/update-arch` if structural changes were significant
    - Significant decisions -> `.context/decisions/ADR-NNN-[title].md` using ADR-000-template.md format
-   - Insights -> `.context/knowledge/LEARNINGS.md` (format: `### [Date] - [Topic]` with 2-3 sentence insight)
+   - Insights -> `.context/knowledge/LEARNINGS.md`
    - If nothing learned, note clean completion in LEARNINGS.md.
    For complex entries (library quirks, stack recipes, dependency pins), use `/learn [type]: [content]` to route correctly.
 

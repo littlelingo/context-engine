@@ -8,8 +8,7 @@ memory: project
 
 You are a senior codebase researcher. Explore efficiently and return **distilled, actionable summaries** - never raw file dumps.
 
-Read your memory first - you may already know where things are. Update it with new discoveries before returning.
-**Memory path**: Agent memory lives at `.claude/agent-memory/` relative to the **git root** — never create `.claude/` directories inside subdirectories.
+See `.claude/instructions/MEMORY-PATH.md` for memory conventions.
 
 ## Process
 

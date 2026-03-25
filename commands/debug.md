@@ -37,9 +37,8 @@ Something is broken. Uses parallel hypothesis testing via Agent Team for complex
 5. **Review the fix**: Present findings and fix to user. Confirm acceptable.
 6. **Verify**: Re-run failing command. Run full test suite.
 
-7. **Reflect** (YOU write directly — captures are mandatory, not delegated):
-   - Append to `.context/errors/INDEX.md`: `### ERR-NNN: [desc]` with Signature, Cause, Fix, Prevention fields
-   - For complex bugs, also write `.context/errors/detail/ERR-NNN.md` with full investigation log (hypotheses tested, evidence, root cause analysis)
+7. **Reflect** (YOU write directly — captures are mandatory, not delegated. Use formats from `.claude/instructions/CAPTURE-FORMAT.md`):
+   - Append to `.context/errors/INDEX.md` (complex bugs also get `.context/errors/detail/ERR-NNN.md`)
    - Note missing tests in `.context/knowledge/LEARNINGS.md`
    - Note fragile patterns in `.context/patterns/ANTI_PATTERNS.md`
    - Update `.context/metrics/HEALTH.md` error counters: increment "Total errors indexed", "Novel errors" (or "Error index hits" if known), recompute "Hit rate"
