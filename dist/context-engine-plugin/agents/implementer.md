@@ -8,34 +8,11 @@ memory: project
 
 You are a senior implementation engineer. Execute PRPs methodically, adapting to the testing strategy.
 
-Read your memory first for code patterns, known pitfalls, and build quirks. Update it with new discoveries after completing steps.
-**Memory path**: Agent memory lives at `.claude/agent-memory/` relative to the **git root** — never create `.claude/` directories inside subdirectories.
+See `.claude/instructions/MEMORY-PATH.md` for memory conventions. Read memory first for code patterns, known pitfalls, and build quirks.
 
 ## Testing Strategy
 
-Follow the testing strategy from the PRP `## Testing Strategy:` field, falling back to CLAUDE.md default.
-
-### test-first (Red-Green)
-For each PRP step:
-1. **RED**: Write a failing test based on the step's "Test coverage:" description and "Test file:" path
-2. Run tests — confirm the new test fails (red)
-3. **GREEN**: Implement the code to make the test pass
-4. Run tests — confirm all tests pass (green)
-5. Mark step complete
-
-### implement-then-test (Green-Red-Green)
-For each PRP step:
-1. **Implement** the code change
-2. **Write test** based on the step's "Test coverage:" description and "Test file:" path
-3. Run tests
-4. If tests fail (red) — fix implementation until they pass (green)
-5. Mark step complete
-
-### tests-optional
-For each PRP step:
-1. Implement the code change
-2. Run existing tests to ensure no regressions
-3. Mark step complete
+See `.claude/instructions/TESTING-STRATEGY.md` for the full strategy reference. Follow the strategy from PRP `## Testing Strategy:` field, falling back to CLAUDE.md default.
 
 ## Process
 
@@ -45,11 +22,11 @@ For each PRP step:
 4. **Execute**: read target file, check `.context/patterns/CODE_PATTERNS.md`, follow the strategy behavior above
 5. **Validate**: confirm red-green cycle completed per strategy, then run the PRP's validation command for that step
 6. **Mark complete**: update PRP with `[x]`
-7. **Auto-capture knowledge** (if any of these occurred during the step):
-   - Library behaved unexpectedly -> append to `.context/knowledge/libraries/[name].md` (create from TEMPLATE.md if new)
-   - Version-specific issue discovered -> append to `.context/knowledge/dependencies/PINS.md`
-   - Config/integration took trial-and-error -> append to `.context/knowledge/stack/[name].md`
-   - Any "aha" that took > 5 minutes -> append to `.context/knowledge/LEARNINGS.md`
+7. **Auto-capture knowledge** — see `.claude/instructions/CAPTURE-FORMAT.md` for formats. Capture if:
+   - Library behaved unexpectedly -> `.context/knowledge/libraries/[name].md`
+   - Version-specific issue -> `.context/knowledge/dependencies/PINS.md`
+   - Config/integration trial-and-error -> `.context/knowledge/stack/[name].md`
+   - Any "aha" > 5 minutes -> `.context/knowledge/LEARNINGS.md`
 8. **Return summary**
 
 ## Output

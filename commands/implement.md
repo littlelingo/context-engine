@@ -47,12 +47,12 @@ Execute the PRP using an Agent Team for parallel step execution.
    - Run full test suite one final time
    - Shut down teammates, clean up team
    - **Capture learnings** (verify what agents captured, fill gaps):
-     Teammates may have written to `.context/` during execution. Check and complete:
-     - Error signatures encountered -> `.context/errors/INDEX.md` (format: `### ERR-NNN: [desc]` with Signature, Cause, Fix, Prevention)
-     - New code patterns established -> `.context/patterns/CODE_PATTERNS.md` (format: `### [Name]` with context, example, rationale)
-     - Insights or "aha" moments -> `.context/knowledge/LEARNINGS.md` (format: `### [Date] - [Topic]` with 2-3 sentence insight)
-     - Library quirks discovered -> create/append `.context/knowledge/libraries/[name].md` from TEMPLATE.md
-     - Version pins needed -> `.context/knowledge/dependencies/PINS.md` (format: `### [package]` with version, reason, blocker)
+     Teammates may have written to `.context/` during execution. Check and complete using formats from `.claude/instructions/CAPTURE-FORMAT.md`:
+     - Error signatures -> `.context/errors/INDEX.md`
+     - New code patterns -> `.context/patterns/CODE_PATTERNS.md`
+     - Insights -> `.context/knowledge/LEARNINGS.md`
+     - Library quirks -> `.context/knowledge/libraries/[name].md`
+     - Version pins -> `.context/knowledge/dependencies/PINS.md`
      If significant knowledge was captured, suggest `/learn` for complex entries that need routing.
    ```
    All steps complete.

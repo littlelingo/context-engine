@@ -92,4 +92,5 @@ Manual: `/learn` | Architecture refresh: `/update-arch`
 
 ## Skills (Progressive Disclosure)
 Domain expertise loads on-demand when you touch relevant files. Not front-loaded.
-19 skills in `skills/` - check context-system skill for the full reference.
+20 skills in `skills/` - check context-system skill for the full reference.
+Shared instructions in `.claude/instructions/` — referenced by agents and commands to avoid duplication.

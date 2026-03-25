@@ -15,7 +15,7 @@ description: Context Engine framework reference. Auto-loaded when working with .
 | `reviewer` | Subagent or Teammate | Recurring issues |
 | `debugger` | Subagent or Teammate | Error patterns |
 
-## Skills (19 total - progressive disclosure)
+## Skills (20 total - progressive disclosure)
 | Skill | Loads When | Purpose |
 |-------|-----------|---------|
 | `context-system` | .context/, commands/, agents/ | This reference |
@@ -37,3 +37,4 @@ description: Context Engine framework reference. Auto-loaded when working with .
 | `postgres-mcp` | .sql, migrations/, db/ | Live database queries via MCP |
 | `google-workspace` | spreadsheet, gdoc, gsheet | Google Docs/Sheets/Drive via MCP |
 | `knowledge-base` | .context/knowledge/, package.json | Deep knowledge layer management |
+| `prompt-efficiency` | Always loaded | Context budget and token efficiency rules |
