@@ -53,14 +53,23 @@ echo "  $HOOK_COUNT hook scripts + hooks.json"
 echo "Copying MCP config..."
 cp "$SCRIPT_DIR/.mcp.json" "$OUTPUT/.mcp.json"
 
-# 7. Context templates (for init to bootstrap into user projects)
+# 7. Shared instructions (referenced by agents and commands)
+echo "Copying shared instructions..."
+if [ -d "$SCRIPT_DIR/.claude/instructions" ]; then
+    mkdir -p "$OUTPUT/instructions"
+    cp "$SCRIPT_DIR/.claude/instructions/"*.md "$OUTPUT/instructions/" 2>/dev/null || true
+    INSTRUCTION_COUNT=$(ls "$OUTPUT/instructions/"*.md 2>/dev/null | wc -l | tr -d ' ')
+    echo "  $INSTRUCTION_COUNT instruction files"
+fi
+
+# 8. Context templates (for init to bootstrap into user projects)
 echo "Copying context templates..."
 mkdir -p "$OUTPUT/context-templates"
 cp -r "$SCRIPT_DIR/.context/"* "$OUTPUT/context-templates/" 2>/dev/null || true
 TEMPLATE_COUNT=$(find "$OUTPUT/context-templates" -type f 2>/dev/null | wc -l | tr -d ' ')
 echo "  $TEMPLATE_COUNT template files"
 
-# 8. Add CLAUDE.md as a catch-all skill
+# 9. Add CLAUDE.md as a catch-all skill
 mkdir -p "$OUTPUT/skills/context-engine-rules"
 cat > "$OUTPUT/skills/context-engine-rules/SKILL.md" << 'EOF'
 ---
@@ -70,12 +79,12 @@ description: Context Engine core rules. Always active when the plugin is install
 EOF
 cat "$SCRIPT_DIR/CLAUDE.md" >> "$OUTPUT/skills/context-engine-rules/SKILL.md"
 
-# 9. Docs
+# 10. Docs
 mkdir -p "$OUTPUT/docs"
 cp "$SCRIPT_DIR/README.md" "$OUTPUT/" 2>/dev/null || true
 cp "$SCRIPT_DIR/docs/"* "$OUTPUT/docs/" 2>/dev/null || true
 
-# 10. License
+# 11. License
 cat > "$OUTPUT/LICENSE" << 'LICENSE'
 MIT License
 
