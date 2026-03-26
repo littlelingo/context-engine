@@ -22,7 +22,9 @@ If no research exists, recommend `/research` first.
    PRP saved to: [path]
    Testing strategy: [choice]
    Next: /implement [path] (run /clear first if context > 50%)
+   Proceed? (y/n)
    ```
+   If yes: execute the suggested command (remind about `/clear` first if context > 50%). If no: ask the user what they'd like to do instead.
 
 ## Rules
 - No code. Planning only.

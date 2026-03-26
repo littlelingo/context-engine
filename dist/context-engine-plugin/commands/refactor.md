@@ -50,7 +50,9 @@ Restructure code without adding features. Uses Agent Team for multi-module refac
    ```
    Refactor complete. All tests passing.
    Next: /validate [PRP path] (run /clear first if context > 50%)
+   Proceed? (y/n)
    ```
+   If yes: execute the suggested command (remind about `/clear` first if context > 50%). If no: ask the user what they'd like to do instead.
 
 ## Rules
 - Tests must pass BEFORE starting and AFTER every step.
