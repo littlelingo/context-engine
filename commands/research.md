@@ -18,7 +18,9 @@ No code in this phase. Understand what exists before planning.
    ```
    Research saved to: .context/features/[NNN]-[topic]/NOTES.md
    Next: /plan .context/features/[NNN]-[topic]/NOTES.md
+   Proceed? (y/n)
    ```
+   If yes: execute the suggested command. If no: ask the user what they'd like to do instead.
 
 ## Rules
 - No code. Research only.
