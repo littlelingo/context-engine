@@ -147,7 +147,7 @@ Present the gap report:
 Next: `/adapt apply [dimension]` to fix a category.
 Proceed? (y/n)
 ```
-If yes: execute `/adapt apply` for the highest-priority dimension. If no: ask the user what they'd like to do instead.
+If yes: invoke `/adapt` with `apply [dimension]` as the argument (use the Skill tool with skill="adapt"). If no: ask the user what they'd like to do instead.
 
 ### Phase 4: Apply
 

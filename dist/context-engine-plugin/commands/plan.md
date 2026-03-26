@@ -24,7 +24,7 @@ If no research exists, recommend `/research` first.
    Next: /implement [path] (run /clear first if context > 50%)
    Proceed? (y/n)
    ```
-   If yes: execute the suggested command (remind about `/clear` first if context > 50%). If no: ask the user what they'd like to do instead.
+   If yes: invoke `/implement` with the PRP path as the argument (use the Skill tool with skill="implement"). Remind about `/clear` first if context > 50%. If no: ask the user what they'd like to do instead.
 
 ## Rules
 - No code. Planning only.

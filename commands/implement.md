@@ -59,7 +59,7 @@ Execute the PRP using an Agent Team for parallel step execution.
    Next: /validate [PRP path] (run /clear first if context > 50%)
    Proceed? (y/n)
    ```
-   If yes: execute the suggested command (remind about `/clear` first if context > 50%). If no: ask the user what they'd like to do instead.
+   If yes: invoke `/validate` with the PRP path as the argument (use the Skill tool with skill="validate"). Remind about `/clear` first if context > 50%. If no: ask the user what they'd like to do instead.
 
 ## Resuming
 When steps are already marked `[x]`: read PRP, summarize progress, pick up remaining unchecked steps. Spawn a smaller team for just the remaining work.
