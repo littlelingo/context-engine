@@ -38,6 +38,7 @@ Insert `/clear` + `/resume` between any phases when context > 50%.
 | Validate | `/validate` | Agent Team or subagent |
 
 Quick: `/plan-quick` | Bugs: `/debug` | Refactor: `/refactor` | Simplify: `/simplify` | Adapt: `/adapt` | Security: `/security-review`
+Skills: `/create-skill` | `/update-skill`
 Status: `/status` | Resume: `/resume` | Knowledge: `/knowledge` | Health: `/health`
 
 Each command ends with the exact next command. Handoffs are explicit.
@@ -61,6 +62,7 @@ Roles (`agents/`): `researcher`, `planner`, `implementer`, `reviewer`, `debugger
 ## Feature Lifecycle
 PRP statuses: `PLANNING` -> `APPROVED` -> `IN_PROGRESS` -> `COMPLETE`
 To abandon a feature: update FEATURES.md status to `CANCELLED`. Optionally delete the feature branch and clean associated checkpoints.
+Cleanup: `/knowledge cleanup` archives COMPLETE features older than 30 days.
 
 ## Testing Strategy
 **Default**: `implement-then-test` | Override per-plan in PRP header

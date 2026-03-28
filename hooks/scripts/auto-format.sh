@@ -9,28 +9,27 @@
 # - Skip during Agent Team execution (format at team completion)
 
 INPUT=$(cat)
-FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // .tool_input.filePath // empty')
 
-if [ -z "$FILE_PATH" ] || [ ! -f "$FILE_PATH" ]; then
+# Extract file paths — handles both Edit (single file_path) and MultiEdit (edits[] array)
+FILE_PATHS=$(echo "$INPUT" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+ti = d.get('tool_input', {})
+paths = []
+fp = ti.get('file_path') or ti.get('filePath')
+if fp:
+    paths.append(fp)
+for edit in ti.get('edits', []):
+    p = edit.get('file_path') or edit.get('filePath')
+    if p:
+        paths.append(p)
+print('\n'.join(paths))
+" 2>/dev/null)
+
+if [ -z "$FILE_PATHS" ]; then
     exit 0
 fi
 
-# Early exit: skip non-source files and framework directories
-case "$FILE_PATH" in
-    *.md|*.json|*.yaml|*.yml|*.toml|*.lock|*.csv)
-        exit 0 ;;
-    *.context/*|*.claude/*|*/dist/*|*/node_modules/*|*/.git/*)
-        exit 0 ;;
-esac
-
-# Early exit: skip files in .context/ or .claude/ (path prefix check)
-case "$FILE_PATH" in
-    .context/*|.claude/*|dist/*)
-        exit 0 ;;
-esac
-
-EXT="${FILE_PATH##*.}"
-FORMATTED=false
 CACHE="/tmp/.context-engine-formatter-cache"
 CACHE_TTL=300  # 5 minutes
 
@@ -55,40 +54,64 @@ detect_formatter() {
 
 FORMATTER=$(use_cached_formatter || { F=$(detect_formatter); echo "$F" > "$CACHE"; echo "$F"; })
 
-case "$FORMATTER" in
-    prettier)
-        if command -v npx &>/dev/null; then
-            npx prettier --write "$FILE_PATH" 2>/dev/null && FORMATTED=true
-        fi
-        ;;
-    eslint)
-        case "$EXT" in
-            js|jsx|ts|tsx|mjs|cjs)
-                if command -v npx &>/dev/null; then
-                    npx eslint --fix "$FILE_PATH" 2>/dev/null && FORMATTED=true
-                fi
-                ;;
-        esac
-        ;;
-esac
+format_file() {
+    local FILE_PATH="$1"
 
-# Language-specific fallbacks
-if [ "$FORMATTED" = false ]; then
-    case "$EXT" in
-        py)
-            if command -v ruff &>/dev/null; then
-                ruff format "$FILE_PATH" 2>/dev/null && FORMATTED=true
-            elif command -v black &>/dev/null; then
-                black -q "$FILE_PATH" 2>/dev/null && FORMATTED=true
+    [ ! -f "$FILE_PATH" ] && return
+
+    # Skip non-source files and framework directories
+    case "$FILE_PATH" in
+        *.md|*.json|*.yaml|*.yml|*.toml|*.lock|*.csv)
+            return ;;
+        *.context/*|*.claude/*|*/dist/*|*/node_modules/*|*/.git/*)
+            return ;;
+        .context/*|.claude/*|dist/*)
+            return ;;
+    esac
+
+    local EXT="${FILE_PATH##*.}"
+    local FORMATTED=false
+
+    case "$FORMATTER" in
+        prettier)
+            if command -v npx &>/dev/null; then
+                npx prettier --write "$FILE_PATH" 2>/dev/null && FORMATTED=true
             fi
             ;;
-        go)
-            command -v gofmt &>/dev/null && gofmt -w "$FILE_PATH" 2>/dev/null && FORMATTED=true
-            ;;
-        rs)
-            command -v rustfmt &>/dev/null && rustfmt "$FILE_PATH" 2>/dev/null && FORMATTED=true
+        eslint)
+            case "$EXT" in
+                js|jsx|ts|tsx|mjs|cjs)
+                    if command -v npx &>/dev/null; then
+                        npx eslint --fix "$FILE_PATH" 2>/dev/null && FORMATTED=true
+                    fi
+                    ;;
+            esac
             ;;
     esac
-fi
+
+    # Language-specific fallbacks
+    if [ "$FORMATTED" = false ]; then
+        case "$EXT" in
+            py)
+                if command -v ruff &>/dev/null; then
+                    ruff format "$FILE_PATH" 2>/dev/null && FORMATTED=true
+                elif command -v black &>/dev/null; then
+                    black -q "$FILE_PATH" 2>/dev/null && FORMATTED=true
+                fi
+                ;;
+            go)
+                command -v gofmt &>/dev/null && gofmt -w "$FILE_PATH" 2>/dev/null && FORMATTED=true
+                ;;
+            rs)
+                command -v rustfmt &>/dev/null && rustfmt "$FILE_PATH" 2>/dev/null && FORMATTED=true
+                ;;
+        esac
+    fi
+}
+
+while IFS= read -r FILE_PATH; do
+    [ -z "$FILE_PATH" ] && continue
+    format_file "$FILE_PATH"
+done <<< "$FILE_PATHS"
 
 exit 0

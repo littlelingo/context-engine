@@ -153,10 +153,8 @@ If yes: invoke `/adapt` with `apply [dimension]` as the argument (use the Skill 
 
 Only runs when `/adapt apply [dimension]` is invoked.
 
-1. **Safety checks** (same as `/refactor`):
-   a. Clean working tree — if dirty, stop
-   b. Tests pass — if failing, stop
-   c. Correct branch — if on main/master, create `refactor/adapt-[dimension]` branch
+1. **Safety checks**: Follow `.claude/instructions/SAFETY-CHECKS.md`
+   If on main/master, create `refactor/adapt-[dimension]` branch.
 
 2. **Generate lightweight PRP**:
    - Extract findings for the selected dimension from the audit

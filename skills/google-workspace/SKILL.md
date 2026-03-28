@@ -1,5 +1,5 @@
 ---
-description: Google Workspace operations via MCP - Docs, Sheets, Drive. Create, read, edit spreadsheets and documents directly from Claude Code.
+description: Google Workspace operations via MCP - Docs, Sheets, Drive. Use when creating, reading, or editing Google Docs, Sheets, or Drive files from Claude Code.
 ---
 
 # Google Workspace MCP - Docs, Sheets & Drive

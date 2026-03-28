@@ -12,13 +12,21 @@ Parse `$ARGUMENTS` to determine the action:
 3. List stack recipe files in `.context/knowledge/stack/` (excluding TEMPLATE.md)
 4. Count dependency pins in `.context/knowledge/dependencies/PINS.md`
 5. Count quick insights in `.context/knowledge/LEARNINGS.md`
-6. Report total knowledge entries and suggest areas that may need attention
+6. Count ADR files in `.context/decisions/` (excluding any TEMPLATE.md)
+7. Count files in `.context/architecture/`
+8. Report total knowledge entries and suggest areas that may need attention
 
 ### `search [query]`: Search across all knowledge
-1. Grep across all `.context/knowledge/` files for the query
-2. Also search `.context/errors/INDEX.md` and `.context/patterns/`
-3. Return matching entries with file paths and surrounding context
-4. Highlight which type of knowledge matched (library, stack, dependency, error, pattern)
+Search across all `.context/` knowledge sources:
+- `.context/knowledge/` — learnings, libraries, stack recipes, dependency pins
+- `.context/errors/` — error index and detail files
+- `.context/patterns/` — code patterns and anti-patterns
+- `.context/decisions/` — architecture decision records
+- `.context/architecture/` — system overview, tech stack, directory map
+
+1. Grep case-insensitively across all sources listed above for the query
+2. Return matching entries with file paths and surrounding context
+3. Highlight which type of knowledge matched (library, stack, dependency, error, pattern, decision, architecture)
 
 ### `library [name]`: Show library knowledge
 1. Look for `.context/knowledge/libraries/[name].md`
@@ -44,6 +52,13 @@ Parse `$ARGUMENTS` to determine the action:
 2. Flag LEARNINGS.md entries that should be promoted (3+ mentions of same library)
 3. Check for empty or stale knowledge files
 4. Report recommendations
+5. Scan `.context/features/` for subdirectories containing a PRP with status COMPLETE or CANCELLED
+   - For each candidate, check the PRP file for a completion date; fall back to `git log --follow` on the directory to find the last-modified date
+   - If the feature has been COMPLETE or CANCELLED for more than 30 days, suggest archiving it
+   - **Never suggest archiving IN_PROGRESS or APPROVED features**
+   - Confirm with the user before archiving each feature
+   - Archive: append a summary entry to `.context/features/ARCHIVE.md` (feature number, name, status, completion date, key files changed, one-line summary from PRP), then delete the feature directory
+   - If `.context/features/ARCHIVE.md` does not exist, create it with a `# Feature Archive` header before appending
 
 ## Rules
 - Read-only by default - only `promote` and `cleanup` modify files

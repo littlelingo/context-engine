@@ -18,7 +18,11 @@ fi
 BRANCH=$(git branch --show-current 2>/dev/null || echo "unknown")
 
 # Find testing strategy
-STRATEGY=$(grep -oP 'Testing Strategy:\s*\K\S+' "$ACTIVE_PRP" 2>/dev/null || grep -oP '\*\*Default\*\*:\s*`\K[^`]+' CLAUDE.md 2>/dev/null || echo "implement-then-test")
+STRATEGY=$(grep -E 'Testing Strategy:' "$ACTIVE_PRP" 2>/dev/null | sed 's/.*Testing Strategy:[[:space:]]*//' | tr -d '`' | awk '{print $1}' | head -1)
+if [ -z "$STRATEGY" ]; then
+    STRATEGY=$(grep -E '\*\*Default\*\*:' CLAUDE.md 2>/dev/null | sed 's/.*\*\*Default\*\*:[[:space:]]*//' | tr -d '`' | awk '{print $1}' | head -1)
+fi
+STRATEGY=${STRATEGY:-implement-then-test}
 
 # Build the context injection
 CONTEXT="CONTEXT PRESERVED BEFORE COMPACTION:"

@@ -20,6 +20,7 @@
     "padding": 0
   },
   "env": {
+    "PATH": "/Users/clint/.nvm/versions/node/v24.13.1/bin:/usr/local/bin:/usr/bin:/bin",
     "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "0",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
@@ -62,6 +63,15 @@
             "command": "hooks/scripts/auto-format.sh"
           }
         ]
+      },                                                                                                                                                       
+      {                                                                                                                                                       
+        "matcher": "Read|Bash",                                                                                                                               
+        "hooks": [                                                                                                                                            
+          {                                               
+            "type": "command",                                                                                                                                
+            "command": "hooks/scripts/context-budget.sh"                                                                                                      
+          }                                                                                                                                                   
+        ]                
       }
     ],
     "PreCompact": [
@@ -102,6 +112,14 @@
             "command": "hooks/scripts/session-track.sh"
           }
         ]
+      },                                                                                                                                                       
+      {                                
+        "hooks": [                                                                                                                                            
+          {                                                                                                                                                 
+            "type": "command",                            
+            "command": "hooks/scripts/classify-request.sh"
+          }                                                                                                                                                   
+        ]  
       }
     ]
   }

@@ -34,21 +34,23 @@ Something is broken. Uses parallel hypothesis testing via Agent Team for complex
 
    The lead synthesizes findings, identifies the root cause from the strongest evidence, and applies the fix.
 
-5. **Review the fix**: Present findings and fix to user. Confirm acceptable.
-6. **Verify**: Re-run failing command. Run full test suite.
+5. **Branch check**: If on `main`/`master`, create a `fix/[bug-name]` branch before applying any changes.
 
-7. **Reflect** (YOU write directly — captures are mandatory, not delegated. Use formats from `.claude/instructions/CAPTURE-FORMAT.md`):
+6. **Review the fix**: Present findings and fix to user. Confirm acceptable.
+7. **Verify**: Re-run failing command. Run full test suite.
+
+8. **Reflect** (YOU write directly — captures are mandatory, not delegated. Use formats from `.claude/instructions/CAPTURE-FORMAT.md`):
    - Append to `.context/errors/INDEX.md` (complex bugs also get `.context/errors/detail/ERR-NNN.md`)
    - Note missing tests in `.context/knowledge/LEARNINGS.md`
    - Note fragile patterns in `.context/patterns/ANTI_PATTERNS.md`
    - Update `.context/metrics/HEALTH.md` error counters: increment "Total errors indexed", "Novel errors" (or "Error index hits" if known), recompute "Hit rate"
 
-8. **Next steps**:
+9. **Next steps**:
    ```
    Bug fixed and captured to error index.
    Commit + PR? (y / commit-only / continue / /research [topic] for deeper fix)
    ```
-   If committing: check branch. If on `main`/`master`, suggest `fix/[bug-name]` branch.
+   If debugging interrupted an active PRP, suggest: `Resume with /implement [PRP path]` or `/resume`.
 
 ## Rules
 - Check error index FIRST.

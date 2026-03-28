@@ -10,7 +10,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 OUTPUT="${1:-$SCRIPT_DIR/dist/context-engine-plugin}"
-VERSION="0.0.5"
+VERSION=$(cat "$SCRIPT_DIR/.claude-plugin/plugin.json" | python3 -c "import sys,json; print(json.load(sys.stdin)['version'])" 2>/dev/null || echo "0.0.0")
 
 echo "Building Context Engine Plugin v$VERSION"
 echo "Output: $OUTPUT"
