@@ -7,6 +7,7 @@ Execute the PRP using an Agent Team for parallel step execution.
 1. **Safety checks**: Follow `.claude/instructions/SAFETY-CHECKS.md`
    If on main/master, create feature branch from the PRP name.
    If resuming (steps already marked `[x]`), skip safety checks.
+   **Before branching or entering a worktree**: verify the PRP and NOTES.md are committed. If uncommitted `.context/features/` files exist, stage and commit them automatically (`docs: plan [feature-name]`) — no user prompt needed for framework artifacts. Uncommitted artifacts will not carry over to new branches or worktrees.
 
 2. **Load PRP** from `$ARGUMENTS` (or find most recent APPROVED/IN_PROGRESS PRP). Set status to IN_PROGRESS. Update FEATURES.md.
 

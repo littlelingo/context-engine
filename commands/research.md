@@ -14,7 +14,8 @@ No code in this phase. Understand what exists before planning.
    - Verify `.context/features/[NNN]-*` directory doesn't already exist
    - Create the directory and write NOTES.md
 6. **Reflect**: Update `.context/` with any new architecture info, patterns, or errors discovered. Use formats from `.claude/instructions/CAPTURE-FORMAT.md` when writing to `.context/`.
-7. **Hand off**:
+7. **Commit research artifacts** (automatic — no user prompt): Stage and commit all `.context/` changes (NOTES.md, FEATURES.md, any reflection updates) with `docs: research [topic]`. These are framework bookkeeping, not user code — commit silently so artifacts survive branch creation, worktree spawns, and checkpoints.
+8. **Hand off**:
    ```
    Research saved to: .context/features/[NNN]-[topic]/NOTES.md
    Next: /plan .context/features/[NNN]-[topic]/NOTES.md

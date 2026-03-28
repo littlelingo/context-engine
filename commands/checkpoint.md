@@ -22,10 +22,13 @@ Parse `$ARGUMENTS` to determine the action:
      - Any `.context/decisions/ADR-*.md` files (excluding the template)
      - Any `.context/knowledge/libraries/*.md` and `stack/*.md` files (excluding TEMPLATEs)
    - Write `snapshot-meta.json` with: timestamp, branch, PRP path, PRP progress (N/M steps), trigger reason, git SHA at time of snapshot
-3. **Create git tag**:
+3. **Commit .context/ artifacts before tagging**:
+   - If there are uncommitted `.context/` files (NOTES.md, PRP.md, FEATURES.md, knowledge captures): stage and commit them with `docs: checkpoint [label]`. These must be in git history for the tag and any branch/worktree to carry them.
+   - If there are also uncommitted source code changes: leave those unstaged — only commit `.context/` artifacts.
+4. **Create git tag**:
    - First verify tag doesn't already exist: `git tag -l checkpoint-NNN`. If collision found, increment NNN until an available number is found.
    - If working tree is clean: `git tag checkpoint-NNN -m "[label]"`
-   - If working tree is dirty: `git stash` first, tag, then `git stash pop`. Note in manifest that tree was dirty.
+   - If working tree is dirty (non-.context/ changes remain): `git stash` first, tag, then `git stash pop`. Note in manifest that tree was dirty.
    - If git stash fails (nothing to stash): tag the current HEAD anyway.
 4. **Append to MANIFEST.md** with all metadata.
 5. **Report**: "Checkpoint CP-NNN created. Tag: checkpoint-NNN. [N files snapshotted]."
