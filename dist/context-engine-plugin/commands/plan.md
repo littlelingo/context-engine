@@ -17,7 +17,8 @@ If no research exists, recommend `/research` first.
 9. **Update feature index**: Add a row to `.context/features/FEATURES.md`:
    `| [NNN] | [feature-name] | APPROVED | [strategy] | .context/features/[NNN]-[name]/PRP.md |`
 10. **Reflect**: Capture any new decisions as `.context/decisions/ADR-NNN-[title].md` using the ADR-000-template.md format. Also capture new risks or patterns to `.context/patterns/`.
-11. **Hand off**:
+11. **Commit plan artifacts** (automatic — no user prompt): Stage and commit all `.context/` changes (PRP.md, FEATURES.md, checkpoint, ADRs, pattern updates) with `docs: plan [feature-name]`. These are framework bookkeeping, not user code — commit silently so artifacts survive branch creation, worktree spawns, and `/clear` + `/resume` cycles.
+12. **Hand off**:
    ```
    PRP saved to: [path]
    Testing strategy: [choice]
