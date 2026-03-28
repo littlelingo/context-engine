@@ -1,4 +1,5 @@
 ---
+name: google-workspace
 description: Google Workspace operations via MCP - Docs, Sheets, Drive. Use when creating, reading, or editing Google Docs, Sheets, or Drive files from Claude Code.
 ---
 

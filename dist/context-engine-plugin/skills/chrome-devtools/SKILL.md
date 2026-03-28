@@ -1,4 +1,5 @@
 ---
+name: chrome-devtools
 description: Chrome DevTools debugging and browser automation via MCP. Auto-loaded when working with browser debugging, performance analysis, or web inspection tasks.
 ---
 
