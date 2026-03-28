@@ -80,7 +80,8 @@ Bootstrap the context engineering system. Run this first on any new or existing 
    Detected: [tech stack], Test: [cmd], Lint: [cmd]
    Testing strategy: [choice]
    Skills populated: [testing-conventions, api-conventions, or "none - will grow via auto-learning"]
-   Run /research [topic] to begin.
+   Recommended: /adapt (audit project against standards)
+   Or: /research [topic] to begin a feature.
    ```
 
 ## User Input

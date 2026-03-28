@@ -4,9 +4,10 @@ Streamlined for bug fixes, single-file changes, minor improvements. Stays in one
 
 ## Process
 
-1. **Understand**: Restate the request.
-2. **MUST delegate**: Use `researcher` agent to scan relevant files (max 3-5).
-3. **Propose**:
+1. **Safety checks**: Follow `.claude/instructions/SAFETY-CHECKS.md`. Exception: if the change is truly a one-liner (typo, string change), skip the branch requirement and commit directly.
+2. **Understand**: Restate the request.
+3. **MUST delegate**: Use `researcher` agent to scan relevant files (max 3-5).
+4. **Propose**:
    ```
    ## Quick Plan: [Task]
    **Files**: [files to touch]
@@ -16,13 +17,13 @@ Streamlined for bug fixes, single-file changes, minor improvements. Stays in one
    **Known Issues**: [from .context/errors/INDEX.md]
    Approve?
    ```
-4. **Implement** after approval, following project testing strategy.
-5. **Reflect**: Capture after completion using standard formats:
+5. **Implement** after approval, following project testing strategy.
+6. **Reflect**: Capture after completion using standard formats:
    - Errors -> `.context/errors/INDEX.md` (format: `### ERR-NNN: [desc]` with Signature, Cause, Fix, Prevention)
    - Patterns -> `.context/patterns/CODE_PATTERNS.md` (format: `### [Name]` with context, example, rationale)
    - Insights -> `.context/knowledge/LEARNINGS.md` (format: `### [Date] - [Topic]` with 2-3 sentence insight)
    For complex learnings, use `/learn [type]: [content]`.
-6. **Hand off**:
+7. **Hand off**:
    ```
    Done. Suggest: fix/feat: [description]
    Commit + PR? (y / commit-only / skip)

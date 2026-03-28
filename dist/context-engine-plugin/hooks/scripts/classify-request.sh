@@ -13,7 +13,7 @@ fi
 PROMPT_LOWER=$(echo "$PROMPT" | tr '[:upper:]' '[:lower:]')
 
 # Minimal task detection: simple edits that don't need agent delegation
-if echo "$PROMPT_LOWER" | grep -qE '(typo|rename|fix import|update version|change string|s]imple fix|one.?line|single line|quick fix)'; then
+if echo "$PROMPT_LOWER" | grep -qE '(typo|rename|fix import|update version|change string|simple fix|one.?line|single line|quick fix)'; then
     echo '{"additionalContext":"Task complexity: MINIMAL. Prefer direct edit over agent delegation. Skip Agent Teams."}'
     exit 0
 fi

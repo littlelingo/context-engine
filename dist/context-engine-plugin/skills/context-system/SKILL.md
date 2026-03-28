@@ -15,7 +15,7 @@ description: Context Engine framework reference. Auto-loaded when working with .
 | `reviewer` | Subagent or Teammate | Recurring issues |
 | `debugger` | Subagent or Teammate | Error patterns |
 
-## Skills (20 total - progressive disclosure)
+## Skills (23 total - progressive disclosure)
 | Skill | Loads When | Purpose |
 |-------|-----------|---------|
 | `context-system` | .context/, commands/, agents/ | This reference |
@@ -25,16 +25,19 @@ description: Context Engine framework reference. Auto-loaded when working with .
 | `database-migrations` | migrations/, .sql files | Schema changes, ORMs |
 | `auth-security` | auth/, middleware/ files | JWT, OAuth, OWASP |
 | `deployment-cicd` | Dockerfile, workflows/ | Docker, GitHub Actions |
+| `typescript` | .ts, tsconfig.json, .d.ts files | Type safety, generics, config |
 | `react-frontend` | .tsx/.jsx, components/ | React patterns, hooks, state |
 | `python-backend` | views/, routers/ .py | FastAPI, Django, Flask |
 | `postgres` | .sql, db/ files | Queries, indexing, performance |
 | `redis` | cache/, queue/ files | Caching, sessions, pub/sub |
+| `node-backend` | server.ts/js, app.ts/js, routes/ | Express, Fastify, NestJS patterns |
 | `ruby` | .rb, Gemfile | Rails, RSpec, ActiveRecord |
 | `context7-docs` | package.json, requirements | Library doc lookup via MCP |
 | `mcp-tools` | .mcp.json | MCP server catalog |
 | `sequential-thinking` | PRP.md, ADR-*, errors/ | Structured problem decomposition via MCP |
 | `puppeteer` | e2e/, screenshots/ | Browser automation via MCP |
 | `postgres-mcp` | .sql, migrations/, db/ | Live database queries via MCP |
-| `google-workspace` | spreadsheet, gdoc, gsheet | Google Docs/Sheets/Drive via MCP |
-| `knowledge-base` | .context/knowledge/, package.json | Deep knowledge layer management |
+| `google-workspace` | Google Docs/Sheets/Drive operations | Google Docs/Sheets/Drive via MCP |
+| `chrome-devtools` | browser debugging, DevTools | Chrome DevTools debugging via MCP |
+| `knowledge-base` | .context/knowledge/ files | Deep knowledge layer management |
 | `prompt-efficiency` | Always loaded | Context budget and token efficiency rules |

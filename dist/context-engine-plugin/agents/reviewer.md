@@ -1,7 +1,7 @@
 ---
 name: reviewer
 description: Reviews code changes for quality, pattern compliance, security, and edge cases. Use after implementation, before commit.
-tools: Read, Write, Edit, Glob, Grep, Bash(git:diff*), Bash(git:log*)
+tools: Read, Glob, Grep, Bash(git:diff*), Bash(git:log*)
 model: sonnet
 memory: project
 ---

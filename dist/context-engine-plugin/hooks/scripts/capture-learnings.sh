@@ -8,7 +8,7 @@
 RECENT_UPDATES=$(find .context/ -name "*.md" -newer /tmp/.session-start 2>/dev/null | head -5)
 
 # Check if code files were modified (indicates work was done)
-CODE_CHANGES=$(git diff --name-only 2>/dev/null | grep -v '.context/' | head -1)
+CODE_CHANGES=$(git diff HEAD --name-only 2>/dev/null | grep -v '.context/' | head -1)
 
 if [ -n "$CODE_CHANGES" ] && [ -z "$RECENT_UPDATES" ]; then
     # Work was done but no learnings captured

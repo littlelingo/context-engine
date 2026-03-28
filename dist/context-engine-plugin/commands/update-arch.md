@@ -16,7 +16,9 @@ Update `.context/architecture/` after significant codebase changes. Called by `/
    - `TECH_STACK.md` - languages, frameworks, versions, dev commands
    - `DIRECTORY_MAP.md` - annotated project tree
 3. **Update incrementally** - don't rewrite from scratch. Keep files under 300 lines (per project code standards).
-4. **Report** what changed:
+4. **Stamp freshness** - after updating each file, append or update a freshness line at the bottom:
+   `<!-- Last refreshed: YYYY-MM-DD by /update-arch -->`
+5. **Report** what changed:
    ```
    Architecture docs updated:
    - OVERVIEW.md: [what changed]

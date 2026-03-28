@@ -4,10 +4,8 @@ Execute the PRP using an Agent Team for parallel step execution.
 
 ## Process
 
-1. **Safety checks** (MUST pass before any code is written):
-   a. **Clean working tree**: Run `git status`. If uncommitted changes, stop and ask user to commit or stash.
-   b. **Tests pass**: Run the project's test command from TECH_STACK.md. If tests fail, stop and suggest: `Tests are failing. Run /debug [failing test or error] to diagnose before implementing.`
-   c. **Correct branch**: If on `main`/`master`, derive branch name from PRP (`feat/`, `fix/`, `refactor/`), ask user to confirm, create it.
+1. **Safety checks**: Follow `.claude/instructions/SAFETY-CHECKS.md`
+   If on main/master, create feature branch from the PRP name.
    If resuming (steps already marked `[x]`), skip safety checks.
 
 2. **Load PRP** from `$ARGUMENTS` (or find most recent APPROVED/IN_PROGRESS PRP). Set status to IN_PROGRESS. Update FEATURES.md.
@@ -46,8 +44,8 @@ Execute the PRP using an Agent Team for parallel step execution.
    - Verify all PRP steps are marked `[x]`
    - Run full test suite one final time
    - Shut down teammates, clean up team
-   - **Capture learnings** (verify what agents captured, fill gaps):
-     Teammates may have written to `.context/` during execution. Check and complete using formats from `.claude/instructions/CAPTURE-FORMAT.md`:
+   - **Capture learnings** (MANDATORY — use formats from `.claude/instructions/CAPTURE-FORMAT.md`):
+     Teammates may have written to `.context/` during execution. Verify what agents captured, fill gaps:
      - Error signatures -> `.context/errors/INDEX.md`
      - New code patterns -> `.context/patterns/CODE_PATTERNS.md`
      - Insights -> `.context/knowledge/LEARNINGS.md`
