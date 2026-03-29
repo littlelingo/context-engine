@@ -18,10 +18,10 @@ No code in this phase. Understand what exists before planning.
 8. **Hand off**:
    ```
    Research saved to: .context/features/[NNN]-[topic]/NOTES.md
-   Next: /plan .context/features/[NNN]-[topic]/NOTES.md
+   Next: /planner .context/features/[NNN]-[topic]/NOTES.md
    Proceed? (y/n)
    ```
-   If yes: invoke `/plan` with the notes path as the argument (use the Skill tool with skill="plan"). If no: ask the user what they'd like to do instead.
+   If yes: invoke `/planner` with the notes path as the argument (use the Skill tool with skill="planner"). If no: ask the user what they'd like to do instead.
 
 ## Rules
 - No code. Research only.

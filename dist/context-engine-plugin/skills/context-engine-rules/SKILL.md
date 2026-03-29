@@ -30,14 +30,14 @@ description: Context Engine core rules. Always active when the plugin is install
 
 ## Workflow
 
-`/init` (once) -> `/adapt` (recommended) -> `/research` -> `/plan` -> `/implement` -> `/validate` -> commit/PR
+`/init` (once) -> `/adapt` (recommended) -> `/research` -> `/planner` -> `/implement` -> `/validate` -> commit/PR
 Insert `/clear` + `/resume` between any phases when context > 50%.
 
 | Phase | Command | Delegation |
 |-------|---------|-----------|
 | Adapt | `/adapt` | Subagent (researcher) + lead agent |
 | Research | `/research` | Subagent (researcher) |
-| Plan | `/plan` | Subagent (planner) |
+| Plan | `/planner` | Subagent (planner) |
 | Implement | `/implement` | Agent Team or subagent |
 | Validate | `/validate` | Agent Team or subagent |
 
