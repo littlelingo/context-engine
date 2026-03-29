@@ -15,7 +15,7 @@ If no research exists, recommend `/research` first.
 7. **Update PRP status** to `APPROVED`. Update `## Status:` field in the PRP.
 8. **Checkpoint**: Create checkpoint `CP-NNN: post-plan [feature-name]` (trigger: phase-boundary). See `/checkpoint create` for the process - snapshot .context/ state and create git tag.
 9. **Update feature index**: Add a row to `.context/features/FEATURES.md`:
-   `| [NNN] | [feature-name] | APPROVED | [strategy] | .context/features/[NNN]-[name]/PRP.md |`
+   `| [NNN] | [feature-name] | APPROVED | [strategy] | .context/features/[NNN]-[name]/PRP.md | |`
 10. **Reflect**: Capture any new decisions as `.context/decisions/ADR-NNN-[title].md` using the ADR-000-template.md format. Also capture new risks or patterns to `.context/patterns/`.
 11. **Commit plan artifacts** (automatic — no user prompt): Stage and commit all `.context/` changes (PRP.md, FEATURES.md, checkpoint, ADRs, pattern updates) with `docs: plan [feature-name]`. These are framework bookkeeping, not user code — commit silently so artifacts survive branch creation, worktree spawns, and `/clear` + `/resume` cycles.
 12. **Hand off**:

@@ -36,6 +36,7 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
    - New patterns -> `.context/patterns/CODE_PATTERNS.md`
    - Errors found -> `.context/errors/INDEX.md` (complex errors also get `.context/errors/detail/ERR-NNN.md`)
    - Recurring findings -> `.context/patterns/ANTI_PATTERNS.md`
+   - **Error→anti-pattern promotion**: Scan `.context/errors/INDEX.md` for errors with similar signatures or causes (3+ related entries in the same component/library). Promote to `.context/patterns/ANTI_PATTERNS.md` with: Don't [the thing causing these errors] / Do [the prevention strategy] / Why [links to ERR-NNN entries]
    - Architecture changes -> run `/update-arch` if structural changes were significant
    - Significant decisions -> `.context/decisions/ADR-NNN-[title].md` using ADR-000-template.md format
    - Insights -> `.context/knowledge/LEARNINGS.md`
@@ -61,6 +62,10 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
     - **Context Efficiency**: `| [feature] | [clears] | [resumes] | [compactions] | [knowledge consulted] |`
 
     Also write a `## Metrics` block at the PRP bottom with the raw values for future reference.
+
+    Set the `Metrics` column in FEATURES.md to `AUTO` for this feature. If step 5 was completed but step 12 cannot finish (context pressure), the column should read `PARTIAL` — run `/health record [feature-NNN]` later to complete it.
+
+    **IMPORTANT**: Steps 5 and 12 are mandatory — the verify-metrics hook will flag missing metrics after this session. At minimum, complete step 5 (partial capture) so `/health record` can finish later.
 
 13. **Checkpoint** (trigger: phase-boundary): Create checkpoint `CP-NNN: post-validate [feature-name]`. This captures the fully validated state before commit.
 

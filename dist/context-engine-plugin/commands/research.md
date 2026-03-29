@@ -6,7 +6,7 @@ No code in this phase. Understand what exists before planning.
 
 1. **Clarify**: Restate what the user wants. Ask if ambiguous.
 2. **MUST delegate**: Use the `researcher` agent to explore the codebase. Follow `.claude/instructions/DELEGATION.md` delegation pattern.
-3. **Check `.context/`**: Read architecture, patterns, and errors for existing knowledge.
+3. **Check `.context/`**: Read architecture docs, patterns, and **explicitly check `.context/errors/INDEX.md`** for known errors related to this feature area (matching libraries, file paths, or patterns). Known errors should inform the research summary's risks and potential issues.
 4. **Synthesize**: Produce a summary with current state, gaps, dependencies, risks, open questions.
 5. **Save**: Write to `.context/features/[NNN]-[topic]/NOTES.md`:
    - Read FEATURES.md to find the highest existing feature number [NNN]

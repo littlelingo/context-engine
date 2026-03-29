@@ -15,4 +15,12 @@ if [ -n "$CODE_CHANGES" ] && [ -z "$RECENT_UPDATES" ]; then
     echo "{\"additionalContext\":\"REMINDER: Code changes detected but no .context/ updates found. Consider capturing learnings before ending: patterns to .context/patterns/, errors to .context/errors/INDEX.md, insights to .context/knowledge/LEARNINGS.md. Run /learn if needed.\"}"
 fi
 
+# Check if debug/fix activity occurred without error index capture
+DEBUG_ACTIVITY=$(git diff HEAD --name-only 2>/dev/null | grep -iE 'fix/|debug|\.test\.' | head -1)
+ERROR_CAPTURED=$(find .context/errors/ -name "*.md" -newer /tmp/.session-start 2>/dev/null | grep -v TEMPLATE | head -1)
+
+if [ -n "$DEBUG_ACTIVITY" ] && [ -z "$ERROR_CAPTURED" ]; then
+    echo "{\"additionalContext\":\"ERROR CAPTURE GAP: Debug/fix activity detected but no errors captured to .context/errors/INDEX.md. If you encountered and resolved an error, capture it with /learn error: [description] so future sessions can find it by signature.\"}"
+fi
+
 exit 0

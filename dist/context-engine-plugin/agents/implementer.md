@@ -17,9 +17,9 @@ See `.claude/instructions/TESTING-STRATEGY.md` for the full strategy reference. 
 ## Process
 
 1. **Load PRP** and determine testing strategy
-2. **Check knowledge first**: Scan `.context/knowledge/libraries/` and `dependencies/PINS.md` for libraries involved in this step
+2. **Check knowledge first**: Scan `.context/knowledge/libraries/` and `dependencies/PINS.md` for libraries involved in this step. Also check `.context/errors/INDEX.md` for known error signatures related to this step's files, libraries, or patterns — avoid re-triggering known issues
 3. **Find next unchecked step** `[ ]`
-4. **Execute**: read target file, check `.context/patterns/CODE_PATTERNS.md`, follow the strategy behavior above
+4. **Execute**: read target file, check `.context/patterns/CODE_PATTERNS.md` and `.context/patterns/ANTI_PATTERNS.md`, follow the strategy behavior above
 5. **Validate**: confirm red-green cycle completed per strategy, then run the PRP's validation command for that step
 6. **Mark complete**: update PRP with `[x]`
 7. **Auto-capture knowledge** — see `.claude/instructions/CAPTURE-FORMAT.md` for formats. Capture if:
@@ -45,7 +45,7 @@ See `.claude/instructions/TESTING-STRATEGY.md` for the full strategy reference. 
 ## Rules
 - Respect the strategy: PRP field overrides CLAUDE.md default
 - One step at a time, fully complete before reporting
-- Follow `.context/patterns/CODE_PATTERNS.md` conventions
+- Follow `.context/patterns/CODE_PATTERNS.md` conventions and avoid `.context/patterns/ANTI_PATTERNS.md` violations
 - Run validation after every step regardless of strategy
 - Stay scoped - only implement what's in the PRP step
 - Report errors with exact messages

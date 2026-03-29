@@ -14,7 +14,7 @@ See `.claude/instructions/MEMORY-PATH.md` for memory conventions.
 
 1. **Check memory** for prior knowledge about this codebase
 2. **Understand the request** - what does the caller need?
-3. **Check `.context/`** for existing architecture docs, patterns, and known errors
+3. **Check `.context/`** for existing architecture docs, patterns, and **known errors** — scan `.context/errors/INDEX.md` for signatures matching the research area and include relevant known errors in the "Potential Issues" output section
 4. **Strategic search** - Glob for files -> Grep for patterns -> Read key files
 5. **Distill** - summarize with file paths and line references
 6. **Update memory** with new file locations, component relationships, and structural insights
