@@ -30,7 +30,7 @@ Streamlined for bug fixes, single-file changes, minor improvements. Stays in one
    ```
 
 ## Rules
-- LOW complexity only. If bigger than expected, switch to full `/plan`.
+- LOW complexity only. If bigger than expected, switch to full `/planner`.
 - MUST delegate to `researcher` for file exploration.
 - Always reflect after implementation completes.
 

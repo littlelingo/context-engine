@@ -101,5 +101,5 @@ The actual "living" part of the system is `.context/`, not `skills/` or `agents/
 | `.context/patterns/` | Dynamic | implement/debug agents, /learn |
 | `.context/errors/` | Dynamic | debugger agent, /learn |
 | `.context/knowledge/` | Dynamic | implementer/debugger agents, /learn |
-| `.context/features/` | Dynamic | /plan creates PRPs, /implement updates them |
+| `.context/features/` | Dynamic | /planner creates PRPs, /implement updates them |
 | `.skill-profile.json` | Set once | /init; refreshable manually |
