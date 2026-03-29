@@ -6,7 +6,7 @@
   "plugins": [
     {
       "name": "context-engine",
-      "version": "0.1.5",
+      "version": "0.1.6",
       "description": "Agentic orchestration framework - Agent Teams, subagents, progressive-disclosure skills, hooks, checkpoints, deep knowledge layer, and metrics.",
       "source": "./",
       "category": "development",
