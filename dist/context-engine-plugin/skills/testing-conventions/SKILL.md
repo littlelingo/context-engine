@@ -1,5 +1,7 @@
 ---
+name: testing-conventions
 description: Testing conventions for this project. Auto-loaded when working with test files to ensure consistent test patterns.
+user-invocable: false
 ---
 
 # Testing Conventions

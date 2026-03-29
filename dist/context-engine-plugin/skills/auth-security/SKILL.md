@@ -1,5 +1,7 @@
 ---
+name: auth-security
 description: Authentication and security patterns - JWT, OAuth, sessions, RBAC, input validation. Auto-loaded when working with auth, middleware, or security files.
+user-invocable: false
 ---
 
 # Authentication & Security

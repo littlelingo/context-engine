@@ -1,4 +1,5 @@
 ---
+name: postgres-mcp
 description: PostgreSQL database operations via MCP - schema inspection, live queries, EXPLAIN analysis. Use when you need to inspect the actual database state, verify migrations, or analyze query performance.
 ---
 

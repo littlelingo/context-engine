@@ -1,5 +1,7 @@
 ---
+name: context-system
 description: Context Engine framework reference. Auto-loaded when working with .context/, agents, commands, or hooks. Supplements CLAUDE.md with role and skill details.
+user-invocable: false
 ---
 
 # Context Engine - Supplemental Reference

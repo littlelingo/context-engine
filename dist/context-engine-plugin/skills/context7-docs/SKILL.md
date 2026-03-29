@@ -1,4 +1,5 @@
 ---
+name: context7-docs
 description: Library documentation lookup via Context7 MCP. Use when you need current docs for any library, framework, or API. Prevents hallucinated APIs by fetching real documentation.
 ---
 

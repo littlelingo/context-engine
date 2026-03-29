@@ -1,5 +1,7 @@
 ---
+name: git-workflow
 description: Git workflow conventions - branching, commits, PRs, rebasing. Auto-loaded when working with git operations, merge conflicts, or PR-related files.
+user-invocable: false
 ---
 
 # Git Workflow

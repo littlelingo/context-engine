@@ -1,5 +1,7 @@
 ---
+name: react-frontend
 description: React and frontend patterns - components, hooks, state management, performance. Auto-loaded when working with React/JSX/TSX files or frontend directories.
+user-invocable: false
 ---
 
 # React & Frontend

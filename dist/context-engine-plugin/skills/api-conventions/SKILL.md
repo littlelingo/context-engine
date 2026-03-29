@@ -1,5 +1,7 @@
 ---
+name: api-conventions
 description: API conventions for this project. Auto-loaded when working with routes, controllers, and endpoint files to ensure consistent API patterns.
+user-invocable: false
 ---
 
 # API Conventions

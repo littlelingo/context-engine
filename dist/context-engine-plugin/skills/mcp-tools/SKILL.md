@@ -1,5 +1,7 @@
 ---
+name: mcp-tools
 description: MCP server integration catalog and configuration reference. Auto-loaded when working with MCP configs. Lists all available and recommended MCP servers with install commands.
+user-invocable: false
 ---
 
 # MCP Server Catalog

@@ -1,4 +1,5 @@
 ---
+name: sequential-thinking
 description: Sequential thinking for structured problem decomposition. Use for complex planning, debugging, and architectural decisions where step-by-step reasoning with revision and branching helps.
 ---
 

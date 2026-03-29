@@ -1,5 +1,7 @@
 ---
+name: python-backend
 description: Python backend patterns - FastAPI, Django, Flask, project structure, async. Auto-loaded when working with Python backend files.
+user-invocable: false
 ---
 
 # Python Backend

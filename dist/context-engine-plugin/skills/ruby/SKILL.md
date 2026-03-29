@@ -1,5 +1,7 @@
 ---
+name: ruby
 description: Ruby and Rails patterns - models, controllers, services, testing. Auto-loaded when working with Ruby files, Gemfiles, or Rails directories.
+user-invocable: false
 ---
 
 # Ruby & Rails

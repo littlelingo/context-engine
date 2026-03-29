@@ -1,5 +1,7 @@
 ---
+name: postgres
 description: PostgreSQL patterns - queries, indexing, performance, maintenance. Auto-loaded when working with SQL files, database configs, or Postgres-specific code.
+user-invocable: false
 ---
 
 # PostgreSQL
