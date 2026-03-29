@@ -1,5 +1,7 @@
 ---
+name: redis
 description: Redis patterns - caching, sessions, queues, pub/sub, rate limiting. Auto-loaded when working with cache, Redis, or queue-related files.
+user-invocable: false
 ---
 
 # Redis

@@ -1,5 +1,7 @@
 ---
+name: prompt-efficiency
 description: Context budget and token efficiency rules. Auto-loaded to minimize prompt overhead across all interactions.
+user-invocable: false
 ---
 
 # Prompt Efficiency

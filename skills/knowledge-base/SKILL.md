@@ -1,5 +1,7 @@
 ---
+name: knowledge-base
 description: Deep knowledge layer - project-specific library quirks, stack recipes, dependency notes. Auto-loaded when working with knowledge files or when implement/debug discovers something worth preserving.
+user-invocable: false
 ---
 
 # Deep Knowledge Layer

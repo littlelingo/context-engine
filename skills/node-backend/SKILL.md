@@ -1,6 +1,7 @@
 ---
 name: node-backend
 description: Node.js backend patterns - Express, Fastapi, NestJS, middleware, async. Auto-loaded when working with server.ts/js, app.ts/js, routes/, middleware/, or Node.js backend directories.
+user-invocable: false
 ---
 
 # Node.js Backend

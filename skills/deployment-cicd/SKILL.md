@@ -1,5 +1,7 @@
 ---
+name: deployment-cicd
 description: Deployment and CI/CD patterns - Docker, GitHub Actions, pipelines, infrastructure. Auto-loaded when working with deployment configs, workflows, or container files.
+user-invocable: false
 ---
 
 # Deployment & CI/CD

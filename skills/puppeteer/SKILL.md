@@ -1,4 +1,5 @@
 ---
+name: puppeteer
 description: Browser automation via Puppeteer MCP - navigation, screenshots, form filling, testing. Auto-loaded when working with browser tests, E2E tests, or scraping-related files.
 ---
 

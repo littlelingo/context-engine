@@ -1,5 +1,7 @@
 ---
+name: database-migrations
 description: Database migration patterns and ORM conventions. Auto-loaded when working with schema changes, migrations, models, or SQL files.
+user-invocable: false
 ---
 
 # Database Migrations

@@ -1,6 +1,7 @@
 ---
 name: typescript
 description: TypeScript patterns and type safety. Auto-loaded when working with .ts files, tsconfig.json, or type definition files (.d.ts).
+user-invocable: false
 ---
 
 # TypeScript
