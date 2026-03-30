@@ -72,6 +72,15 @@
             "command": "hooks/scripts/context-budget.sh"                                                                                                      
           }                                                                                                                                                   
         ]                
+      },
+      {
+        "matcher": "mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "hooks/scripts/mcp-output-advisor.sh"
+          }
+        ]
       }
     ],
     "PreCompact": [

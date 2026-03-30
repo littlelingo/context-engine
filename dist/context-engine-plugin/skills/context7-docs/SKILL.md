@@ -33,6 +33,7 @@ mcp__context7__get-library-docs(library_id="...", topic="dependency injection")
 - Fetch docs BEFORE writing code for unfamiliar APIs
 - Don't fetch docs for standard library or well-known stable APIs
 - Keep fetched content focused (specify topic) to minimize context usage
+- Always specify a focused `topic` parameter in `query-docs` — prefer specific queries (e.g., "dependency injection") over broad library-wide fetches
 - If Context7 is unavailable, note the uncertainty in your response
 
 ## MCP Configuration

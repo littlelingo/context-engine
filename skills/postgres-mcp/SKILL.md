@@ -28,6 +28,12 @@ Query and inspect your PostgreSQL database directly from Claude Code.
 4. Add appropriate indexes
 5. Re-run EXPLAIN ANALYZE to verify improvement
 
+## Output Rules
+- Always use `LIMIT` clauses in exploratory queries (default `LIMIT 20`)
+- Query specific tables rather than dumping full schema — use `\d tablename` not `\dt *`
+- Use `EXPLAIN` (without `ANALYZE`) first; only add `ANALYZE` when you need actual timing data
+- Multi-query exploration sessions (3+ queries) should be delegated to a subagent to keep raw result sets out of lead agent context
+
 ## Safety Rules
 - Default server is READ-ONLY - it cannot modify data
 - Enhanced server (@henkey) allows writes - use with caution

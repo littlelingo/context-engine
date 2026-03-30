@@ -16,6 +16,7 @@ user-invocable: false
 | `implementer` | Subagent or Teammate | Patterns, build quirks |
 | `reviewer` | Subagent or Teammate | Recurring issues |
 | `debugger` | Subagent or Teammate | Error patterns |
+| `mcp-researcher` | Subagent | MCP output compression |
 
 ## Skills (23 total - progressive disclosure)
 | Skill | Loads When | Purpose |

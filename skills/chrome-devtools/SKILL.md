@@ -39,9 +39,12 @@ Browser debugging, performance profiling, and page inspection via the Chrome Dev
 
 ## Rules
 - Always `list_pages` first to verify a debuggable target exists
-- Use `take_snapshot` (DOM tree) over `take_screenshot` when text content matters
+- Use `take_snapshot` (DOM tree) over `take_screenshot` when text content matters — DOM text is far smaller than base64 images
 - For performance issues, capture a trace rather than guessing — `performance_analyze_insight` provides data-driven answers
 - Network inspection via `list_network_requests` is more reliable than console.log for API debugging
+- Use URL filters on `list_network_requests` rather than fetching all requests — filter to the domain or path you care about
+- For console messages, use `get_console_message` for specific entries rather than `list_console_messages` for the full log
+- Multi-step browser sequences (navigate + interact + inspect) should be delegated to a subagent to keep raw DOM/screenshot output out of lead agent context
 
 ## Common Pitfalls
 - Chrome must be running with `--remote-debugging-port` flag — if `list_pages` returns nothing, Chrome isn't in debug mode
