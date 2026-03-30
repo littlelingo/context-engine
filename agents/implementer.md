@@ -22,11 +22,13 @@ See `.claude/instructions/TESTING-STRATEGY.md` for the full strategy reference. 
 4. **Execute**: read target file, check `.context/patterns/CODE_PATTERNS.md` and `.context/patterns/ANTI_PATTERNS.md`, follow the strategy behavior above
 5. **Validate**: confirm red-green cycle completed per strategy, then run the PRP's validation command for that step
 6. **Mark complete**: update PRP with `[x]`
-7. **Auto-capture knowledge** — see `.claude/instructions/CAPTURE-FORMAT.md` for formats. Capture if:
-   - Library behaved unexpectedly -> `.context/knowledge/libraries/[name].md`
-   - Version-specific issue -> `.context/knowledge/dependencies/PINS.md`
+7. **Auto-capture knowledge** — see `.claude/instructions/CAPTURE-FORMAT.md` for formats. You MUST create/update the relevant file if any of these apply:
+   - Library behaved unexpectedly or required > 5 min troubleshooting -> `.context/knowledge/libraries/[name].md` (use TEMPLATE.md format)
+   - Version-specific issue or upgrade blocker -> `.context/knowledge/dependencies/PINS.md`
    - Config/integration trial-and-error -> `.context/knowledge/stack/[name].md`
-   - Any "aha" > 5 minutes -> `.context/knowledge/LEARNINGS.md`
+   - Any insight or "aha" moment -> `.context/knowledge/LEARNINGS.md`
+   - Error matched a known entry in `.context/errors/INDEX.md` -> increment "Error index hits" in `.context/metrics/HEALTH.md`
+   Agent memory is per-session; the shared knowledge base persists across all sessions. Write to the knowledge base, not just memory.
 8. **Return summary**
 
 ## Output

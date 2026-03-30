@@ -6,7 +6,7 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
 
 1. **Load PRP** from `$ARGUMENTS` (or find most recent IN_PROGRESS PRP).
 2. **Check testing strategy**: Follow testing strategy from PRP field or CLAUDE.md default.
-3. **Checkpoint** (trigger: phase-boundary): Create checkpoint `CP-NNN: pre-validate [feature-name]`. Snapshot .context/ state, tag current git state.
+3. **Checkpoint** (trigger: phase-boundary): Create checkpoint `CP-NNN: pre-validate [feature-name]`. Snapshot .context/ state, tag current git state. Always create this checkpoint — it marks the boundary between implementation and validation.
 4. **Run validation checklist** from the PRP (tests, lint, type-check, manual steps).
 
 5. **Write partial metrics** (early capture — prevents data loss if context runs out):
@@ -35,11 +35,14 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
 10. **Capture learnings** (MANDATORY - never skip. Use formats from `.claude/instructions/CAPTURE-FORMAT.md`):
    - New patterns -> `.context/patterns/CODE_PATTERNS.md`
    - Errors found -> `.context/errors/INDEX.md` (complex errors also get `.context/errors/detail/ERR-NNN.md`)
+   - **Error index hits**: If any errors encountered during validation matched entries in `.context/errors/INDEX.md`, increment "Error index hits" and recompute "Hit rate" in `.context/metrics/HEALTH.md`
    - Recurring findings -> `.context/patterns/ANTI_PATTERNS.md`
    - **Error→anti-pattern promotion**: Scan `.context/errors/INDEX.md` for errors with similar signatures or causes (3+ related entries in the same component/library). Promote to `.context/patterns/ANTI_PATTERNS.md` with: Don't [the thing causing these errors] / Do [the prevention strategy] / Why [links to ERR-NNN entries]
    - Architecture changes -> run `/update-arch` if structural changes were significant
    - Significant decisions -> `.context/decisions/ADR-NNN-[title].md` using ADR-000-template.md format
    - Insights -> `.context/knowledge/LEARNINGS.md`
+   - **Library quirks**: For any library where non-obvious behavior was discovered during this feature, create/update `.context/knowledge/libraries/[name].md` using the TEMPLATE.md format. Check agent memory for quirks discovered during implementation that should be promoted to the shared knowledge base.
+   - **Stack recipes**: If a non-trivial integration was wired up, create/update `.context/knowledge/stack/[name].md`
    - If nothing learned, note clean completion in LEARNINGS.md.
    For complex entries (library quirks, stack recipes, dependency pins), use `/learn [type]: [content]` to route correctly.
 

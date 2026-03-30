@@ -6,8 +6,9 @@ Something is broken. Uses parallel hypothesis testing via Agent Team for complex
 
 1. **Understand the problem**: Get the error message, failing test, or symptom from `$ARGUMENTS`.
 2. **Check known errors**: Read `.context/errors/INDEX.md` for matching signatures. Also check `.context/errors/detail/` for deeper analysis of past errors. If INDEX.md is empty (no errors indexed yet), proceed directly to investigation — this is the first error.
-   - If found: present the known fix (include detail file content if available). Ask if user wants to apply it. **Update metrics**: increment "Error index hits" in `.context/metrics/HEALTH.md`.
+   - If found: present the known fix (include detail file content if available). Ask if user wants to apply it. **Update metrics NOW** (do not defer): increment "Error index hits" and recompute "Hit rate" in `.context/metrics/HEALTH.md` immediately.
    - If not found: proceed to investigation. This will be a "Novel error" for metrics.
+   - **Self-check**: Before moving to step 3, confirm you updated HEALTH.md if a known error was matched. This is the primary mechanism for tracking error index value.
 
 3. **Decide investigation mode**:
    - **Simple bug** (clear error, obvious location - typo, missing import, wrong arg): Fix directly without delegation.

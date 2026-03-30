@@ -80,15 +80,17 @@ Check:
 ## Process
 
 ### Phase 1: Load Standards
-1. Read CLAUDE.md for framework-level standards
-2. Read `.context/architecture/TECH_STACK.md` to determine which skills apply
-3. Read relevant skills based on detected stack:
+1. **Verify framework prerequisites**:
+   - Check `.claude/instructions/` exists and contains: `MEMORY-PATH.md`, `CAPTURE-FORMAT.md`, `TESTING-STRATEGY.md`, `SAFETY-CHECKS.md`, `DELEGATION.md`. If any are missing, report as **CRITICAL** finding: "Missing shared instruction files — agents and commands reference these but they don't exist. Fix: re-run `/init` or copy from plugin source."
+2. Read CLAUDE.md for framework-level standards
+3. Read `.context/architecture/TECH_STACK.md` to determine which skills apply
+4. Read relevant skills based on detected stack:
    - Python detected → python-backend/SKILL.md, database-migrations/SKILL.md
    - React/TS detected → react-frontend/SKILL.md
    - Always: auth-security, deployment-cicd, git-workflow, testing-conventions, api-conventions
    - If Postgres detected → postgres/SKILL.md
-4. Read CODE_PATTERNS.md and ANTI_PATTERNS.md for project-specific standards already captured
-5. Compile concrete checklist of rules to verify
+5. Read CODE_PATTERNS.md and ANTI_PATTERNS.md for project-specific standards already captured
+6. Compile concrete checklist of rules to verify
 
 ### Phase 2: Audit
 Delegate to `researcher` agent with the compiled standards checklist.

@@ -20,7 +20,14 @@ Bootstrap the context engineering system. Run this first on any new or existing 
    ├── checkpoints/
    └── metrics/
    ```
-3. **Copy templates** into the structure:
+3. **Create shared instructions**: Ensure `.claude/instructions/` exists with the 5 framework instruction files referenced by agents and commands:
+   - `MEMORY-PATH.md` - agent memory conventions
+   - `CAPTURE-FORMAT.md` - learnings capture format
+   - `TESTING-STRATEGY.md` - testing strategy resolution
+   - `SAFETY-CHECKS.md` - branch and safety checks
+   - `DELEGATION.md` - agent delegation patterns
+   These are framework-defined files (not project-specific). If the plugin installed them, they already exist — skip. If running `/init` standalone, create them from the plugin's bundled templates.
+4. **Copy templates** into the structure:
    - `decisions/ADR-000-template.md` - architecture decision record template
    - `errors/detail/.gitkeep` - placeholder for detailed error analysis
    - `features/.gitkeep` - placeholder for feature directories
@@ -30,12 +37,12 @@ Bootstrap the context engineering system. Run this first on any new or existing 
    - `checkpoints/MANIFEST.md` - checkpoint registry
    - `metrics/HEALTH.md` - framework health metrics
    - `metrics/RECOMMENDATIONS.md` - signal→recommendation lookup
-4. **Delegate**: Use `researcher` agent to scan the project:
+5. **Delegate**: Use `researcher` agent to scan the project:
    - Directory structure (top 3 levels)
    - Tech stack (languages, frameworks, package managers)
    - Config files (package.json, pyproject.toml, etc.)
    - Test/lint/format/type-check commands
-5. **Generate docs** (all paths relative to `.context/`):
+6. **Generate docs** (all paths relative to `.context/`):
    - `architecture/OVERVIEW.md` - system architecture
    - `architecture/TECH_STACK.md` - languages, frameworks, versions, commands
    - `architecture/DIRECTORY_MAP.md` - annotated project tree
@@ -44,7 +51,7 @@ Bootstrap the context engineering system. Run this first on any new or existing 
    - `errors/INDEX.md` - empty template (grows via `/debug` and `/validate`)
    - `knowledge/LEARNINGS.md` - empty template (grows via `/implement` and `/debug`)
    - `features/FEATURES.md` - empty feature index
-6. **Generate skill profile**: Based on the detected tech stack, write `.context/architecture/.skill-profile.json` mapping detected languages/frameworks to relevant skills. This enables runtime skill filtering — irrelevant skills are flagged when they auto-load.
+7. **Generate skill profile**: Based on the detected tech stack, write `.context/architecture/.skill-profile.json` mapping detected languages/frameworks to relevant skills. This enables runtime skill filtering — irrelevant skills are flagged when they auto-load.
    ```json
    {
      "detected_stack": ["python", "fastapi", "react", "typescript"],
@@ -54,17 +61,17 @@ Bootstrap the context engineering system. Run this first on any new or existing 
    ```
    Use this mapping: Python→python-backend, JS/TS→react-frontend, Ruby→ruby, Go/Rust→deployment-cicd, SQL/Postgres→postgres+postgres-mcp+database-migrations, Redis→redis, Docker→deployment-cicd. Always include: context-system, knowledge-base, prompt-efficiency, testing-conventions, git-workflow, auth-security, mcp-tools, context7-docs, sequential-thinking.
 
-7. **Generate CLAUDE.md**:
+8. **Generate CLAUDE.md**:
    - Start with the context-engine CLAUDE.md as the base template (provides: Project Knowledge table, Workflow, Testing Strategy, Code Standards, Context Management, Hooks, Auto-Learning, Skills sections)
    - Update with project-specific findings from the researcher: project name, detected tech stack, test/lint/build commands, any project-specific conventions discovered
    - If a CLAUDE.md already exists in the target project, merge its content — preserve any project-specific rules, preferences, or notes the user has added. Don't overwrite, integrate.
    - Review and optimize the merged result — remove duplicates, ensure `.context/` paths are correct, tighten language, verify no contradictions between base template and project-specific content
    - The result should be a meaty, actionable CLAUDE.md — not a stub
-8. **Populate skills** based on what the researcher found:
+9. **Populate skills** based on what the researcher found:
    - If test files detected: populate `skills/testing-conventions/SKILL.md` with detected test framework, file naming, structure patterns
    - If API/route files detected: populate `skills/api-conventions/SKILL.md` with detected patterns for routes, middleware, error handling
    - If neither detected, leave skills as skeletons - they'll grow through auto-learning
-9. **Configure testing strategy**: Ask the user:
+10. **Configure testing strategy**: Ask the user:
    ```
    What should be the default testing strategy for this project?
    1. test-first - TDD, write tests before code
@@ -72,8 +79,8 @@ Bootstrap the context engineering system. Run this first on any new or existing 
    3. tests-optional - Defer tests (for prototyping projects)
    ```
    Update CLAUDE.md's `**Default**:` line with their choice.
-10. **Verify** with user and correct as needed.
-11. **Report**:
+11. **Verify** with user and correct as needed.
+12. **Report**:
    ```
    Context Engine initialized.
 

@@ -25,7 +25,7 @@ Execute the PRP using an Agent Team for parallel step execution.
 
 6. **Create Agent Team** (when parallel execution is beneficial):
 
-   **Checkpoint** (trigger: pre-agent-team): Create checkpoint `CP-NNN: pre-team [feature-name]` ONLY if steps were completed since the last checkpoint.
+   **Checkpoint** (trigger: pre-agent-team): Create checkpoint `CP-NNN: pre-team [feature-name]` unless no steps have been completed since the last checkpoint.
 
    Create an agent team to implement the PRP at [PRP path].
 
@@ -48,9 +48,11 @@ Execute the PRP using an Agent Team for parallel step execution.
    - **Capture learnings** (MANDATORY — use formats from `.claude/instructions/CAPTURE-FORMAT.md`):
      Teammates may have written to `.context/` during execution. Verify what agents captured, fill gaps:
      - Error signatures -> `.context/errors/INDEX.md`
+     - **Error index hits**: If any errors encountered during implementation matched entries in `.context/errors/INDEX.md`, increment "Error index hits" and recompute "Hit rate" in `.context/metrics/HEALTH.md`
      - New code patterns -> `.context/patterns/CODE_PATTERNS.md`
      - Insights -> `.context/knowledge/LEARNINGS.md`
-     - Library quirks -> `.context/knowledge/libraries/[name].md`
+     - **Library quirks**: For any library where you spent significant debugging time or discovered non-obvious behavior, create/update `.context/knowledge/libraries/[name].md` using the TEMPLATE.md format. Do not skip this — agent memory is per-session, the shared knowledge base persists.
+     - **Stack recipes**: If you wired up a non-trivial integration (e.g., async DB + test setup, build tool config), create/update `.context/knowledge/stack/[name].md`
      - Version pins -> `.context/knowledge/dependencies/PINS.md`
      If significant knowledge was captured, suggest `/learn` for complex entries that need routing.
    ```

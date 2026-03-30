@@ -87,6 +87,9 @@ safe_copy_dir "$SCRIPT_DIR/hooks/scripts" "$TARGET/.claude/hooks"
 # Ensure hooks are executable
 chmod +x "$TARGET/.claude/hooks/"*.sh 2>/dev/null || true
 
+echo "Shared instructions (.claude/instructions/)..."
+safe_copy_dir "$SCRIPT_DIR/.claude/instructions" "$TARGET/.claude/instructions"
+
 echo "Settings (.claude/settings.json)..."
 # Generate clean settings for target (no dev-specific statusLine/mcpServers)
 if [ ! -f "$TARGET/.claude/settings.json" ]; then
