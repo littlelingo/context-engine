@@ -1,6 +1,10 @@
 # Context Engine
 
-A reusable contextual engineering framework for Claude Code. Structured workflows, Agent Teams for parallel execution, persistent project knowledge, and auto-learning from every session.
+An agentic orchestration framework for Claude Code. Structured workflows with explicit phase hand-offs, Agent Teams for parallel execution, 23 progressive-disclosure skills, persistent project knowledge, enforced safety hooks, and auto-learning from every session.
+
+> Context is the bottleneck, not intelligence. Skills load domain expertise on-demand.
+
+**v0.1.7** | MIT License
 
 ## Quick Start
 
@@ -15,109 +19,170 @@ claude
 
 ### Option B: Plugin Install (recommended for personal use)
 ```bash
-# Add marketplace (one-time)
-/plugin marketplace add your-org/context-engine
-
 # Install plugin
-/plugin install context-engine@context-engine
+claude plugin add --path ./dist/context-engine-plugin
 
 # In any project:
 /context-engine:init
 ```
 
-See `docs/PLUGIN.md` for full plugin distribution guide.
+See `docs/PLUGIN.md` for the full plugin distribution guide.
 
 ## How It Works
 
 ```
-Init -----> Research -----> Plan -----> Implement ---------> Validate
-(once)      researcher     planner     Agent Team            Agent Team
-            subagent       subagent    (parallel tracks)     (parallel review)
-               |              |              |                     |
-            NOTES.md       PRP.md      Code + Tests           Learnings
-                                           |                  captured
-                           [/clear between phases to manage context]
+/init ──> /adapt ──> /research ──> /planner ──> /implement ──> /validate ──> commit/PR
+(once)   (optional)  researcher    planner      Agent Team     Agent Team
+                     subagent      subagent     or subagent    or subagent
+                        │             │              │               │
+                     NOTES.md      PRP.md      Code + Tests     Learnings
+                                                    │            captured
+                                [/clear + /resume between phases as needed]
 ```
 
-Commands choose Agent Teams or subagents based on task complexity. Each command ends with the exact next command to run.
+Each command ends with the exact next command to run. Hand-offs are explicit. Commands choose Agent Teams or subagents automatically based on task complexity.
 
-## Structure
+## Project Structure
 
 ```
+commands/              21 user-facing commands (slash commands)
+agents/                6 agent role definitions
+skills/                23 progressive-disclosure skills (loaded on-demand)
+hooks/                 11 enforcement scripts + hooks.json
 .claude/
-  agents/          researcher, planner, implementer, reviewer, debugger
-  commands/        init, research, plan, plan-quick,
-                   implement, validate, debug, refactor,
-                   security-review, simplify, checkpoint,
-                   resume, status, knowledge, health,
-                   learn, update-arch
-  skills/          19 progressive-disclosure skills (context-system,
-                   testing, api, git, database, auth, deployment,
-                   react, python, postgres, redis, ruby, context7,
-                   mcp-tools, sequential-thinking, puppeteer,
-                   postgres-mcp, google-workspace, knowledge-base)
-  hooks/           guard-protected-files, block-destructive, auto-format,
-                   preserve-context, capture-learnings, verify-agent-output,
-                   session-track
+  agent-memory/        Per-role persistent memory
+  instructions/        Shared framework instructions (5 files)
 .context/
-  architecture/    OVERVIEW.md, TECH_STACK.md, DIRECTORY_MAP.md
-  features/        FEATURES.md + PRPs per feature
-  patterns/        CODE_PATTERNS.md, ANTI_PATTERNS.md
-  decisions/       Architecture Decision Records
-  errors/          INDEX.md + detail/
-  knowledge/       LEARNINGS.md + libraries/ + stack/ + dependencies/
-  checkpoints/     MANIFEST.md + CP-NNN snapshots (auto-created)
-  metrics/         HEALTH.md (velocity, errors, knowledge, agents, context)
-```
-
-**Plugin packaging** (optional - for marketplace distribution):
-```
-marketplace.json       Marketplace catalog for /plugin marketplace add
-build-plugin.sh        Transforms project structure into plugin format
-docs/PLUGIN.md         Plugin distribution guide
+  architecture/        OVERVIEW.md, TECH_STACK.md, DIRECTORY_MAP.md
+  features/            FEATURES.md + per-feature NOTES.md and PRP.md
+  patterns/            CODE_PATTERNS.md, ANTI_PATTERNS.md
+  decisions/           Architecture Decision Records (ADR-NNN.md)
+  errors/              INDEX.md + detail/ for complex errors
+  knowledge/           LEARNINGS.md + libraries/ + stack/ + dependencies/
+  checkpoints/         MANIFEST.md + CP-NNN snapshots
+  metrics/             HEALTH.md (velocity, errors, knowledge, agents, context)
+  templates/           PRP and NOTES templates
+docs/                  PLUGIN.md, CHEATSHEET.md, WALKTHROUGH.md
+dist/                  Built plugin output
 ```
 
 ## Commands
 
+### Core Workflow
+
 | Command | Phase | Purpose |
 |---------|-------|---------|
-| `/init` | Setup | Bootstrap `.context/` |
-| `/research` | 1 | Explore codebase |
-| `/plan` | 2 | Create PRP with testing strategy prompt |
-| `/plan-quick` | 2 (lite) | Quick plan for small tasks |
-| `/implement` | 3 | Agent Team for parallel steps, or subagent for sequential |
-| `/validate` | 4 | Agent Team for parallel review, or subagent for small changes |
-| `/debug` | Any | Agent Team for parallel hypothesis testing, or subagent |
-| `/refactor` | Any | Agent Team for multi-track refactors, or subagent |
-| `/status` | Any | Project briefing and onboarding (read-only) |
-| `/resume` | Any | Reload after `/clear` |
-| `/learn` | Any | Route knowledge to deep reference (libraries, stack, dependencies, insights) |
-| `/knowledge` | Any | Browse, search, promote knowledge base |
-| `/checkpoint` | Any | Create, list, rollback hybrid checkpoints (git tag + .context/ snapshot) |
-| `/health` | Any | Metrics dashboard: velocity, errors, knowledge, agents, context efficiency |
-| `/security-review` | Any | Standalone security review on files or recent changes |
-| `/simplify` | Any | Identify and apply code simplifications |
-| `/update-arch` | Any | Refresh architecture docs |
+| `/init` | Setup | Bootstrap `.context/`, detect tech stack |
+| `/adapt` | Setup | Context-aware research for new projects |
+| `/research [topic]` | 1 | Explore codebase, produce NOTES.md |
+| `/planner [notes]` | 2 | Create PRP with testing strategy |
+| `/implement [PRP]` | 3 | Execute PRP steps (Agent Team or subagent) |
+| `/validate [PRP]` | 4 | Review, simplify, capture learnings, ship prompt |
+
+### Utility Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/plan-quick [task]` | Quick plan + implement for small tasks |
+| `/debug [error]` | Diagnose and fix bugs |
+| `/refactor [goal]` | Restructure code with safety checks |
+| `/security-review` | Standalone security review |
+| `/simplify` | Dead code, duplication, over-abstraction pass |
+| `/status` | Project briefing (add `onboard` for extended version) |
+| `/resume` | Reload state after `/clear` or new session |
+| `/cancel` | Abandon a feature in progress |
+
+### Knowledge & Metrics
+
+| Command | Purpose |
+|---------|---------|
+| `/learn [insight]` | Route knowledge to deep reference layer |
+| `/knowledge` | Browse, search, promote knowledge base |
+| `/checkpoint [action]` | Create, list, rollback hybrid checkpoints |
+| `/health [action]` | Metrics dashboard with deep-dive modes |
+| `/update-arch` | Refresh architecture docs |
+| `/create-skill` | Create a new skill |
+| `/update-skill` | Update an existing skill |
 
 ## Orchestration
 
 Two modes. Commands pick automatically based on complexity.
 
-**Agent Teams** - Used by implement, validate, debug, refactor when work has parallel tracks. Teammates work independently, communicate directly, coordinate via shared task list with dependency ordering. Each teammate owns specific files (no conflicts). Requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` (set in settings.json).
+### Agent Teams
+Used by `/implement`, `/validate`, `/debug`, `/refactor` when work has 3+ parallel tracks. Teammates work independently on owned files, communicate directly, and coordinate via shared task list with dependency ordering.
 
-**Subagents** - Used by research, plan, and as fallback for small tasks. Single specialist works in isolated context, returns summary. Cheaper, simpler, best for focused sequential work.
+### Subagents
+Used by `/research`, `/planner`, and as fallback for small tasks. Single specialist works in isolated context, returns a summary.
 
-Five role definitions (`agents/`) serve as both subagent configs and teammate spawn templates:
+### Agent Roles
 
-| Role | Agent Team | Subagent | Remembers |
-|------|-----------|----------|-----------|
-| **researcher** | - | Yes | File locations, codebase structure |
+| Role | Team Mode | Subagent Mode | Memory |
+|------|-----------|---------------|--------|
+| **researcher** | - | Yes | Codebase structure, file locations |
 | **planner** | - | Yes | Estimation accuracy, recurring risks |
 | **implementer** | Teammate | Fallback | Code patterns, build quirks |
 | **reviewer** | Teammate | Fallback | Recurring issues, fragile areas |
 | **debugger** | Teammate | Fallback | Error patterns, diagnostic shortcuts |
+| **mcp-researcher** | - | Yes | MCP tool operations, compressed summaries |
 
 All roles have `memory: project` - they learn across sessions automatically.
+
+## Skills (Progressive Disclosure)
+
+23 skills load domain expertise on-demand when you touch relevant files. Never front-loaded.
+
+**Auto-loaded by file context:**
+
+| Skill | Triggers On |
+|-------|------------|
+| `context-system` | `.context/`, agents, commands, hooks |
+| `testing-conventions` | Test files (`*.test.*`, `*.spec.*`) |
+| `api-conventions` | Routes, controllers, endpoints |
+| `git-workflow` | `.github/`, git operations |
+| `database-migrations` | Migrations, `.sql`, schema files |
+| `auth-security` | Auth middleware, security files |
+| `deployment-cicd` | Dockerfile, workflows, CI configs |
+| `typescript` | `.ts`, `tsconfig.json`, `.d.ts` |
+| `react-frontend` | `.tsx`, `.jsx`, components |
+| `node-backend` | `server.ts/js`, routes, middleware |
+| `python-backend` | `.py`, FastAPI, Django, Flask |
+| `postgres` | `.sql`, database configs |
+| `redis` | Cache, queue, pub/sub files |
+| `ruby` | `.rb`, Gemfile, Rails directories |
+| `knowledge-base` | `.context/knowledge/` |
+| `prompt-efficiency` | Always loaded (context budget rules) |
+
+**MCP-integrated:**
+
+| Skill | Capability |
+|-------|-----------|
+| `context7-docs` | Library documentation lookup |
+| `mcp-tools` | MCP server catalog and configuration |
+| `sequential-thinking` | Structured problem decomposition |
+| `puppeteer` | Browser automation |
+| `postgres-mcp` | Live database queries and schema inspection |
+| `google-workspace` | Google Docs, Sheets, Drive operations |
+| `chrome-devtools` | Chrome DevTools debugging and performance |
+
+## Hooks (Enforced Gates)
+
+Deterministic scripts that run at Claude Code lifecycle events. Unlike CLAUDE.md rules (advisory), hooks enforce behavior automatically.
+
+| Hook | Event | Purpose |
+|------|-------|---------|
+| `guard-protected-files` | PreToolUse | Blocks edits to `.env`, lockfiles, `.git/`, `settings.json` |
+| `block-destructive` | PreToolUse | Blocks `rm -rf /`, `DROP TABLE`, dangerous disk ops |
+| `auto-format` | PostToolUse | Runs project formatter after every file edit |
+| `context-budget` | PostToolUse | Monitors context budget thresholds |
+| `mcp-output-advisor` | PostToolUse | Processes MCP tool output |
+| `preserve-context` | PreCompact | Saves active PRP, branch, progress before compaction |
+| `capture-learnings` | Stop | Reminds to capture learnings if code changed |
+| `verify-agent-output` | SubagentStop | Flags if implementer completed without file changes |
+| `verify-metrics` | Stop | Ensures metrics are updated |
+| `session-track` | UserPromptSubmit | Creates session marker for other hooks |
+| `classify-request` | UserPromptSubmit | Classifies incoming request type |
+
+Scripts live in `hooks/scripts/`. Config in `hooks/hooks.json` (plugin) or `.claude/settings.json` (local dev).
 
 ## Testing Strategy
 
@@ -125,45 +190,57 @@ Configurable per-project (CLAUDE.md default) and per-plan (PRP header override).
 
 | Strategy | When to Use |
 |----------|-------------|
-| `test-first` | Clear acceptance criteria. TDD. |
-| `implement-then-test` | General development (default). |
-| `tests-optional` | Spikes, prototypes, exploration. |
+| `test-first` | Clear acceptance criteria, TDD |
+| `implement-then-test` | General development (default) |
+| `tests-optional` | Spikes, prototypes, exploration |
 
-During `/plan`, you're prompted to choose. The implementer and reviewer both respect the choice. Validation is always mandatory regardless of strategy.
+During `/planner`, you're prompted to choose. The implementer and reviewer both respect the choice. Validation is always mandatory regardless of strategy.
 
 ## Auto-Learning
 
-Learning is automatic by default:
+Learning is automatic. No manual action needed.
 
-**Phase reflection** - Every command writes discoveries to `.context/` before handing off. Errors, patterns, architecture changes, decisions, and insights are captured without manual intervention.
+- **Phase reflection** - Every command captures discoveries to `.context/` before handing off
+- **Agent memory** - All roles persist knowledge across sessions in `.claude/agent-memory/`
+- **Deep knowledge layer** - Implementer and debugger auto-capture library quirks, version pins, and stack recipes during work
+- **Hooks** - `capture-learnings` hook enforces learning capture at session end
 
-**Agent memory** - All five roles persist knowledge across sessions. The researcher maps the codebase, the implementer remembers what works, the reviewer tracks recurring issues.
+Manual capture: `/learn` | Browse: `/knowledge` | Metrics: `/health`
 
-**Deep knowledge layer** - Hybrid capture model. The implementer and debugger auto-capture library quirks, version pins, and stack recipes during work. Use `/learn` for manual capture during research and planning. Knowledge is stored in `.context/knowledge/` with three tiers: quick insights (LEARNINGS.md), per-library reference (libraries/), stack config recipes (stack/), and dependency pins (dependencies/). Browse with `/knowledge`.
+## Knowledge Base
 
-## Hooks (Enforced Gates)
+Stored in `.context/knowledge/` with four tiers:
 
-Hooks are deterministic scripts that run at Claude Code lifecycle events. Unlike CLAUDE.md rules which are advisory, hooks enforce behavior automatically.
+| Tier | Location | Contains |
+|------|----------|----------|
+| Quick insights | `LEARNINGS.md` | Session discoveries, patterns found |
+| Library reference | `libraries/[name].md` | Per-library quirks, workarounds, version notes |
+| Stack recipes | `stack/[name].md` | Integration recipes, trial-and-error solutions |
+| Dependency pins | `dependencies/PINS.md` | Version pins, upgrade blockers |
 
-| Hook | Event | What It Does |
-|------|-------|-------------|
-| `guard-protected-files` | PreToolUse | Blocks edits to .env, lockfiles, .git/, settings.json |
-| `block-destructive` | PreToolUse | Blocks dangerous rm, DROP TABLE, disk operations |
-| `auto-format` | PostToolUse | Runs project formatter after every file edit |
-| `preserve-context` | PreCompact | Injects active PRP, branch, progress before compaction |
-| `capture-learnings` | Stop | Reminds to capture learnings if code changed but .context/ wasn't updated |
-| `verify-agent-output` | SubagentStop | Flags if implementer completed without file changes |
-| `session-track` | UserPromptSubmit | Creates session marker for other hooks |
+## Checkpoints
 
-Hooks are configured in `hooks/hooks.json` (plugin) or `.claude/settings.json` (local dev). Scripts live in `hooks/scripts/`. View active hooks with `/hooks`.
+Hybrid checkpoints: git tag (code state) + `.context/checkpoints/CP-NNN/` (context state).
+
+Auto-created at phase boundaries and before Agent Team spawns. Manual operations:
+
+```
+/checkpoint create [label]     Create a checkpoint
+/checkpoint list               List all checkpoints
+/checkpoint rollback CP-NNN    Rollback (offers full or soft)
+/checkpoint resume CP-NNN      Resume from checkpoint
+/checkpoint clean --keep 5     Clean old checkpoints
+```
 
 ## Context Budget
 
-| Usage  | Action                              |
-|--------|-------------------------------------|
-| < 50%  | Keep working                        |
-| 50-60% | Save state, prepare to clear        |
-| > 60%  | Stop, save, `/clear`, `/resume`     |
+| Usage | Action |
+|-------|--------|
+| < 50% | Keep working |
+| 50-60% | Save state, prepare to clear |
+| > 60% | Stop. `/clear`. `/resume`. |
+
+Prefer `/clear` + `/resume` over `/compact`.
 
 ## Parallel Work
 
@@ -173,6 +250,12 @@ cd ../project-feature-a && claude
 ```
 
 Each worktree gets its own Claude Code session. `.context/` is shared via git.
+
+## Docs
+
+- `docs/CHEATSHEET.md` - Quick reference for all commands and features
+- `docs/WALKTHROUGH.md` - Full tutorial walkthrough
+- `docs/PLUGIN.md` - Plugin distribution and marketplace publishing guide
 
 ## Credits
 
