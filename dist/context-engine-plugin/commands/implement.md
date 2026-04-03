@@ -57,10 +57,21 @@ Execute the PRP using an Agent Team for parallel step execution.
      If significant knowledge was captured, suggest `/learn` for complex entries that need routing.
    ```
    All steps complete.
-   Next: /validate [PRP path] (run /clear first if context > 50%)
-   Proceed? (y/n)
+
+   Next step options:
+     1. /validate [PRP path]  (recommended — full review + tests + learnings + metrics)
+     2. commit                (skip review/tests — still captures learnings + metrics first)
+     3. pause                 (checkpoint and stop — resume later)
+
+   Choose (1/2/3):
    ```
-   If yes: invoke `/validate` with the PRP path as the argument (use the Skill tool with skill="validate"). Remind about `/clear` first if context > 50%. If no: ask the user what they'd like to do instead.
+   - **Option 1** (validate): Invoke `/validate` with the PRP path as the argument (use the Skill tool with skill="validate"). Remind about `/clear` first if context > 50%.
+   - **Option 2** (commit without validation): Before committing, you MUST still run the following — these are not optional:
+     1. **Capture learnings** (same as step 8 above) — errors, patterns, insights, library quirks, stack recipes, version pins to `.context/`.
+     2. **Write metrics** — append a row to `.context/metrics/HEALTH.md` Feature Velocity table with available data (mark review columns as `SKIPPED`). Update FEATURES.md status to `COMPLETE (unvalidated)`.
+     3. **Then** generate a conventional commit message and prompt for commit + PR (same as `/validate` step 15).
+     The `require-validation` hook will fire on commit as a final reminder — the user can approve to proceed.
+   - **Option 3** (pause): Create checkpoint `CP-NNN: paused [feature-name]`, leave status as IN_PROGRESS, and stop. The user can resume later with `/implement [PRP path]`.
 
 ## Resuming
 When steps are already marked `[x]`: read PRP, summarize progress, pick up remaining unchecked steps. Spawn a smaller team for just the remaining work.

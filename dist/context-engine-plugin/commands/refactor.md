@@ -46,13 +46,29 @@ Restructure code without adding features. Uses Agent Team for multi-module refac
 
 9. **After each step/track**: Full test suite must pass. If anything breaks with a non-obvious cause, run `/debug [failing test or error]` before continuing. For simple regressions, fix inline.
 
-10. **When complete**: Clean up team, then hand off:
+10. **Capture learnings** (MANDATORY — use formats from `.claude/instructions/CAPTURE-FORMAT.md`):
+   - Structural decisions -> `.context/decisions/ADR-NNN-[title].md` if the refactor introduced a new architectural pattern
+   - New code patterns -> `.context/patterns/CODE_PATTERNS.md`
+   - Anti-patterns removed -> `.context/patterns/ANTI_PATTERNS.md` (mark as resolved or add prevention guidance)
+   - Insights -> `.context/knowledge/LEARNINGS.md`
+   - **Library quirks**: If you discovered non-obvious behavior during the refactor, create/update `.context/knowledge/libraries/[name].md`
+
+11. **When complete**: Clean up team, then hand off:
    ```
    Refactor complete. All tests passing.
-   Next: /validate [PRP path] (run /clear first if context > 50%)
-   Proceed? (y/n)
+
+   Next step options:
+     1. /validate [PRP path]  (recommended — full review + tests + metrics)
+     2. commit                (skip review — learnings already captured, writes metrics first)
+     3. pause                 (checkpoint and stop — resume later)
+
+   Choose (1/2/3):
    ```
-   If yes: invoke `/validate` with the PRP path as the argument (use the Skill tool with skill="validate"). Remind about `/clear` first if context > 50%. If no: ask the user what they'd like to do instead.
+   - **Option 1** (validate): Invoke `/validate` with the PRP path as the argument (use the Skill tool with skill="validate"). Remind about `/clear` first if context > 50%.
+   - **Option 2** (commit without validation): Learnings were captured in step 10. Before committing, you MUST still:
+     1. **Write metrics** — append a row to `.context/metrics/HEALTH.md` Feature Velocity table with available data (mark review columns as `SKIPPED`). Update FEATURES.md status to `COMPLETE (unvalidated)`.
+     2. **Then** generate a conventional commit message and prompt for commit + PR.
+   - **Option 3** (pause): Create checkpoint `CP-NNN: paused-refactor [scope]`, leave status as IN_PROGRESS, and stop.
 
 ## Rules
 - Tests must pass BEFORE starting and AFTER every step.

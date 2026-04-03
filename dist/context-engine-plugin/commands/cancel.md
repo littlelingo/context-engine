@@ -86,7 +86,17 @@ Checkpoints found: [CP-NNN list]. Clean them up via /checkpoint clean?
   no  — leave checkpoints as-is
 ```
 
-### 8. Report
+### 8. Record Metrics (MANDATORY)
+
+Append a row to `.context/metrics/HEALTH.md` Feature Velocity table to make the cancellation visible:
+`| [NNN] | [name] | [plan date] | CANCELLED | [elapsed days] | [completed steps]/[total steps] | - | - |`
+
+Update Knowledge Growth table if any learnings were captured in step 5.
+Set the `Metrics` column in FEATURES.md to `AUTO` for this feature.
+
+This ensures cancelled features are tracked — partial work still consumes effort and produces insights.
+
+### 9. Report
 
 ```
 ## Cancelled: [feature-name]

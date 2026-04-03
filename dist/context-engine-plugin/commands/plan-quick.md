@@ -23,7 +23,12 @@ Streamlined for bug fixes, single-file changes, minor improvements. Stays in one
    - Patterns -> `.context/patterns/CODE_PATTERNS.md` (format: `### [Name]` with context, example, rationale)
    - Insights -> `.context/knowledge/LEARNINGS.md` (format: `### [Date] - [Topic]` with 2-3 sentence insight)
    For complex learnings, use `/learn [type]: [content]`.
-7. **Hand off**:
+7. **Record metrics**: Even quick plans produce data worth tracking.
+   - If a FEATURES.md entry does not already exist for this task, append a lightweight row: `| [next NNN] | [task name] | [today] | [today] | quick | 1 | 1 | 0 |` with type `quick`.
+   - Append a row to `.context/metrics/HEALTH.md` Knowledge Growth table if any learnings were captured in step 6.
+   - Set the `Metrics` column in FEATURES.md to `AUTO`.
+
+8. **Hand off**:
    ```
    Done. Suggest: fix/feat: [description]
    Commit + PR? (y / commit-only / skip)
