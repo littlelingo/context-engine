@@ -52,6 +52,15 @@
             "command": "hooks/scripts/block-destructive.sh"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "hooks/scripts/require-validation.sh"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -99,6 +108,14 @@
           {
             "type": "command",
             "command": "hooks/scripts/capture-learnings.sh"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "hooks/scripts/verify-metrics.sh"
           }
         ]
       }

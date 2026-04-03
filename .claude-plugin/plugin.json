@@ -1,6 +1,6 @@
 {
   "name": "context-engine",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Agentic orchestration framework for Claude Code. Agent Teams, subagents, progressive-disclosure skills, hooks, checkpoints, knowledge layer, and metrics.",
   "author": {
     "name": "Context Engine",

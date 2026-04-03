@@ -10,7 +10,7 @@ HEALTH_FILE=".context/metrics/HEALTH.md"
 [ -f "$FEATURES_FILE" ] || exit 0
 
 # Check if a feature was marked COMPLETE in the current session (via uncommitted changes)
-COMPLETED_FEATURES=$(git diff HEAD -- "$FEATURES_FILE" 2>/dev/null | grep "^+" | grep "| COMPLETE |" | grep -oE "\| [0-9]+ \|" | tr -d "| ")
+COMPLETED_FEATURES=$(git diff HEAD -- "$FEATURES_FILE" 2>/dev/null | grep "^+" | grep -E "\| COMPLETE( \(unvalidated\))? \|" | grep -oE "\| [0-9]+ \|" | tr -d "| ")
 
 if [ -z "$COMPLETED_FEATURES" ]; then
     # No features marked COMPLETE this session - check for untracked feature directories
@@ -26,14 +26,17 @@ fi
 # For each completed feature, check if metrics exist in HEALTH.md
 MISSING=""
 for FEAT_NUM in $COMPLETED_FEATURES; do
+    # Check if a completed metrics row exists (not just a partial IN_PROGRESS row from validate step 5)
     if ! grep -qE "^\| $FEAT_NUM " "$HEALTH_FILE" 2>/dev/null; then
         MISSING="$MISSING $FEAT_NUM"
+    elif grep -qE "^\| $FEAT_NUM .*IN_PROGRESS" "$HEALTH_FILE" 2>/dev/null; then
+        MISSING="$MISSING $FEAT_NUM(partial)"
     fi
 done
 
 if [ -n "$MISSING" ]; then
     MISSING=$(echo "$MISSING" | xargs)
-    echo "{\"additionalContext\":\"METRICS MISSING: Feature(s) $MISSING marked COMPLETE but no metrics recorded in HEALTH.md. Run /health record [feature-NNN] to capture metrics, or ensure /validate step 12 writes to HEALTH.md.\"}"
+    echo "{\"additionalContext\":\"METRICS INCOMPLETE: Feature(s) $MISSING marked COMPLETE but metrics missing or partial in HEALTH.md. Run /health record [feature-NNN] to complete metrics, or ensure /validate step 12 writes to HEALTH.md. Entries marked (partial) have an IN_PROGRESS row from validate step 5 that was never finalized.\"}"
 fi
 
 exit 0
