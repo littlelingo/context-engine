@@ -63,9 +63,16 @@ if [ -d "$SCRIPT_DIR/.claude/instructions" ]; then
 fi
 
 # 8. Context templates (for init to bootstrap into user projects)
+# Source: context-templates/ at repo root — the canonical, frozen template set.
+# Do NOT copy from .context/ — that's the engine's own working state and accumulates
+# real feature dirs, checkpoints, audits, etc. that should not ship to user projects.
 echo "Copying context templates..."
+if [ ! -d "$SCRIPT_DIR/context-templates" ]; then
+    echo "  ERROR: $SCRIPT_DIR/context-templates not found — cannot build plugin without templates" >&2
+    exit 1
+fi
 mkdir -p "$OUTPUT/context-templates"
-cp -r "$SCRIPT_DIR/.context/"* "$OUTPUT/context-templates/" 2>/dev/null || true
+cp -r "$SCRIPT_DIR/context-templates/"* "$OUTPUT/context-templates/"
 TEMPLATE_COUNT=$(find "$OUTPUT/context-templates" -type f 2>/dev/null | wc -l | tr -d ' ')
 echo "  $TEMPLATE_COUNT template files"
 
