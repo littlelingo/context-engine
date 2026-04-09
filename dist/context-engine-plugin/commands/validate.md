@@ -6,7 +6,11 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
 
 1. **Load PRP** from `$ARGUMENTS` (or find most recent IN_PROGRESS PRP).
 2. **Check testing strategy**: Follow testing strategy from PRP field or CLAUDE.md default.
-3. **Checkpoint** (trigger: phase-boundary): Create checkpoint `CP-NNN: pre-validate [feature-name]`. Snapshot .context/ state, tag current git state. Always create this checkpoint — it marks the boundary between implementation and validation.
+3. **Checkpoint** (trigger: phase-boundary): Run the deterministic checkpoint script — do NOT narrate the steps, EXECUTE this Bash command:
+   ```
+   ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/checkpoint-create.sh "pre-validate [feature-name]" "phase-boundary"
+   ```
+   Always create this checkpoint — it marks the boundary between implementation and validation. Non-skippable.
 4. **Run validation checklist** from the PRP (tests, lint, type-check, manual steps).
 
 5. **Write partial metrics** (early capture — prevents data loss if context runs out):
@@ -46,6 +50,11 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
    - If nothing learned, note clean completion in LEARNINGS.md.
    For complex entries (library quirks, stack recipes, dependency pins), use `/learn [type]: [content]` to route correctly.
 
+   **Knowledge promotion (auto-route LEARNINGS to deep knowledge):**
+   After capturing learnings to LEARNINGS.md above, invoke `/knowledge promote auto` (use the Skill tool with skill="knowledge", args="promote auto"). This scans the LEARNINGS entries you just added and routes any that belong in the deep knowledge layer (`libraries/`, `stack/`, `PINS.md`, `CODE_PATTERNS.md`, `ANTI_PATTERNS.md`) to the correct files.
+
+   This step exists because past versions of the framework dumped everything to LEARNINGS.md and never promoted, leaving `libraries/` and `stack/` empty across dozens of features even when LEARNINGS contained obvious library quirks. The promotion pipeline closes that loop. Non-skippable.
+
 11. **Update PRP status** to COMPLETE. Update FEATURES.md.
 
 12. **Complete feature metrics** (update the IN_PROGRESS row written in step 5 — YOU write directly to `.context/metrics/HEALTH.md`):
@@ -70,7 +79,11 @@ Mandatory regardless of testing strategy. Uses an Agent Team for parallel review
 
     **IMPORTANT**: Steps 5 and 12 are mandatory — the verify-metrics hook will flag missing metrics after this session. At minimum, complete step 5 (partial capture) so `/health record` can finish later.
 
-13. **Checkpoint** (trigger: phase-boundary): Create checkpoint `CP-NNN: post-validate [feature-name]`. This captures the fully validated state before commit.
+13. **Checkpoint** (trigger: phase-boundary): Run the deterministic checkpoint script — do NOT narrate the steps, EXECUTE this Bash command:
+    ```
+    ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/checkpoint-create.sh "post-validate [feature-name]" "phase-boundary"
+    ```
+    This captures the fully validated state before commit. Non-skippable.
 
 14. **Report**:
     ```

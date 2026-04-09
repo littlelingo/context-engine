@@ -25,7 +25,11 @@ Execute the PRP using an Agent Team for parallel step execution.
 
 6. **Create Agent Team** (when parallel execution is beneficial):
 
-   **Checkpoint** (trigger: pre-agent-team): Create checkpoint `CP-NNN: pre-team [feature-name]` unless no steps have been completed since the last checkpoint.
+   **Checkpoint** (trigger: pre-agent-team): Run the deterministic checkpoint script — do NOT narrate the steps, EXECUTE this Bash command:
+   ```
+   ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/checkpoint-create.sh "pre-team [feature-name]" "pre-agent-team"
+   ```
+   Skip only if no PRP steps have been completed since the last checkpoint AND `git diff HEAD` is clean. Otherwise this is non-skippable.
 
    Create an agent team to implement the PRP at [PRP path].
 
@@ -55,6 +59,8 @@ Execute the PRP using an Agent Team for parallel step execution.
      - **Stack recipes**: If you wired up a non-trivial integration (e.g., async DB + test setup, build tool config), create/update `.context/knowledge/stack/[name].md`
      - Version pins -> `.context/knowledge/dependencies/PINS.md`
      If significant knowledge was captured, suggest `/learn` for complex entries that need routing.
+
+     **Knowledge promotion**: After capturing, invoke `/knowledge promote auto` to route any library/stack/dependency content from LEARNINGS into the deep knowledge layer. This is a no-op if nothing is promotable.
    ```
    All steps complete.
 
@@ -71,7 +77,7 @@ Execute the PRP using an Agent Team for parallel step execution.
      2. **Write metrics** — append a row to `.context/metrics/HEALTH.md` Feature Velocity table with available data (mark review columns as `SKIPPED`). Update FEATURES.md status to `COMPLETE (unvalidated)`.
      3. **Then** generate a conventional commit message and prompt for commit + PR (same as `/validate` step 15).
      The `require-validation` hook will fire on commit as a final reminder — the user can approve to proceed.
-   - **Option 3** (pause): Create checkpoint `CP-NNN: paused [feature-name]`, leave status as IN_PROGRESS, and stop. The user can resume later with `/implement [PRP path]`.
+   - **Option 3** (pause): Run `${CLAUDE_PLUGIN_ROOT}/hooks/scripts/checkpoint-create.sh "paused [feature-name]" "paused"`, leave status as IN_PROGRESS, and stop. The user can resume later with `/implement [PRP path]`.
 
 ## Resuming
 When steps are already marked `[x]`: read PRP, summarize progress, pick up remaining unchecked steps. Spawn a smaller team for just the remaining work.

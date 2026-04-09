@@ -8,30 +8,19 @@ Parse `$ARGUMENTS` to determine the action:
 
 ### `create [label]` or no arguments: Create Checkpoint
 
-1. **Determine next checkpoint number**: Read `.context/checkpoints/MANIFEST.md`, find highest CP-NNN, increment.
-2. **Snapshot .context/ state**:
-   - Create directory `.context/checkpoints/CP-NNN/`
-   - Copy these files into the snapshot directory:
-     - Active PRP file (if any IN_PROGRESS feature)
-     - `.context/knowledge/LEARNINGS.md`
-     - `.context/knowledge/dependencies/PINS.md`
-     - `.context/errors/INDEX.md`
-     - `.context/features/FEATURES.md`
-     - `.context/patterns/CODE_PATTERNS.md`
-     - `.context/patterns/ANTI_PATTERNS.md`
-     - Any `.context/decisions/ADR-*.md` files (excluding the template)
-     - Any `.context/knowledge/libraries/*.md` and `stack/*.md` files (excluding TEMPLATEs)
-   - Write `snapshot-meta.json` with: timestamp, branch, PRP path, PRP progress (N/M steps), trigger reason, git SHA at time of snapshot
-3. **Commit .context/ artifacts before tagging**:
-   - If there are uncommitted `.context/` files (NOTES.md, PRP.md, FEATURES.md, knowledge captures): stage and commit them with `docs: checkpoint [label]`. These must be in git history for the tag and any branch/worktree to carry them.
-   - If there are also uncommitted source code changes: leave those unstaged — only commit `.context/` artifacts.
-4. **Create git tag**:
-   - First verify tag doesn't already exist: `git tag -l checkpoint-NNN`. If collision found, increment NNN until an available number is found.
-   - If working tree is clean: `git tag checkpoint-NNN -m "[label]"`
-   - If working tree is dirty (non-.context/ changes remain): `git stash` first, tag, then `git stash pop`. Note in manifest that tree was dirty.
-   - If git stash fails (nothing to stash): tag the current HEAD anyway.
-4. **Append to MANIFEST.md** with all metadata.
-5. **Report**: "Checkpoint CP-NNN created. Tag: checkpoint-NNN. [N files snapshotted]."
+This is a single deterministic shell call. **Do not narrate the steps — execute the script.** The script handles numbering, snapshotting, git tagging, MANIFEST append, and dirty-tree handling atomically.
+
+```
+${CLAUDE_PLUGIN_ROOT}/hooks/scripts/checkpoint-create.sh "<label>" "<trigger>"
+```
+
+Where:
+- `<label>` — short human label, e.g., `"post-plan auth-rewrite"`
+- `<trigger>` — one of: `phase-boundary`, `pre-agent-team`, `manual`, `paused`. Default `manual` if omitted.
+
+The script is the canonical implementation. All other commands (`/planner`, `/implement`, `/validate`) invoke it directly via the same path. This is deliberate — past versions of the framework relied on the LLM to "create checkpoint CP-NNN" by reading the steps below, and the operation was consistently skipped, leaving MANIFEST.md empty across dozens of features in real projects.
+
+Report the script's output verbatim.
 
 ### `list`: List All Checkpoints
 
